@@ -1,58 +1,15 @@
 import { formatter } from "@/utils/dateformat"
 import { connex } from "@/models/dbconn"
-import { months } from "@/utils/sortRegisters"
 
 const handeling = async (req, res) => {
     const { method, body } = req
-    const { collection } = await connex(process.env.SDB, process.env.SREGS)
-    
-    const aggregations = (month) => {
-        return collection.aggregate([
-            { $match: { month: month } },
-            { $sort: { createdAt: 1 } },
-            {
-                $group: {
-                    _id: '$day',
-                    uScm: { $avg: '$uScm' },
-                    tds: { $avg: '$tds' },
-                    nm: { $avg: '$nm' },
-                    ppm: { $avg: '$ppm' },
-                    month: { '$first': '$month' },
-                    day: { '$first': '$day' }
-                }
-            },
-            { $sort: { day: 1 }},
-            { $project: { _id: 0, } }
-        ]).toArray()
-    }
-    const monthsAvg = () => {
-        return collection.aggregate([
-            {
-                $group: {
-                    _id: '$month',
-                    uScm: { $avg: '$uScm' },
-                    tds: { $avg: '$tds' },
-                    nm: { $avg: '$nm' },
-                    ppm: { $avg: '$ppm' },
-                    month: { '$first': '$month' },
-                    monthName: { '$first': '$monthName' }
-                }
-            },
-            { $sort: { month: 1 } },
-            { $project: { _id: 0, } }
-        ]).toArray()
-    }
+    const { collection } = await connex(process.env.SDB, 'logs')
 
     switch (method) {
         case "GET":
             try {
-                const avgs = months.map((e, i) => aggregations(i))
-                const promises = await Promise.allSettled(avgs)
-                const monthAvg = await monthsAvg()
-                const yearAvg = promises.map(({ value }) => value)
-                const tasks = await collection.aggregate([{$sort:{createdAt:-1}},{$project:{_id:0}}]).toArray()
-                const result = { tasks, monthAvg, yearAvg }
-                return res.status(200).json(result)
+                const tasks = await collection.aggregate([{ $sort: { createdAt: -1 } }, { $project: { _id: 0 } }]).toArray()
+                return res.status(200).json(tasks)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
             }
@@ -63,9 +20,9 @@ const handeling = async (req, res) => {
                     const newtask = await collection.insertMany(body)
                     return res.status(201).json(newtask)
                 }
-                const createdAt = { timeStamp: formatter(), ...formatter('', false) }
-                const taskbody = { ...body, createdAt }
-                const newtask = await collection.insertOne(taskbody)
+                const { id, value } = body
+                const logbody = { id, value, date: formatter(), ...formatter('', false) }
+                const newtask = await collection.insertOne(logbody)
                 return res.status(201).json(newtask)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
