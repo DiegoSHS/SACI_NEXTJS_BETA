@@ -2,9 +2,20 @@ import { formatter } from '@/utils/dateformat'
 import { useState } from 'react'
 import ReactDatePicker from "react-datepicker"
 import { Button, Grid, Header, Icon, Label, Modal } from 'semantic-ui-react'
-import { SaciChartWithDays } from './SaciChart'
+import { SaciChart } from './SaciChart'
 
 const DatePicker = ({ data }) => {
+    if (data.length === 0) {
+        return (
+            <Grid centered verticalAlign="middle" columns={1}>
+                <Grid.Row>
+                    <Grid.Column textAlign="center">
+                        <h1>Sin datos existentes</h1>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+        )
+    }
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(null)
     const [regs, setRegs] = useState([])
@@ -69,7 +80,7 @@ const DatePicker = ({ data }) => {
                     </Button>
                 </Modal.Actions>
             </Modal>
-            <SaciChartWithDays data={regs} />
+            <SaciChart dataKeyX={value} dataKeyY={day} data={regs} />
         </>
     )
 }

@@ -3,6 +3,17 @@ import { Brush, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Too
 import { Tab, Table } from "semantic-ui-react"
 
 export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
+  if (data.length === 0) {
+    return (
+      <Grid centered verticalAlign="middle" columns={1}>
+        <Grid.Row>
+          <Grid.Column textAlign="center">
+            <h1>Sin datos existentes</h1>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    )
+  }
   return (
     <ResponsiveContainer width="100%" aspect={3} height="100%">
       <LineChart style={{ backgroundColor: "white", borderRadius: "5px", margin: "1px" }}
@@ -32,93 +43,25 @@ export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
   )
 }
 
-export const SaciChartWithDays = ({ data }) => {
-  return (
-    <ResponsiveContainer width="100%" aspect={3} height="100%">
-      <LineChart style={{ backgroundColor: "white", borderRadius: "5px", margin: "1px" }}
-        margin={{
-          top: 15,
-          right: 15,
-          left: 0,
-          bottom: 15,
-        }}
-        data={data}
-      >
-        <CartesianGrid strokeDasharray="2 2" />
-        <XAxis type="category" allowDuplicatedCategory={true} dataKey="createdAt" />
-        <YAxis
-          domain={[0, 20]}
-          axisLine={false}
-          tickLine={false}
-          tickCount={12}
-          interval={0}
-          minTickGap={0}
-        />
-        <Tooltip />
-        <Legend />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="ppm" stroke="#8884d8" />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="tds" stroke="#8884d8" />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="uScm" stroke="#82ca9d" />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="nm" stroke="#82ca9d" />
-        <Brush height={20} />
-      </LineChart>
-    </ResponsiveContainer>
-  )
-}
-
-export const SaciPanesActual = (data) => {
-  const panes = data.map((arr, i) => {
-    const now = new Date(Date.now()).getMonth()
-    if (i > now) {
-      return ({ menuItem: months[i], render: () => <Tab.Pane attached={false}>{ }</Tab.Pane> })
-    } else {
-      return ({ menuItem: months[i], render: () => <Tab.Pane attached={false}>{<SaciChartDay data={arr} />}</Tab.Pane> })
-    }
-  })
-  return panes
-}
-
 export const SaciPanes = (data) => {
   const panes = data.map((arr, i) => {
-    return ({ menuItem: months[i], render: () => <Tab.Pane attached={false}>{<SaciChartDay data={arr} />}</Tab.Pane> })
+    return ({ menuItem: months[i], render: () => <Tab.Pane attached={false}>{<SaciChart dataKeyX={'value'} dataKeyY={'day'} data={arr} />}</Tab.Pane> })
   })
   return panes
-}
-
-const SaciChartDay = ({ data }) => {
-  return (
-    <ResponsiveContainer width="100%" aspect={2} height="100%">
-      <LineChart
-        style={{ backgroundColor: "white", borderRadius: "5px", margin: "1px" }}
-        data={data}
-        margin={{
-          top: 15,
-          right: 15,
-          left: 0,
-          bottom: 15,
-        }}
-      >
-        <CartesianGrid strokeDasharray="2 2" />
-        <XAxis type="category" allowDuplicatedCategory={true} dataKey="day" />
-        <YAxis
-          axisLine={false}
-          tickLine={false}
-          tickCount={12}
-          interval={0}
-          minTickGap={0}
-        />
-        <Tooltip allowEscapeViewBox={false} />
-        <Legend />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="ppm" stroke="#8884d8" />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="tds" stroke="#8884d8" />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="uScm" stroke="#82ca9d" />
-        <Line connectNulls animationDuration={250} activeDot={{ r: 5 }} strokeWidth={2} type="monotone" dataKey="nm" stroke="#82ca9d" />
-      </LineChart>
-    </ResponsiveContainer>
-  )
 }
 
 export const SaciTable = ({ data }) => {
+  if (data.length === 0) {
+    return (
+      <Grid centered verticalAlign="middle" columns={1}>
+        <Grid.Row>
+          <Grid.Column textAlign="center">
+            <h1>Sin datos existentes</h1>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    )
+  }
   const firts = data[0]
   const heads = Object.keys(firts)
   const headerr = heads.map(h => <Table.HeaderCell collapsing>{h}</Table.HeaderCell>)

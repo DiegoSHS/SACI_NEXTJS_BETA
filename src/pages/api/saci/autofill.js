@@ -62,7 +62,7 @@ export default async function handler(req, res) {
   const { body: { typee } } = req
   const registers = typee ? filler() : fullyearfiller()
   try {
-    const ress = await fetch('http://localhost:3000/api/saci/', {
+    const ress = await fetch(process.env.API_LINK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(registers)

@@ -4,7 +4,7 @@ import DatePicker from "@/components/DatePicker"
 import { RTChart } from "@/components/RealTimeChart"
 
 const HomePage = ({ records }) => {
-  const { tasks, monthAvg, yearAvg } = records
+  const { monthAvg, yearAvg } = records
 
   const minpanes = SaciPanes(yearAvg)
 
@@ -12,19 +12,19 @@ const HomePage = ({ records }) => {
     {
       menuItem: 'Detallado', render: () => <Tab.Pane attached={false}>{
         <>
-          <SaciChart dataKeyY={'ppm'} dataKeyX={'monthName'} data={tasks} />
-          <SaciChart dataKeyY={'tds'} dataKeyX={'monthName'} data={tasks} />
-          <SaciChart dataKeyY={'uScm'} dataKeyX={'monthName'} data={tasks} />
-          <SaciChart dataKeyY={'nm'} dataKeyX={'monthName'} data={tasks} />
+          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={tasks} />
+          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={tasks} />
+          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={tasks} />
+          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={tasks} />
         </>
       }</Tab.Pane>
     },
     { menuItem: 'Promedio mensual', render: () => <Tab.Pane attached={false}>{
       <>
-        <SaciChart dataKeyY={'ppm'} dataKeyX={'monthName'} data={monthAvg} />
-        <SaciChart dataKeyY={'tds'} dataKeyX={'monthName'} data={monthAvg} />
-        <SaciChart dataKeyY={'uScm'} dataKeyX={'monthName'} data={monthAvg} />
-        <SaciChart dataKeyY={'nm'} dataKeyX={'monthName'} data={monthAvg} />
+        <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
+        <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
+        <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
+        <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
       </>
     }</Tab.Pane> },
     {
