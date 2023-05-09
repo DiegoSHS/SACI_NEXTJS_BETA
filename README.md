@@ -8,3 +8,5 @@ esta es una version para nextjs del proyecto
 
 para inicializar el proyecto web en tu equipo clona el repo y luego abre un terminal para ejecutar el comando __"npm run dev"__
 el cual iniciará el proyecto en http://localhost/3000
+
+__nota:__ para que funcione de forma correcta se debe tomar en cuenta que requiere de las variables de entorno necesarias para su funcionamiento tales como la cadena de conexion a la base de datos, los nombres de las bases de datos y los nombres de las colecciones 
