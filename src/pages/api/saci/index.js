@@ -1,5 +1,6 @@
 import { formatter } from "@/utils/dateformat"
 import { connex } from "@/models/dbconn"
+import { validLogs, validOnelog } from "@/utils/validate"
 
 const handeling = async (req, res) => {
     const { method, body } = req
@@ -16,10 +17,17 @@ const handeling = async (req, res) => {
         case "POST":
             try {
                 if (body instanceof Array) {
-                    if (body.length === 0) return res.status(400).json({ msj: "No body provided" })
+                    const len = body.length                    
+                    const first = body[0]
+                    const last = body[len-1]
+                    const medium = body[len/2]
+                    const validate= validLogs([first, last, medium])
+                    if (len === 0 || !validate) return res.status(400).json({ msj: "Invalid body" })
                     const newtask = await collection.insertMany(body)
                     return res.status(201).json(newtask)
                 }
+                const validate = validOnelog(body)
+                if (validate) return res.status(400).json({ msj: "Invalid body" })
                 const { id, value } = body
                 const logbody = { id, value, date: formatter(), ...formatter('', false) }
                 const newtask = await collection.insertOne(logbody)
@@ -40,3 +48,22 @@ const handeling = async (req, res) => {
 }
 
 export default handeling
+
+
+/*
+    los logs creados tienen la siguiente estructura:
+    
+    {
+        _id: "id del log creado por mongo",
+        id: "id del sensor",
+        value: "valor medido por el sensor",
+        date: "fecha de creacion del log",
+        year: "año de creacion del log",
+        month: "mes de creacion del log",
+        monthName: "nombre del mes de creacion del log",
+        day: "dia de creacion del log",
+    }
+
+    esta estructura fue escogida para poder realizar un mejor ordenamiento de los logs
+
+*/

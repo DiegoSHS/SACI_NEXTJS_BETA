@@ -13,7 +13,7 @@ export const TasksCards = ({data}) => {
 
 const TaskCard = (task) => {
     const router = useRouter()
-    return (
+    return (  
         <Card key={task._id} borderless>
             <Card.Content>
                 <Card.Header>{task.title}</Card.Header>
