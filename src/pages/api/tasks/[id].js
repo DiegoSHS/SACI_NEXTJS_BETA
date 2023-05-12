@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb"
 
 const handeling = async (req, res) => {
     const { method, body: { title, description }, query: { id } } = req
-    const { collection } = await connex()
+    const { collection } = await connex(process.env.TDB, 'tasks')
     switch (method) {
         case "GET":
             try {

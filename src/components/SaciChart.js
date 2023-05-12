@@ -1,9 +1,9 @@
 import { months } from "@/utils/sortRegisters"
 import { Brush, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
-import { Tab, Table } from "semantic-ui-react"
+import { Grid, Tab, Table } from "semantic-ui-react"
 
 export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
-  if (data.length === 0) {
+  if (data === undefined || data.length === 0 ) {
     return (
       <Grid centered verticalAlign="middle" columns={1}>
         <Grid.Row>
@@ -51,7 +51,7 @@ export const SaciPanes = (data) => {
 }
 
 export const SaciTable = ({ data }) => {
-  if (data.length === 0) {
+  if (data === undefined || data.length === 0) {
     return (
       <Grid centered verticalAlign="middle" columns={1}>
         <Grid.Row>

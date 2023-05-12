@@ -5,7 +5,7 @@ const Notifications = ({ tasks }) => {
     return (
         <>
             {
-                tasks.length === 0 ? <NoTasks /> : <TasksCards data={tasks} />
+                tasks === undefined || tasks.length === 0 ? <NoTasks /> : <TasksCards data={tasks} />
             }
         </>
     )

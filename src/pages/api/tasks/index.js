@@ -3,7 +3,7 @@ import { connex } from "@/models/dbconn"
 
 const handeling = async (req, res) => {
     const { method, body: { title, description } } = req
-    const { collection } = await connex(process.env.TDB)
+    const { collection } = await connex(process.env.TDB, 'tasks')
     switch (method) {
         case "GET":
             try {

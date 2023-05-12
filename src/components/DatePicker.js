@@ -5,7 +5,7 @@ import { Button, Grid, Header, Icon, Label, Modal } from 'semantic-ui-react'
 import { SaciChart } from './SaciChart'
 
 const DatePicker = ({ data }) => {
-    if (data.length === 0) {
+    if (data===undefined || data.length === 0) {
         return (
             <Grid centered verticalAlign="middle" columns={1}>
                 <Grid.Row>
