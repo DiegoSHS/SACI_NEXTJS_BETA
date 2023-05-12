@@ -1,3 +1,4 @@
+import { connex } from "@/models/dbconn"
 import { months } from "@/utils/sortRegisters"
 
 const handler = async (req, res) => {
