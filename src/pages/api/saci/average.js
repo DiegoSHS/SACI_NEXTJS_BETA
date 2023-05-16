@@ -6,12 +6,12 @@ const handler = async (req, res) => {
         const { method, body } = req
         const { id } = body
         if (method !== 'GET') return res.status(405).json({ msj: "No support for this method" })
-
+        
         const { collection } = await connex(process.env.SDB, 'logs')
         const aggregations = (month, id) => {
             return collection.aggregate([
                 { $match: { month: month, id: id } },
-                { $sort: { createdAt: 1 } },
+                { $sort: { date: 1 } },
                 {
                     $group: {
                         _id: '$day',
@@ -24,11 +24,11 @@ const handler = async (req, res) => {
                 { $project: { _id: 0, } }
             ]).toArray()
         }
-        const monthsAvg = () => {
+        const monthsAvg = (id) => {
             const date = new Date(Date.now)
             const year = date.getFullYear()
             return collection.aggregate([
-                { $match: { year: year } },
+                { $match: { year: year, id: id } },
                 {
                     $group: {
                         _id: '$month',
@@ -46,8 +46,8 @@ const handler = async (req, res) => {
         const avgs = months.map((e, i) => aggregations(i, id))
         const promises = await Promise.allSettled(avgs)
         const monthAvg = await monthsAvg()
-        const yearAvg = promises.map(({ value }) => value)
-        return res.status(200).json({ yearAvg, monthAvg })
+        const daysAvg = promises.map(({ value }) => value)
+        return res.status(200).json({ daysAvg, monthAvg })
     } catch (error) {
         return res.status(500).json({ msj: error.message })
     }

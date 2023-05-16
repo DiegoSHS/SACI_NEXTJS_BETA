@@ -34,7 +34,7 @@ export default function TaksDetail({ task, error }) {
       error: "Error al eliminar"
     })
     close()
-    push("/")
+    push("/notifications")
   }
 
   return (

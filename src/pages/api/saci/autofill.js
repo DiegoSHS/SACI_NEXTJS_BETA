@@ -1,13 +1,15 @@
 import { formatter } from "@/utils/dateformat"
+import { RandomInt } from "@/utils/sortRegisters"
 
-const RandomInt = (min, max) => {
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
-const RandomFloat = (min, max, decimals) => {
-  const str = (Math.random() * (max - min) + min).toFixed(decimals)
-  return parseFloat(str)
+const generateDates = () => {
+  const mm = RandomInt(0, new Date(Date.now()).getMonth())
+  const dd = RandomInt(0, new Date(Date.now()).getDay())
+  const hrss = RandomInt(0, new Date(Date.now()).getHours())
+  const mins = RandomInt(0, new Date(Date.now()).getMinutes())
+  const secs = RandomInt(0, new Date(Date.now()).getSeconds())
+  const date = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs))
+  const res = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs), false)
+  return { date, res }
 }
 
 const fullyearfiller = () => {
@@ -39,19 +41,14 @@ const filler = () => {
   let count = 0
   let registers = []
   while (count < 200) {
-    const mm = RandomInt(0, new Date(Date.now()).getMonth())
-    const dd = RandomInt(0, new Date(Date.now()).getDay())
-    const hrss = RandomInt(0, new Date(Date.now()).getHours())
-    const mins = RandomInt(0, new Date(Date.now()).getMinutes())
-    const secs = RandomInt(0, new Date(Date.now()).getSeconds())
-    const createdAt = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs))
-    const res = formatter(new Date(new Date(Date.now()).getFullYear(), mm, dd, hrss, mins, secs), false)
+    const { date, res } = generateDates()
     const register = {
-      dist: RandomInt(0, 19),
-      temp: RandomInt(0, 19),
-      createdAt,
+      id: 'humedad_aire',
+      value: RandomInt(0, 19),
+      date,
       ...res
     }
+    
     registers.push(register)
     count++
   }

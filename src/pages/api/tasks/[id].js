@@ -17,7 +17,7 @@ const handeling = async (req, res) => {
             try {
                 const updatedAt = formatter()
                 const taskbody = { title, description, updatedAt }
-                const newtask = await collection.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: taskbody })
+                const newtask = await conllection.updateOne({ _id: new ObjectId(id) }, { $set: taskbody })
                 const updated = newtask.lastErrorObject.updatedExisting
                 return (updated ? res.status(201).json(newtask) : res.status(404).json({ msj: "Object not found, nothing updated" }))
             } catch (error) {
@@ -25,8 +25,8 @@ const handeling = async (req, res) => {
             }
         case "DELETE":
             try {
-                const deletedtask = await collection.findOneAndDelete({ _id: new ObjectId(id) })
-                return res.status(204).json(deletedtask)
+                const deletedTask = await collection.deleteOne({ _id: new ObjectId(id) })
+                return res.status(204).json(deletedTask)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
             }
