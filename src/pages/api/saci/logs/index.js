@@ -9,36 +9,36 @@ const handeling = async (req, res) => {
     switch (method) {
         case "GET":
             try {
-                const tasks = await collection.aggregate([{ $sort: { createdAt: -1 } }, { $project: { _id: 0 } }]).toArray()
-                return res.status(200).json(tasks)
+                const logs = await collection.find().toArray()
+                return res.status(200).json(logs)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
             }
         case "POST":
             try {
                 if (body instanceof Array) {
-                    const len = body.length                    
+                    const len = body.length
                     const first = body[0]
-                    const last = body[len-1]
-                    const medium = body[len/2]
-                    const validate= validLogs([first, last, medium])
+                    const last = body[len - 1]
+                    const medium = body[len / 2]
+                    const validate = validLogs([first, last, medium])
                     if (len === 0 || !validate) return res.status(400).json({ msj: "Invalid body" })
-                    const newtask = await collection.insertMany(body)
-                    return res.status(201).json(newtask)
+                    const newlogs = await collection.insertMany(body)
+                    return res.status(201).json(newlogs)
                 }
                 const validate = validOnelog(body)
                 if (validate) return res.status(400).json({ msj: "Invalid body" })
                 const { id, value } = body
                 const logbody = { id, value, date: formatter(), ...formatter('', false) }
-                const newtask = await collection.insertOne(logbody)
-                return res.status(201).json(newtask)
+                const newlog = await collection.insertOne(logbody)
+                return res.status(201).json(newlog)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
             }
         case "DELETE":
             try {
-                const deletedtask = await collection.deleteMany({})
-                return res.status(204).json(deletedtask)
+                const deletedtasks = await collection.deleteMany({})
+                return res.status(204).json(deletedtasks)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
             }
@@ -57,7 +57,7 @@ export default handeling
         _id: "id del log creado por mongo",
         id: "id del sensor",
         value: "valor medido por el sensor",
-        date: "fecha de creacion del log",
+        date: "fecha de creacion del log en formato 'YYYY-MM-DD HH:mm:ss'",
         year: "año de creacion del log",
         month: "mes de creacion del log",
         monthName: "nombre del mes de creacion del log",

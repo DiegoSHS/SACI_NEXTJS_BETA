@@ -27,3 +27,18 @@ export const validLogs = (logs) => {
     const valid = logs.every(validLog)
     return valid
 }
+
+export const validSensor = (sensor) => {
+    const { name, description, min, max, status, module, pin } = sensor
+    const fields = Object.values(sensor)
+    const valid = fields.every((e) => e !== undefined && e !== null)
+    const errors = []
+    if (typeof name !== 'string') errors.push(false)
+    if (typeof description !== 'string') errors.push(false)
+    if (typeof min !== 'number') errors.push(false)
+    if (typeof max !== 'number') errors.push(false)
+    if (typeof status !== 'boolean') errors.push(false)
+    if (typeof module !== 'string') errors.push(false)
+    if (typeof pin !== 'number') errors.push(false)
+    return (errors.length === 0 && valid)
+}

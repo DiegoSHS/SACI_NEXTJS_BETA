@@ -3,10 +3,9 @@ import { months } from "@/utils/sortRegisters"
 
 const handler = async (req, res) => {
     try {
-        const { method, body } = req
-        const { id } = body
+        const { method, query: { id } } = req
         if (method !== 'GET') return res.status(405).json({ msj: "No support for this method" })
-        
+
         const { collection } = await connex(process.env.SDB, 'logs')
         const aggregations = (month, id) => {
             return collection.aggregate([
@@ -42,12 +41,17 @@ const handler = async (req, res) => {
             ]).toArray()
         }
 
+        const logs = await collection.aggregate([
+            { $match: { id: id } },
+            { $sort: { date: 1 } },
+            { $project: { _id: 0 } }
+        ]).toArray()
 
         const avgs = months.map((e, i) => aggregations(i, id))
         const promises = await Promise.allSettled(avgs)
-        const monthAvg = await monthsAvg()
+        const monthAvg = await monthsAvg(id)
         const daysAvg = promises.map(({ value }) => value)
-        return res.status(200).json({ daysAvg, monthAvg })
+        return res.status(200).json({ logs, daysAvg, monthAvg })
     } catch (error) {
         return res.status(500).json({ msj: error.message })
     }

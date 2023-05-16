@@ -66,17 +66,13 @@ const HomePage = ({ records }) => {
 }
 
 export const getServerSideProps = async ctx => {
-
+  
   const results = await Promise.allSettled([
-    fetch(`${process.env.API_URL}/api/saci/`,{
-      body: JSON.stringify({ "id": "temperatura_aire" })
-    }),
-    fetch(`${process.env.API_URL}/api/saci/average/`, {
-      body: JSON.stringify({ "id": "temperatura_aire" })
-    })
+    fetch(`${process.env.API_URL}/api/saci/`),
+    fetch(`${process.env.API_URL}/api/saci/average/`)
   ])
-
-  const [records] = results.map(({ value }) => value)
+  
+  const [records] = results.map(({value}) => value)
   const logs = await records.json()
   return {
     props: {
