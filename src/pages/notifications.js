@@ -12,7 +12,7 @@ const Notifications = ({ tasks }) => {
 }
 
 export const getServerSideProps = async ctx => {
-    const jsonTasks = await fetch('http://localhost:3000/api/tasks/')
+    const jsonTasks = await fetch(`${process.env.API_URL}/api/tasks/`)
     const tasks = await jsonTasks.json()
     return {
         props: {

@@ -48,7 +48,7 @@ const TaksFormPage = () => {
 
     const createTask = async () => {
         try {
-            await fetch("http://localhost:3000/api/tasks", {
+            await fetch(`${process.env.API_URL}/api/tasks`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -64,7 +64,7 @@ const TaksFormPage = () => {
 
     const updateTask = async () => {
         try {
-            await fetch(`http://localhost:3000/api/tasks/${query.id}`, {
+            await fetch(`${process.env.API_URL}/api/tasks/${query.id}`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json"

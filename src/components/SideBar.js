@@ -12,7 +12,7 @@ export const SideNavBar = ({ children }) => {
     return (
         <Grid columns={1}>
             <Notify />
-            <Menu inverted borderless fixed='top'>
+            <Menu borderless fixed='top'>
                 <Container style={{ overflow: 'auto' }}>
                     <Menu.Item>
                         <Link href="/">
@@ -27,28 +27,28 @@ export const SideNavBar = ({ children }) => {
                         </Link>
                     </Menu.Item>
                     <Menu.Item>
-                        <Button compact inverted onClick={() => router.push('/notifications')}>
+                        <Button compact onClick={() => router.push('/notifications')}>
                             Notificaciones
                         </Button>
                     </Menu.Item>
                     <Menu.Item>
-                        <Button compact inverted>
+                        <Button compact>
                             Suelo
                         </Button>
                     </Menu.Item>
                     <Menu.Item>
-                        <Button compact inverted>
+                        <Button compact>
                             Calidad del Aire/Agua
                         </Button>
                     </Menu.Item>
                     <Menu.Item>
-                        <Button compact inverted>
+                        <Button compact>
                             Control de invernadero
                         </Button>
                     </Menu.Item>
                     <Menu.Menu position="right">
                         <Menu.Item>
-                            <Button icon primary inverted labelPosition="right" size="mini" onClick={() => router.push('/tasks/new')}>Nueva tarea<Icon name="plus"></Icon></Button>
+                            <Button icon primary labelPosition="right" size="mini" onClick={() => router.push('/tasks/new')}>Nueva tarea<Icon name="plus"></Icon></Button>
                         </Menu.Item>
                     </Menu.Menu>
                 </Container>

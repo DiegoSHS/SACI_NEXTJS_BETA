@@ -1,8 +1,9 @@
 import { formatter } from "@/utils/dateformat"
 import { connex } from "@/models/dbconn"
+import { validTask } from "@/utils/validate"
 
 const handeling = async (req, res) => {
-    const { method, body: { title, description } } = req
+    const { method, body } = req
     const { collection } = await connex(process.env.TDB, 'tasks')
     switch (method) {
         case "GET":
@@ -14,9 +15,11 @@ const handeling = async (req, res) => {
             }
         case "POST":
             try {
+                const validate = validTask(body)
+                if (!validate) return res.status(400).json({ error: "Invalid task data" })
                 const createdAt = formatter()
                 const updatedAt = formatter()
-                const taskbody = { title, description, createdAt, updatedAt }
+                const taskbody = { ...body, createdAt, updatedAt }
                 const newtask = await collection.insertOne(taskbody)
                 return res.status(201).json(newtask)
             } catch (error) {

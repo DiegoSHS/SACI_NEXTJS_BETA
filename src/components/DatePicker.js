@@ -2,18 +2,13 @@ import { formatter } from '@/utils/dateformat'
 import { useState } from 'react'
 import ReactDatePicker from "react-datepicker"
 import { Button, Grid, Header, Icon, Label, Modal } from 'semantic-ui-react'
+import { NoData } from './NoTasks'
 import { SaciChart } from './SaciChart'
 
 const DatePicker = ({ data }) => {
     if (data===undefined || data.length === 0) {
         return (
-            <Grid centered verticalAlign="middle" columns={1}>
-                <Grid.Row>
-                    <Grid.Column textAlign="center">
-                        <h1>Sin datos existentes</h1>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
+            <NoData />
         )
     }
     const [startDate, setStartDate] = useState(new Date())
@@ -26,11 +21,11 @@ const DatePicker = ({ data }) => {
         const [start, end] = dates
         setStartDate(start)
         setEndDate(end)
-        const finalRegs = data.filter(({ createdAt }) => {
+        const finalRegs = data.filter(({ date }) => {
             const initi = new Date(formatter(start).split(' ')[0])
             console.log(initi)
             const ended = new Date(formatter(end).split(' ')[0])
-            const actual = new Date(createdAt.split(' ')[0])
+            const actual = new Date(date.split(' ')[0])
             return (actual > initi && actual < ended)
         })
         setRegs(finalRegs)
@@ -80,7 +75,7 @@ const DatePicker = ({ data }) => {
                     </Button>
                 </Modal.Actions>
             </Modal>
-            <SaciChart dataKeyX={value} dataKeyY={day} data={regs} />
+            <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={regs} />
         </>
     )
 }

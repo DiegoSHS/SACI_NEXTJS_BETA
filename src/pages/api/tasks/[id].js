@@ -3,7 +3,7 @@ import { connex } from "@/models/dbconn"
 import { ObjectId } from "mongodb"
 
 const handeling = async (req, res) => {
-    const { method, body: { title, description }, query: { id } } = req
+    const { method, body, query: { id } } = req
     const { collection } = await connex(process.env.TDB, 'tasks')
     switch (method) {
         case "GET":
@@ -15,6 +15,9 @@ const handeling = async (req, res) => {
             }
         case "PUT":
             try {
+                const validate = validTask(body)
+                if (!validate) return res.status(400).json({ error: "Invalid task data" })
+                const { title, description } = body
                 const updatedAt = formatter()
                 const taskbody = { title, description, updatedAt }
                 const newtask = await conllection.updateOne({ _id: new ObjectId(id) }, { $set: taskbody })

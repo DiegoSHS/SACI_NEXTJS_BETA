@@ -1,17 +1,12 @@
 import { months } from "@/utils/sortRegisters"
 import { Brush, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { Grid, Tab, Table } from "semantic-ui-react"
+import { NoData } from "./NoTasks"
 
 export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
   if (data === undefined || data.length === 0 ) {
     return (
-      <Grid centered verticalAlign="middle" columns={1}>
-        <Grid.Row>
-          <Grid.Column textAlign="center">
-            <h1>Sin datos existentes</h1>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <NoData />
     )
   }
   return (
@@ -44,8 +39,11 @@ export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
 }
 
 export const SaciPanes = (data) => {
+  if (data === undefined || data.length === 0) {
+    return ({ menuItem: 'No hay datos', render: () => <Tab.Pane attached={false}><NoData /></Tab.Pane> })
+  }
   const panes = data.map((arr, i) => {
-    return ({ menuItem: months[i], render: () => <Tab.Pane attached={false}>{<SaciChart dataKeyX={'value'} dataKeyY={'day'} data={arr} />}</Tab.Pane> })
+    return ({ menuItem: months[i], render: () => <Tab.Pane attached={false}>{<SaciChart dataKeyY={'value'} dataKeyX={'day'} data={arr} />}</Tab.Pane> })
   })
   return panes
 }
@@ -53,13 +51,7 @@ export const SaciPanes = (data) => {
 export const SaciTable = ({ data }) => {
   if (data === undefined || data.length === 0) {
     return (
-      <Grid centered verticalAlign="middle" columns={1}>
-        <Grid.Row>
-          <Grid.Column textAlign="center">
-            <h1>Sin datos existentes</h1>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <NoData />
     )
   }
   const firts = data[0]

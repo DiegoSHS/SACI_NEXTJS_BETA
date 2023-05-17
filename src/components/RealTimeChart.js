@@ -1,19 +1,18 @@
 import { Component } from "react"
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { SaciChart } from "./SaciChart";
 
 export class RTChart extends Component {
     async dataFetching() {
         let data_bar = []
         try {
-            const jsonParam = await fetch('http://localhost:3000/api/saci/realTime/')
+            const url = `${process.env.API_URL}/api/saci/${this.props.id}/realtime`
+            const jsonParam = await fetch(url)
             const param = await jsonParam.json()
-            const final = param.map(({ createdAt, uScm, tds, nm, ppm }) => {
+            const final = param.map(({ id, value, date }) => {
                 return {
-                    createdAt: createdAt.split(' ')[1],
-                    uScm: uScm,
-                    tds: tds,
-                    nm: nm,
-                    ppm: ppm
+                    date: date.split(' ')[1],
+                    value: value,
+                    id: id
                 }
             })
             data_bar = final
@@ -28,14 +27,15 @@ export class RTChart extends Component {
         super(props)
         this.state = {
             interval: props.interval || 1000,
-            data: this.dataFetching()
+            data: this.dataFetching(),
+            id: props.id
         }
     }
 
     componentDidMount() {
         this.timerID = setInterval(() => {
             this.tick()
-        }, this.props.interval || 1000);
+        }, this.props.interval || 1000)
     }
 
     componentWillUnmount() {
@@ -50,28 +50,7 @@ export class RTChart extends Component {
 
     render() {
         return (
-            <ResponsiveContainer width="100%" aspect={3} height="100%">
-                <LineChart
-                    style={{ backgroundColor: "white", borderRadius: "5px", margin: "1px" }}
-                    margin={{
-                        top: 15,
-                        right: 15,
-                        left: 0,
-                        bottom: 15,
-                    }}
-                    data={this.state.data}
-                >
-                    <XAxis reversed={true} dataKey="createdAt" />
-                    <YAxis domain={[0, 20]} tickCount={20} type="number" />
-                    <CartesianGrid strokeDasharray="2 2" />
-                    <Tooltip />
-                    <Legend />
-                    <Line animationDuration={0} type="monotone" dataKey="uScm" fill="#8884d8" stroke="#8884d8" />
-                    <Line animationDuration={0} type="monotone" dataKey="tds" fill="#8214d8" stroke="#82ca9d" />
-                    <Line animationDuration={0} type="monotone" dataKey="nm" fill="#8884d8" stroke="#8884d8" />
-                    <Line animationDuration={0} type="monotone" dataKey="ppm" fill="#8214d8" stroke="#82ca9d" />
-                </LineChart>
-            </ResponsiveContainer>
+            <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={this.state.data} />
         )
     }
 }

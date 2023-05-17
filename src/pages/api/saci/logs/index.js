@@ -1,6 +1,6 @@
 import { formatter } from "@/utils/dateformat"
 import { connex } from "@/models/dbconn"
-import { validLogs, validOnelog } from "@/utils/validate"
+import { criticalTask, validLogs, validOnelog } from "@/utils/validate"
 
 const handeling = async (req, res) => {
     const { method, body } = req
@@ -27,11 +27,11 @@ const handeling = async (req, res) => {
                     return res.status(201).json(newlogs)
                 }
                 const validate = validOnelog(body)
-                if (validate) return res.status(400).json({ msj: "Invalid body" })
-                const { id, value } = body
-                const logbody = { id, value, date: formatter(), ...formatter('', false) }
+                if (!validate) return res.status(400).json({ msj: "Invalid body" })
+                const newTask = await criticalTask(body)
+                const logbody = { ...body, date: formatter(), ...formatter('', false) }
                 const newlog = await collection.insertOne(logbody)
-                return res.status(201).json(newlog)
+                return res.status(201).json(newlog, newTask)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
             }
