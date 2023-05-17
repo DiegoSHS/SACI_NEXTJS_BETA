@@ -50,7 +50,8 @@ const handler = async (req, res) => {
         const avgs = months.map((e, i) => aggregations(i, id))
         const promises = await Promise.allSettled(avgs)
         const monthAvg = await monthsAvg(id)
-        const daysAvg = promises.map(({ value }) => value)
+        const days = promises.map(({ value }) => value)
+        const daysAvg = days.filter(e => e.length > 0)
         return res.status(200).json({ logs, daysAvg, monthAvg })
     } catch (error) {
         return res.status(500).json({ msj: error.message })
