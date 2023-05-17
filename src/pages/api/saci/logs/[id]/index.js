@@ -25,14 +25,14 @@ const handler = async (req, res) => {
         }
         const monthsAvg = (id) => {
             const date = new Date(Date.now)
-            const year = date.getFullYear()
             return collection.aggregate([
-                { $match: { year: year, id: id } },
+                { $match: { id: id } },
                 {
                     $group: {
                         _id: '$month',
                         value: { $avg: '$value' },
                         month: { '$first': '$month' },
+                        year: { '$first': '$year' },
                         monthName: { '$first': '$monthName' }
                     }
                 },
