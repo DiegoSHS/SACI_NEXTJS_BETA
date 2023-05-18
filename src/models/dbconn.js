@@ -9,10 +9,10 @@ const createClient = (uri = process.env.MONGO_URI) => {
     }
 }
 
+const client = createClient()
 
 export const connex = async (dbname = 'test', collec = 'tasks') => {
     try {
-        const client = createClient()
         const datab = client.db(dbname)
         const collection = datab.collection(collec)
         return { collection, datab }

@@ -1,5 +1,5 @@
 import { SaciChart, SaciPanes, SaciTable } from "@/components/SaciChart"
-import { Container, Tab } from "semantic-ui-react"
+import { Tab } from "semantic-ui-react"
 import DatePicker from "@/components/DatePicker"
 import { RTChart } from "@/components/RealTimeChart"
 

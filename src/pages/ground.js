@@ -1,30 +1,27 @@
 import { SaciChart, SaciPanes, SaciTable } from "@/components/SaciChart"
-import { Container, Tab } from "semantic-ui-react"
+import { Tab } from "semantic-ui-react"
 import DatePicker from "@/components/DatePicker"
 import { RTChart } from "@/components/RealTimeChart"
+import { StoredContext } from "@/context/context"
 
 const HomePage = ({ records }) => {
-  records
-
+  const { logs, daysAvg, monthAvg } = records
+  const minpanes = SaciPanes(daysAvg)
   const panes = [
     {
       menuItem: 'Detallado', render: () => <Tab.Pane attached={false}>{
         <>
-          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={records} />
-          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={records} />
-          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={records} />
-          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={records} />
+          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={logs} />
         </>
       }</Tab.Pane>
-    }/*,
-    { menuItem: 'Promedio mensual', render: () => <Tab.Pane attached={false}>{
-      <>
-        <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
-        <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
-        <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
-        <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
-      </>
-    }</Tab.Pane> }*/,
+    },
+    {
+      menuItem: 'Promedio mensual', render: () => <Tab.Pane attached={false}>{
+        <>
+          <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
+        </>
+      }</Tab.Pane>
+    },
     {
       menuItem: 'Promedio diario', render: () => <Tab.Pane attached={false}>
         <Tab menu={{
@@ -38,21 +35,18 @@ const HomePage = ({ records }) => {
           menuPosition='right' panes={minpanes}>
         </Tab>
       </Tab.Pane>
-    }
-    /*,
-    { menuItem: "Rango de fechas", render: () => <Tab.Pane attached={false}><DatePicker data={tasks} /></Tab.Pane> },
-    { menuItem: 'Tiempo real', render: () => <Tab.Pane attached={false}><RTChart interval={1000} /></Tab.Pane> },
-    { menuItem: 'Tabla de mediciones', render: () => <Tab.Pane attached={false}>{<SaciTable data={tasks} />}</Tab.Pane> }
-    */
+    },
+    { menuItem: "Rango de fechas", render: () => <Tab.Pane attached={false}><DatePicker data={logs} /></Tab.Pane> },
+    { menuItem: 'Tiempo real', render: () => <Tab.Pane attached={false}><RTChart id={'temperatura_aire'} interval={1000} /></Tab.Pane> },
+    { menuItem: 'Tabla de mediciones', render: () => <Tab.Pane attached={false}>{<SaciTable data={logs} />}</Tab.Pane> }
   ]
 
   return (
-    <Container style={{ overflowX: "auto", overflowY: "auto" }}>
+    <div style={{ overflow: "auto" }}>
       <div style={{ width: "1127px", overflow: "auto" }}>
         <Tab
           menu={{
             centered: true,
-            inverted: true,
             secondary: true,
             pointing: true,
             compact: true,
@@ -61,22 +55,18 @@ const HomePage = ({ records }) => {
             tabular: false
           }} panes={panes} />
       </div>
-    </Container>
+    </div>
   )
 }
 
 export const getServerSideProps = async ctx => {
-  
-  const results = await Promise.allSettled([
-    fetch(`${process.env.API_URL}/api/saci/`),
-    fetch(`${process.env.API_URL}/api/saci/average/`)
-  ])
-  
-  const [records] = results.map(({value}) => value)
-  const logs = await records.json()
+
+  const response = await fetch(`${process.env.API_URL}/api/saci/logs/temperatura_aire`)
+  const records = await response.json()
+
   return {
     props: {
-      logs
+      records
     }
   }
 }

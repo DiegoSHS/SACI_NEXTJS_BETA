@@ -35,7 +35,7 @@ const HomePage = () => {
       </Item.Group>
 
       <Item >
-        <Header inverted as='h2'>Contacto</Header>
+        <Header as='h2'>Contacto</Header>
         <Message>
           <Message.Content as={'h4'}>
             2441047702

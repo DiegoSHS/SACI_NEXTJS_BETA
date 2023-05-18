@@ -9,7 +9,7 @@ const handeling = async (req, res) => {
                 const logs = await collection.aggregate([
                     { $match: { id: id }},
                     { $sort: { date: -1 } },
-                    { $limit: 20 },
+                    { $limit: 50 },
                     { $project: { _id: 0 } }
                 ]).toArray()
                 return res.status(200).json(logs)
