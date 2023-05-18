@@ -46,7 +46,7 @@ export const SideNavBar = ({ children }) => {
                         </Button>
                     </Menu.Item>
                     <Menu.Item>
-                        <Button compact>
+                        <Button compact onClick={() => router.push('/sensor')}>
                             Sensores
                         </Button>
                     </Menu.Item>

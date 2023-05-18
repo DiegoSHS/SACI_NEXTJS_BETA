@@ -1,7 +1,7 @@
 import { Container, Divider, Header, Image, Item, Message } from "semantic-ui-react"
 const HomePage = () => {
   return (
-    <Container style={{ overflowX: "auto", overflowY: "auto" }}>
+    <>
       <Item.Group>
         <Item>
           <Image rounded size='large' src='/img/utim.jpg' />
@@ -32,8 +32,6 @@ const HomePage = () => {
             </Message>
           </Item.Content>
         </Item>
-        
-        
       </Item.Group>
 
       <Item >
@@ -46,7 +44,7 @@ const HomePage = () => {
           </Message.Content>
         </Message>
       </Item>
-    </Container>
+    </>
   )
 }
 

@@ -39,7 +39,7 @@ const HomePage = ({ records }) => {
   ]
 
   return (
-    <Container style={{ overflowX: "auto", overflowY: "auto" }}>
+    <div style={{ overflow: "auto"}}>
       <div style={{ width: "1127px", overflow: "auto" }}>
         <Tab
           menu={{
@@ -52,7 +52,7 @@ const HomePage = ({ records }) => {
             tabular: false
           }} panes={panes} />
       </div>
-    </Container>
+    </div>
   )
 }
 

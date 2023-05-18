@@ -4,7 +4,7 @@ import { Grid, Tab, Table } from "semantic-ui-react"
 import { NoData } from "./NoTasks"
 
 export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
-  if (data === undefined || data.length === 0 ) {
+  if (data === undefined || data.length === 0) {
     return (
       <NoData />
     )
@@ -83,3 +83,30 @@ export const SaciTable = ({ data }) => {
   )
 }
 
+export const ResponsiveTable = ({ data }) => {
+  if (data === undefined || data.length === 0) {
+    return (
+      <NoData />
+    )
+  }
+  const firts = data[0]
+  const heads = Object.keys(firts)
+  const headerr = heads.map(h => <Table.HeaderCell collapsing>{h}</Table.HeaderCell>)
+  const body = data.map(r => {
+    const cells = Object.values(r)
+    const roww = cells.map(c => <Table.Cell collapsing>{c}</Table.Cell>)
+    return <Table.Row>{roww}</Table.Row>
+  })
+  return (
+    <Table fixed compact='very' celled selectable>
+      <Table.Header>
+        <Table.Row>
+          {headerr}
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {body}
+      </Table.Body>
+    </Table>
+  )
+}
