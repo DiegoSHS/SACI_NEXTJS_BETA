@@ -2,7 +2,6 @@ import { connex } from "@/models/dbconn"
 
 const handeling = async (req, res) => {
     const { method, query: { id } } = req
-    console.log(id)
     const { collection } = await connex(process.env.SDB, 'logs')
     switch (method) {
         case "GET":

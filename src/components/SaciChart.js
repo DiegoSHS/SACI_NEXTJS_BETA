@@ -31,7 +31,7 @@ export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
         />
         <Tooltip />
         <Legend />
-        <Line animationDuration={250} strokeWidth={2} type="monotone" dataKey={dataKeyY} stroke="#8884d8" />
+        <Line animationDuration={250} strokeWidth={1} type="monotone" dataKey={dataKeyY} stroke="black" />
         <Brush height={20} />
       </LineChart>
     </ResponsiveContainer>

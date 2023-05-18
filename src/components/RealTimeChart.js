@@ -5,7 +5,7 @@ export class RTChart extends Component {
     async dataFetching() {
         let data_bar = []
         try {
-            const url = `${process.env.API_URL}/api/saci/${this.props.id}/realtime`
+            const url = `http://localhost:3000/api/saci/logs/${this.props.id}/realtime`
             const jsonParam = await fetch(url)
             const param = await jsonParam.json()
             const final = param.map(({ id, value, date }) => {
@@ -16,7 +16,6 @@ export class RTChart extends Component {
                 }
             })
             data_bar = final
-            console.log(final)
         } catch (error) {
             console.log(error)
         }

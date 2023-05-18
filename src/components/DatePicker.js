@@ -33,7 +33,7 @@ const DatePicker = ({ data }) => {
 
     return (
         <>
-            <Label basic style={{ border: "none" }}>Selecciona un rango</Label>
+            <Label basic size='big' style={{ border: "none" }}>Selecciona un rango</Label>
             <Modal
                 dimmer="blurring"
                 basic
@@ -41,7 +41,7 @@ const DatePicker = ({ data }) => {
                 open={confirm}
                 size='small'
                 trigger={
-                    <Button animated="vertical" circular color='blue' onClick={opened}>
+                    <Button animated="vertical" circular positive onClick={opened}>
                         <Button.Content visible>{`${formatter(startDate)} - ${formatter(endDate) || "no seleccionado"}`}</Button.Content>
                         <Button.Content hidden>
                             <Icon name="calendar alternate outline"></Icon>
@@ -55,8 +55,8 @@ const DatePicker = ({ data }) => {
                             <Icon color='blue' name='calendar alternate' />
                         </Header>
                     </Grid.Row>
-                    <Grid.Row>
-                        Un click para seleccionar fecha de inicio y otro click para seleciconar fecha de fin
+                    <Grid.Row as={'h3'}>
+                        Un click para seleccionar fecha de inicio y otro click para seleccionar fecha de fin
                     </Grid.Row>
                     <Grid.Row>
                         <ReactDatePicker
