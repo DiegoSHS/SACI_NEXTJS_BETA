@@ -1,5 +1,5 @@
 import { connex } from '@/models/dbconn'
-import { validSensor } from '@/utils/validate'
+import { validSensor } from '@/validation/transaction'
 
 const handler = async (req, res) => {
     const { collection } = await connex(process.env.SDB, 'sensors')

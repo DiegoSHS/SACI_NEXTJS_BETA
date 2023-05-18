@@ -1,6 +1,6 @@
 import { formatter } from "@/utils/dateformat"
 import { connex } from "@/models/dbconn"
-import { criticalTask, validLogs, validOnelog } from "@/utils/validate"
+import { criticalTask, validLogs, validOnelog } from "@/validation/transaction"
 
 const handeling = async (req, res) => {
     const { method, body } = req
