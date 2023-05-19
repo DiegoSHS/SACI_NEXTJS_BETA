@@ -13,7 +13,7 @@ const SensorForm = () => {
         module: '',
         pin: ''
     })
-    
+
     const [errors, setErrors] = useState({
         name: '',
         description: '',
@@ -101,11 +101,20 @@ const SensorForm = () => {
                             error={pin ? { content: "Coloca un pin", pointing: "below" } : null}
                         />
                         <Button>
-                            <Button.Content visible>Guardar
-                            </Button.Content>
-                            <Button.Content hidden>
-                                <Icon name='save outline' />
-                            </Button.Content>
+                            {query.id ?
+                                <>
+                                    <Button.Content visible>Actualizar</Button.Content>
+                                    <Button.Content hidden>
+                                        <Icon name="edit" />
+                                    </Button.Content>
+                                </> :
+                                <>
+                                    <Button.Content visible>Guardar</Button.Content>
+                                    <Button.Content hidden>
+                                        <Icon name="save" />
+                                    </Button.Content>
+                                </>
+                            }
                         </Button>
 
                     </Form>

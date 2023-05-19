@@ -3,9 +3,15 @@ import { Tab } from "semantic-ui-react"
 import DatePicker from "@/components/DatePicker"
 import { RTChart } from "@/components/RealTimeChart"
 import { StoredContext } from "@/context/context"
+import { useEffect } from "react"
+import axios from "axios"
 
-const HomePage = ({ records }) => {
-  const { logs, daysAvg, monthAvg } = records
+const HomePage = ({ temp_suelo }) => {
+  const { records, setrecords } = StoredContext()
+  useEffect(() => {
+    setrecords({ saci: { temp_suelo } })
+  }, [])
+  const { saci: { temp_suelo: { logs, daysAvg, monthAvg } } } = records
   const minpanes = SaciPanes(daysAvg)
   const panes = [
     {
@@ -60,13 +66,11 @@ const HomePage = ({ records }) => {
 }
 
 export const getServerSideProps = async ctx => {
-
-  const response = await fetch(`${process.env.API_URL}/api/saci/logs/temperatura_aire`)
-  const records = await response.json()
+  const { data } = await axios.get(`${process.env.API_URL}/api/saci/logs/temperatura_suelo`)
 
   return {
     props: {
-      records
+      temp_suelo: data
     }
   }
 }

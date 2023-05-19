@@ -1,4 +1,4 @@
-import { Container, Divider, Header, Image, Item, Message } from "semantic-ui-react"
+import { Divider, Header, Image, Item, Message } from "semantic-ui-react"
 const HomePage = () => {
   return (
     <>
@@ -47,5 +47,45 @@ const HomePage = () => {
     </>
   )
 }
+/*
+export const getServerSideProps = async ctx => {
+  const url = `${process.env.API_URL}/api/saci/logs`
 
+  const sueloResult = await Promise.allSettled([
+    fetch(`${url}/temperatura_suelo/`),
+    fetch(`${url}/temperatura_suelo_s1/`),
+    fetch(`${url}/temperatura_suelo_s2/`),
+    fetch(`${url}/ph_suelo/`),
+    fetch(`${url}/ph_suelo_s1/`),
+    fetch(`${url}/ph_suelo_s2/`),
+    fetch(`${url}/humedad_suelo/`),
+    fetch(`${url}/humedad_suelo_s1/`),
+    fetch(`${url}/humedad_suelo_s2/`),
+  ])
+
+  const aireResult = await Promise.allSettled([
+    fetch(`${url}/humedad_aire/`),
+    fetch(`${url}/temperatura_aire/`),
+    fetch(`${url}/radiacion_solar_aire/`),
+    fetch(`${url}/luminosidad/`),
+    fetch(`${url}/tds_agua/`),
+    fetch(`${url}/cantidad_co2/`),
+  ])
+
+  const nivelAguaResult = await fetch(`${url}/nivel_agua/`)
+
+  const sueloValues = sueloResult.map(({ value }) => value)
+  const aireValues = aireResult.map(({ value }) => value)
+  const sueloJson = await Promise.allSettled(sueloValues.map((res) => res.json()))
+  const aireJson = await Promise.allSettled(aireValues.map((res) => res.json()))
+  const agualvl = await nivelAguaResult.json()
+  const suelo = sueloJson.map(({ value }) => value)
+  const aire = aireJson.map(({ value }) => value)
+  return {
+    props: {
+      suelo, aire, agualvl
+    }
+  }
+}
+*/
 export default HomePage

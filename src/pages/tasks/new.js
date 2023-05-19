@@ -50,7 +50,6 @@ const TaksFormPage = () => {
             centered
             verticalAlign="middle"
             columns={1}
-            style={{ height: "80vh" }}
         >
             <Grid.Row>
                 <Grid.Column textAlign="center">

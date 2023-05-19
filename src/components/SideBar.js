@@ -26,19 +26,25 @@ export const SideNavBar = ({ children }) => {
                         </Link>
                     </Menu.Item>
                     <Menu.Item>
-                        <Button compact onClick={() => router.push('/notifications')}>
-                            Notificaciones
-                        </Button>
+                        <Link href="/notifications">
+                            <Button compact>
+                                Notificaciones
+                            </Button>
+                        </Link>
                     </Menu.Item>
                     <Menu.Item>
+                        <Link href='/ground'>
                         <Button compact>
                             Suelo
                         </Button>
+                        </Link>
                     </Menu.Item>
                     <Menu.Item>
-                        <Button compact onClick={() => router.push('/airquality')}>
+                        <Link href='/airquality'>
+                        <Button compact>
                             Calidad del Aire/Agua
                         </Button>
+                        </Link>
                     </Menu.Item>
                     <Menu.Item>
                         <Button compact>
@@ -46,9 +52,11 @@ export const SideNavBar = ({ children }) => {
                         </Button>
                     </Menu.Item>
                     <Menu.Item>
-                        <Button compact onClick={() => router.push('/sensor')}>
+                        <Link href='/sensor'>
+                        <Button compact>
                             Sensores
                         </Button>
+                        </Link>
                     </Menu.Item>
                     <Menu.Menu position="right">
                         <Menu.Item>
