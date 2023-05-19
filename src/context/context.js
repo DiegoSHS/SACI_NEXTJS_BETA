@@ -1,18 +1,17 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 
-const Records = createContext([])
+export const Records = createContext()
 
 export const StoredContext = () => useContext(Records)
 
 const Context = ({ children }) => {
-    const [records, setrecords] = useState([])
-    console.log(records)
+    const [records, setrecords] = useState({})
+    
     return (
         <Records.Provider value={{ records, setrecords }}>
             {children}
         </Records.Provider>
     )
 }
-
 
 export default Context
