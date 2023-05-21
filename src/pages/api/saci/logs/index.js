@@ -1,6 +1,7 @@
 import { formatter } from "@/utils/dateformat"
 import { connex } from "@/models/dbconn"
 import { criticalTask, validLogs, validOnelog } from "@/validation/transaction"
+import { getLogs } from "@/models/transactions"
 
 const handeling = async (req, res) => {
     const { method, body } = req
@@ -9,7 +10,7 @@ const handeling = async (req, res) => {
     switch (method) {
         case "GET":
             try {
-                const logs = await collection.find().toArray()
+                const logs = await getLogs(collection)
                 return res.status(200).json(logs)
             } catch (error) {
                 return res.status(500).json({ error: error.message })

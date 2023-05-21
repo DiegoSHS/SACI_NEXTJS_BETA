@@ -1,20 +1,20 @@
+import { StoredContext } from "@/context/context";
 import { useEffect, useState } from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-const RTChart = ({tick}) => {
+const RTChart = ({ tick }) => {
     const [interval, setinterval] = useState(tick || 1000)
     const [data, setData] = useState([])
-
+    const { records, setrecords } = StoredContext()
     const dataFetching = async () => {
         let data_bar = []
         try {
             const jsonParam = await fetch('http://localhost:3000/api/saci/realTime/')
             const param = await jsonParam.json()
-            data_bar = param.map(({ createdAt, dist, temp }) => {
+            data_bar = param.map(({ date, value }) => {
                 return {
-                    createdAt: createdAt.split(' ')[1],
-                    dist: dist,
-                    temp: temp
+                    createdAt: date.split(' ')[1],
+                    value:value
                 }
             })
         } catch (error) {

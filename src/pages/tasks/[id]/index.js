@@ -5,13 +5,13 @@ import { toast } from "react-hot-toast"
 import { Button, Grid, Header, Icon, Modal } from "semantic-ui-react"
 
 export default function TaksDetail({ task, error }) {
-  if (error && error.statusCode) return <Error statusCode={error.statusCode} title={error.statusText} />
-
   const { query, push } = useRouter()
 
   const [confirm, setConfirm] = useState(false)
   const [isDeleting, setisDeleting] = useState(false)
 
+  if (error && error.statusCode) return <Error statusCode={error.statusCode} title={error.statusText} />
+  
   const open = () => setConfirm(true)
   const close = () => setConfirm(false)
 

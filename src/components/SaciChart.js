@@ -56,11 +56,11 @@ export const SaciTable = ({ data }) => {
   }
   const firts = data[0]
   const heads = Object.keys(firts)
-  const headerr = heads.map(h => <Table.HeaderCell collapsing>{h}</Table.HeaderCell>)
+  const headerr = heads.map(h => <Table.HeaderCell key={h} collapsing>{h}</Table.HeaderCell>)
   const body = data.map(r => {
     const cells = Object.values(r)
-    const roww = cells.map(c => <Table.Cell collapsing>{c}</Table.Cell>)
-    return <Table.Row>{roww}</Table.Row>
+    const roww = cells.map(c => <Table.Cell key={c} collapsing>{c}</Table.Cell>)
+    return <Table.Row key={r._id}>{roww}</Table.Row>
   })
 
   return (
@@ -80,33 +80,5 @@ export const SaciTable = ({ data }) => {
         </Table>
       </div>
     </div>
-  )
-}
-
-export const ResponsiveTable = ({ data }) => {
-  if (data === undefined || data.length === 0) {
-    return (
-      <NoData />
-    )
-  }
-  const firts = data[0]
-  const heads = Object.keys(firts)
-  const headerr = heads.map(h => <Table.HeaderCell collapsing>{h}</Table.HeaderCell>)
-  const body = data.map(r => {
-    const cells = Object.values(r)
-    const roww = cells.map(c => <Table.Cell collapsing>{c}</Table.Cell>)
-    return <Table.Row>{roww}</Table.Row>
-  })
-  return (
-    <Table fixed compact='very' celled selectable>
-      <Table.Header>
-        <Table.Row>
-          {headerr}
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {body}
-      </Table.Body>
-    </Table>
   )
 }

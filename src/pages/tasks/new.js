@@ -30,7 +30,7 @@ const TaksFormPage = () => {
         if (isValid) {
             setisSaving(true)
             if (query.id) {
-                isSuccess = await updateTask(newTask,query.id)
+                isSuccess = await updateTask(newTask, query.id)
             } else {
                 isSuccess = await createTask(newTask)
             }
@@ -46,51 +46,42 @@ const TaksFormPage = () => {
     }, [])
 
     return (
-        <Grid
-            centered
-            verticalAlign="middle"
-            columns={1}
-        >
-            <Grid.Row>
-                <Grid.Column textAlign="center">
-                    <h1>{query.id ? "Update Task" : "Create Task"}</h1>
-                    <Form inverted onSubmit={handSubmit}>
-                        <Form.Input
-                            label="Título"
-                            placeholder="Título"
-                            name="title" onChange={handChange}
-                            error={title ? { content: "Coloca un título", pointing: "below" } : null}
-                            value={newTask.title}
-                        />
-                        <Form.TextArea
-                            label="Descripción"
-                            placeholder="Descripción"
-                            name="description"
-                            onChange={handChange}
-                            error={description ? { content: "Coloca una descripción", pointing: "below" } : null}
-                            value={newTask.description}
-                        />
-                        <Button circular primary animated loading={isSaving}>
-                            {query.id ?
-                                <>
-                                    <Button.Content visible>Actualizar</Button.Content>
-                                    <Button.Content hidden>
-                                        <Icon name='check' />
-                                    </Button.Content>
-                                </> :
-                                <>
-                                    <Button.Content visible>Guardar</Button.Content>
-                                    <Button.Content hidden>
-                                        <Icon name='save outline' />
-                                    </Button.Content>
-                                </>
-                            }
-                        </Button>
-                    </Form>
-                </Grid.Column>
-            </Grid.Row>
-        </Grid>
-
+        <Form onSubmit={handSubmit}>
+            <h1>{query.id ? "Update Task" : "Create Task"}</h1>
+            <Form.Group widths='equal'>
+                <Form.Input
+                    label="Título"
+                    placeholder="Título"
+                    name="title" onChange={handChange}
+                    error={title ? { content: "Coloca un título", pointing: "below" } : null}
+                    value={newTask.title}
+                />
+                <Form.Input
+                    label="Descripción"
+                    placeholder="Descripción"
+                    name="description"
+                    onChange={handChange}
+                    error={description ? { content: "Coloca una descripción", pointing: "below" } : null}
+                    value={newTask.description}
+                />
+            </Form.Group>
+            <Button circular positive animated loading={isSaving}>
+                {query.id ?
+                    <>
+                        <Button.Content visible>Actualizar</Button.Content>
+                        <Button.Content hidden>
+                            <Icon name='check' />
+                        </Button.Content>
+                    </> :
+                    <>
+                        <Button.Content visible>Guardar</Button.Content>
+                        <Button.Content hidden>
+                            <Icon name='save' />
+                        </Button.Content>
+                    </>
+                }
+            </Button>
+        </Form>
     )
 }
 

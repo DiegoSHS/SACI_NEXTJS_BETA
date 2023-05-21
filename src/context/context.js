@@ -4,7 +4,7 @@ export const Records = createContext()
 
 export const StoredContext = () => useContext(Records)
 
-const Context = ({ children }) => {
+export const Context = ({ children }) => {
     const [records, setrecords] = useState({})
     
     return (
@@ -13,5 +13,3 @@ const Context = ({ children }) => {
         </Records.Provider>
     )
 }
-
-export default Context

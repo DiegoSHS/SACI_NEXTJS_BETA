@@ -1,10 +1,10 @@
-import { Divider, Header, Image, Item, Message } from "semantic-ui-react"
+import { Button, Divider, Header, Image, Item, Message } from "semantic-ui-react"
 const HomePage = () => {
   return (
     <>
       <Item.Group>
         <Item>
-          <Image rounded size='large' src='/img/utim.jpg' />
+          <Image rounded dimmer size='large' src='/background.jpg' alt='plantas' />
           <Item.Content>
             <Message>
               <Message.Header>SACI</Message.Header>
@@ -18,17 +18,14 @@ const HomePage = () => {
             </Message>
           </Item.Content>
         </Item>
-
         <Item>
-          <Image rounded size='large' src='/background.jpg' />
+          <Image dimmer rounded size='large' src='/img/utim.jpg' alt='utim' />
           <Item.Content>
             <Message>
               <Message.Header>Graficas</Message.Header>
               <Message.Content>
                 En SACI, entendemos que el monitoreo del cultivo de fresa es fundamental para garantizar una cosecha exitosa y de alta calidad. Las gráficas son una herramienta esencial en este proceso, ya que nos permiten visualizar de manera clara y concisa el estado del cultivo con los datos más actuales. Con las gráficas podemos monitorear factores como la temperatura, la humedad y la luz, lo que nos ayuda a identificar rápidamente cualquier problema que pueda surgir y tomar medidas para corregirlo antes de que cause daños irreparables al cultivo. Además, las gráficas nos permiten hacer un seguimiento del rendimiento del cultivo a lo largo del tiempo, lo que nos permite ajustar nuestras prácticas de cultivo para optimizar la producción y garantizar la rentabilidad a largo plazo. En resumen, en SACI consideramos que las gráficas son una herramienta indispensable en el monitoreo de cultivos de fresa y estamos comprometidos en su uso para mejorar nuestros procesos y garantizar la satisfacción de nuestros clientes
               </Message.Content>
-              <Message.List>
-              </Message.List>
             </Message>
           </Item.Content>
         </Item>

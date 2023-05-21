@@ -1,19 +1,22 @@
 import { SaciChart, SaciPanes, SaciTable } from "@/components/SaciChart"
 import { Tab } from "semantic-ui-react"
-import DatePicker from "@/components/DatePicker"
 import { RTChart } from "@/components/RealTimeChart"
 import { StoredContext } from "@/context/context"
 import { useEffect } from "react"
-import axios from "axios"
+import { validateFetch } from "./ground"
+import { connex } from "@/models/dbconn"
+import { getDetailedLogs } from "@/models/transactions"
+import DatePicker from "@/components/DatePicker"
 
-const HomePage = ({ temp_aire }) => {
+const HomePage = ({ data }) => {
   const { records, setrecords } = StoredContext()
   useEffect(() => {
-    setrecords({ saci: { temp_aire } })
-  }, [setrecords, temp_aire])
-  console.log(records)
-  const { saci: { temp_aire: { logs, daysAvg, monthAvg } } } = records
-  //const { logs, daysAvg, monthAvg } = temp_aire
+    setrecords({ saci: { ...records.saci, temp_aire } })
+    console.log(records)
+  }, [])
+
+  const temp_aire = validateFetch(records, 'temp_aire') ? data : records.saci.temp_aire
+  const { logs, daysAvg, monthAvg } = temp_aire
   const minpanes = SaciPanes(daysAvg)
   const panes = [
     {
@@ -67,13 +70,14 @@ const HomePage = ({ temp_aire }) => {
   )
 }
 
-export const getServerSideProps = async ctx => {
-  const { data } = await axios.get(`${process.env.API_URL}/api/saci/logs/temperatura_aire`)
-
+export const getStaticProps = async ctx => {
+  const { collection } = await connex(process.env.SDB, 'logs')
+  const data = await getDetailedLogs(collection, 'temperatura_aire')
   return {
     props: {
-      temp_aire: data
-    }
+      data
+    },
+    revalidate: 60
   }
 }
 
