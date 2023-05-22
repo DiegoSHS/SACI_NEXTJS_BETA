@@ -17,6 +17,7 @@ const Notifications = ({ data }) => {
 
     return (
         <>
+            <Header size="large">Notificaciones</Header>
             {
                 tasks === undefined || tasks.length === 0 ? <NoData /> : <TasksCards data={tasks} />
             }

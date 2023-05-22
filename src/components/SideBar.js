@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Icon, Menu } from 'semantic-ui-react'
+import { Button, Container, Grid, Icon, Menu, Rail } from 'semantic-ui-react'
 import Link from "next/link"
 import Notify from './Notify'
 
@@ -68,7 +68,7 @@ export const SideNavBar = ({ children }) => {
                             <Link href='tasks/new'>
                                 <Button icon positive labelPosition="right" size="tiny">
                                     Nueva tarea
-                                    <Icon name="plus"/>
+                                    <Icon name="plus" />
                                 </Button>
                             </Link>
                         </Menu.Item>

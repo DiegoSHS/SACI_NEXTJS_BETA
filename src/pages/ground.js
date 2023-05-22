@@ -1,8 +1,8 @@
 import { SaciChart, SaciPanes, SaciTable } from "@/components/SaciChart"
-import { Tab } from "semantic-ui-react"
+import { Checkbox, Form, Header, Tab } from "semantic-ui-react"
 import { RTChart } from "@/components/RealTimeChart"
 import { StoredContext } from "@/context/context"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { connex } from "@/models/dbconn"
 import { getDetailedLogs } from "@/models/transactions"
 import DatePicker from "@/components/DatePicker"
@@ -11,10 +11,12 @@ export const validateFetch = (records, key) => (records === {} || records.saci =
 
 const HomePage = ({ data }) => {
   const { records, setrecords } = StoredContext()
+  const [sensor, setSensor] = useState(0)
   useEffect(() => {
     setrecords({ saci: { ...records.saci, temp_suelo } })
     console.log(records)
   }, [])
+
   const temp_suelo = validateFetch(records, 'temp_suelo') ? data : records.saci.temp_suelo
   const { logs, daysAvg, monthAvg } = temp_suelo
   const minpanes = SaciPanes(daysAvg)
@@ -53,20 +55,51 @@ const HomePage = ({ data }) => {
   ]
 
   return (
-    <div style={{ overflow: "auto" }}>
-      <div style={{ width: "1127px", overflow: "auto" }}>
-        <Tab
-          menu={{
-            centered: true,
-            secondary: true,
-            pointing: true,
-            compact: true,
-            borderless: true,
-            attached: false,
-            tabular: false
-          }} panes={panes} />
+    <>
+      <Header size="large">Suelo</Header>
+      <Form widths="equal">
+        <Form.Field inline>
+          <Checkbox
+            radio
+            label='Sensor 1'
+            name=''
+            value={0}
+            checked={sensor === 0}
+            onChange={(e, data) => setSensor(data.value)}
+          />
+          <Checkbox
+            radio
+            label='Sensor 2'
+            name=''
+            value={1}
+            checked={sensor === 1}
+            onChange={(e, data) => setSensor(data.value)}
+          />
+          <Checkbox
+            radio
+            label='Sensor 3'
+            name=''
+            value={2}
+            checked={sensor === 2}
+            onChange={(e, data) => setSensor(data.value)}
+          />
+        </Form.Field>
+      </Form>
+      <div style={{ overflow: "auto" }}>
+        <div style={{ width: "1127px", overflow: "auto" }}>
+          <Tab
+            menu={{
+              centered: true,
+              secondary: true,
+              pointing: true,
+              compact: true,
+              borderless: true,
+              attached: false,
+              tabular: false
+            }} panes={panes} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

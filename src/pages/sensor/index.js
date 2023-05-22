@@ -6,7 +6,6 @@ import { useEffect } from "react"
 import { Button, Icon } from "semantic-ui-react"
 import { connex } from "@/models/dbconn"
 import { getLogs } from "@/models/transactions"
-import Link from "next/link"
 
 const Index = ({ data }) => {
     const { records, setrecords } = StoredContext()
@@ -17,14 +16,7 @@ const Index = ({ data }) => {
     const sensors = validateFetch(records, 'sensors') ? data : records.saci.sensors
     return (
         <>
-            <h1>Sensores</h1>
-            <p>Aqui se muestran los sensores existentes</p>
-            <Link href='/sensor/new'>
-                <Button icon positive labelPosition="right" size="tiny" style={{ margin: '1rem' }}>
-                        añadir sensor
-                        <Icon name="add"/>
-                </Button>
-            </Link>
+            <Header size="large">Sensores</Header>
             {
                 sensors == undefined || sensors.length === 0 ? <NoData /> : <SensorCards data={sensors} />
             }

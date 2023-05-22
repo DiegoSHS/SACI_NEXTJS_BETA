@@ -53,20 +53,23 @@ const HomePage = ({ data }) => {
   ]
 
   return (
-    <div style={{ overflow: "auto" }}>
-      <div style={{ width: "1127px", overflow: "auto" }}>
-        <Tab
-          menu={{
-            centered: true,
-            secondary: true,
-            pointing: true,
-            compact: true,
-            borderless: true,
-            attached: false,
-            tabular: false
-          }} panes={panes} />
+    <>
+      <Header size="large">Aire</Header>
+      <div style={{ overflow: "auto" }}>
+        <div style={{ width: "1127px", overflow: "auto" }}>
+          <Tab
+            menu={{
+              centered: true,
+              secondary: true,
+              pointing: true,
+              compact: true,
+              borderless: true,
+              attached: false,
+              tabular: false
+            }} panes={panes} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
