@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Component } from "react"
 import { SaciChart } from "./SaciChart";
 
@@ -5,10 +6,8 @@ export class RTChart extends Component {
     async dataFetching() {
         let data_bar = []
         try {
-            const url = `http://localhost:3000/api/saci/logs/${this.props.id}/realtime`
-            const jsonParam = await fetch(url)
-            const param = await jsonParam.json()
-            const final = param.map(({ id, value, date }) => {
+            const { data } = axios.get(`/api/saci/logs/${this.props.id}/realtime`)
+            const final = data.map(({ id, value, date }) => {
                 return {
                     date: date.split(' ')[1],
                     value: value,

@@ -1,4 +1,5 @@
 import { StoredContext } from "@/context/context";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
@@ -9,12 +10,11 @@ const RTChart = ({ tick }) => {
     const dataFetching = async () => {
         let data_bar = []
         try {
-            const jsonParam = await fetch('http://localhost:3000/api/saci/realTime/')
-            const param = await jsonParam.json()
-            data_bar = param.map(({ date, value }) => {
+            const { data } = axios.get(`/api/saci/logs/${this.props.id}/realtime`)
+            data_bar = data.map(({ date, value }) => {
                 return {
                     createdAt: date.split(' ')[1],
-                    value:value
+                    value: value
                 }
             })
         } catch (error) {
