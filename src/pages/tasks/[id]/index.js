@@ -1,40 +1,30 @@
-import Error from "next/error"
+import { deleteTask } from "@/requests/task"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { Button, Grid, Header, Icon, Modal } from "semantic-ui-react"
+import Error from "next/error"
 
 export default function TaksDetail({ task, error }) {
-  const { query, push } = useRouter()
+  const { query: { id }, push } = useRouter()
 
   const [confirm, setConfirm] = useState(false)
   const [isDeleting, setisDeleting] = useState(false)
 
   if (error && error.statusCode) return <Error statusCode={error.statusCode} title={error.statusText} />
-  
+
   const open = () => setConfirm(true)
   const close = () => setConfirm(false)
 
-  const deleteTask = async () => {
-    const { id } = query
-    try {
-      await fetch(`http://localhost:3000/api/tasks/${id}`, {
-        method: 'DELETE'
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const handDelete = async () => {
     setisDeleting(true)
-    toast.promise(deleteTask(), {
+    toast.promise(deleteTask(id), {
       loading: "Eliminando",
       success: "Eliminado",
       error: "Error al eliminar"
     })
     close()
-    push("/notifications")
+    push("/tasks")
   }
 
   return (

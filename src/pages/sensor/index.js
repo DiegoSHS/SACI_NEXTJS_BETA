@@ -3,9 +3,10 @@ import { SensorCards } from "@/components/SensorCard"
 import { StoredContext } from "@/context/context"
 import { validateFetch } from "../ground"
 import { useEffect } from "react"
-import { Button, Icon } from "semantic-ui-react"
+import { Button, Header, Icon } from "semantic-ui-react"
 import { connex } from "@/models/dbconn"
 import { getLogs } from "@/models/transactions"
+import Link from "next/link"
 
 const Index = ({ data }) => {
     const { records, setrecords } = StoredContext()
@@ -17,6 +18,12 @@ const Index = ({ data }) => {
     return (
         <>
             <Header size="large">Sensores</Header>
+            <Link href='sensor/new'>
+                <Button icon positive labelPosition="right" size="tiny">
+                    Nueva tarea
+                    <Icon name="plus" />
+                </Button>
+            </Link>
             {
                 sensors == undefined || sensors.length === 0 ? <NoData /> : <SensorCards data={sensors} />
             }

@@ -1,5 +1,5 @@
 import { SaciChart, SaciPanes, SaciTable } from "@/components/SaciChart"
-import { Tab } from "semantic-ui-react"
+import { Header, Tab } from "semantic-ui-react"
 import { RTChart } from "@/components/RealTimeChart"
 import { StoredContext } from "@/context/context"
 import { useEffect } from "react"

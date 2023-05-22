@@ -10,7 +10,7 @@ export const createTask = async (task) => {
     }
 }
 
-export const updateTask = async (task,id) => {
+export const updateTask = async (task, id) => {
     try {
         await axios.put(`/api/tasks/${id}`, task)
         return true
@@ -23,4 +23,14 @@ export const updateTask = async (task,id) => {
 export const getTask = async (id, fn) => {
     const { data } = await axios.get(`/api/tasks/${id}`)
     fn(data)
+}
+
+export const deleteTask = async (id) => {
+    try {
+        const { data } = await axios.delete(`/api/tasks/${id}`)
+        return data
+    } catch (error) {
+        console.log(error)
+        return false
+    }
 }

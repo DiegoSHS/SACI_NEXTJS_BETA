@@ -45,7 +45,7 @@ const SensorForm = () => {
                 isSuccess = await createSensor(newSensor)
             }
             isSuccess ? toast.success("Guardado") : toast.error("Hubo un error al guardar")
-            await push("/notifications")
+            await push("/sensor")
         }
     }
 

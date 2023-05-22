@@ -1,19 +1,34 @@
 import { MongoClient } from "mongodb"
 
-export const createClient = (uri = process.env.MONGO_URI) => {
+export const createClient = async (uri = process.env.MONGO_URI) => {
     try {
-        const client = new MongoClient(uri)
-        return client
+        return await MongoClient.connect(uri)
     } catch (error) {
-        throw error
+        console.log(error.message)
+        return
     }
 }
 
 let client = null
 
-export const connex = async ( dbname = 'test', collec = 'tasks') => {
+const validateClient = async () => {
     try {
-        client = client || createClient()
+        if (client != null){
+            console.log('client already exists')
+        }else{
+            console.log('creating a new client')
+            client = await createClient()
+        }
+        return client
+    } catch (error) {
+        console.log(error)
+        return
+    }
+}
+
+export const connex = async (dbname = 'test', collec = 'tasks') => {
+    try {
+        const client = await validateClient()
         const datab = client.db(dbname)
         const collection = datab.collection(collec)
         return { collection, datab }

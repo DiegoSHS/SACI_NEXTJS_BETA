@@ -5,6 +5,7 @@ import { useEffect } from "react"
 import { validateFetch } from "../ground"
 import { getLogs } from "@/models/transactions"
 import { connex } from "@/models/dbconn"
+import { Header } from "semantic-ui-react"
 
 const Notifications = ({ data }) => {
     const { records, setrecords } = StoredContext()

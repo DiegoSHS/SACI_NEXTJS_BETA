@@ -38,9 +38,12 @@ const RTChart = ({ tick }) => {
         }
     }, [interval])
 
-    useEffect(async () => {
+    const dofetch = async () => {
         const data = await dataFetching()
         setData(data)
+    }
+    useEffect(() => {
+        dofetch()
     }, [])
 
     return (
