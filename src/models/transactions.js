@@ -17,7 +17,6 @@ export const aggregations = (collection, month, id) => {
     ]).toArray()
 }
 export const monthsAvg = (collection, id) => {
-    //const date = new Date(Date.now)
     return collection.aggregate([
         { $match: { id: id } },
         {
@@ -57,4 +56,12 @@ export const getLogs = async (collection) => {
     const json = JSON.stringify(logs)
     const data = JSON.parse(json)
     return data
+}
+
+export const getActuators = async (collection) => {
+    const actuators = await collection.aggregate([
+        { $match: { module: 'actuador' } },
+        { $project: { _id: 0 } }
+    ]).toArray()
+    return actuators
 }

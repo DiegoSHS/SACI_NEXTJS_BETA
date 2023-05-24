@@ -31,7 +31,7 @@ export const validLogs = (logs) => {
 }
 
 const checkValue = (value, min, max) => ({
-    type: value < min ? 'under the minimum' : value > max ? 'above the maximum' : false,
+    type: value < min ? 'under the minimum' : value > max ? 'above the maximum' : 'normal',
     critic: value < min || value > max
 })
 
@@ -80,4 +80,13 @@ export const validTask = (task) => {
     if (typeof title !== 'string') errors.push(false)
     if (typeof description !== 'string') errors.push(false)
     return (errors.length === 0 && valid)
+}
+
+export const validState = async (body, id) => {
+    const { collection } = await connex(process.env.SDB, 'sensors')
+    const result = await collection.findOne({ name: id })
+    const errors = []
+    if (typeof body.enable !== 'boolean') errors.push(false)
+    if (typeof result === 'undefined') errors.push(false)
+    return (errors.length === 0)
 }
