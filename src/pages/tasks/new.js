@@ -3,7 +3,7 @@ import { validTaskForm } from "@/validation/forms"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
-import { Button, Form, Grid, Icon } from "semantic-ui-react"
+import { Button, Form, Header, Icon } from "semantic-ui-react"
 
 const TaksFormPage = () => {
     const [newTask, setNewTask] = useState({
@@ -47,7 +47,7 @@ const TaksFormPage = () => {
 
     return (
         <Form onSubmit={handSubmit}>
-            <h1>{query.id ? "Update Task" : "Create Task"}</h1>
+            <Header size="large">{query.id ? "Update Task" : "Create Task"}</Header>
             <Form.Group widths='equal'>
                 <Form.Input
                     label="Título"

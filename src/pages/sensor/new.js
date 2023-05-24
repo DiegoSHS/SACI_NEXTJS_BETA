@@ -3,7 +3,7 @@ import { validSensorForm } from "@/validation/forms"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
-import { Button, Form, Icon } from "semantic-ui-react"
+import { Button, Form, Header, Icon } from "semantic-ui-react"
 
 const SensorForm = () => {
     const [newSensor, setNewSensor] = useState({
@@ -57,7 +57,7 @@ const SensorForm = () => {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <h1>{query.id ? "Actualizar sensor" : "Añadir sensor"}</h1>
+            <Header size="large">{query.id ? "Actualizar sensor" : "Añadir sensor"}</Header>
             <Form.Group widths='equal'>
                 <Form.Input
                     label="Nombre"
@@ -114,7 +114,7 @@ const SensorForm = () => {
                 />
             </Form.Group>
 
-            <Button circular animated loading={isSaving}>
+            <Button circular animated positive loading={isSaving}>
                 {query.id ?
                     <>
                         <Button.Content visible>Actualizar</Button.Content>
