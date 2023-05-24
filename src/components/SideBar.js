@@ -1,6 +1,7 @@
-import { Button, Container, Grid, Icon, Menu, Rail } from 'semantic-ui-react'
+import { Button, Container, Grid, Icon, Menu, Dropdown, Label } from 'semantic-ui-react'
 import Link from "next/link"
 import Notify from './Notify'
+import { useState } from 'react'
 
 export const tscolor = {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -8,15 +9,17 @@ export const tscolor = {
 }
 
 export const SideNavBar = ({ children }) => {
-    //const [visible, setVisible] = useState(false)
-    //const visib = () => setVisible((preVisible) => !preVisible)
-
+    const [visible, setvisible] = useState({ suelo: false, aire: false })
+    const [config, setConfig] = useState(false)
+    const visibleConfig = () => setConfig(!config)
+    const visibleSuelo = () => setvisible({ ...visible, suelo: !visible.suelo, aire: false })
+    const visibleAire = () => setvisible({ ...visible, aire: !visible.aire, suelo: false })
     return (
         <Grid columns={1}>
             <Notify />
             <Menu borderless fixed='top' style={tscolor}>
-                <Container style={{ overflow: 'auto' }}>
-                    <Menu.Item>
+                <Container style={{overflowX:'auto'}}>
+                    <Menu.Item >
                         <Link href="/">
                             <Button compact positive animated>
                                 <Button.Content visible>
@@ -29,53 +32,104 @@ export const SideNavBar = ({ children }) => {
                         </Link>
                     </Menu.Item>
                     <Menu.Item>
-                        <Link href="tasks">
-                            <Button compact>
-                                Notificaciones
-                            </Button>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <Link href='ground'>
-                            <Button compact>
+                        <Button.Group >
+                            <Button basic compact toggle active={visible.suelo} onClick={visibleSuelo}>
                                 Suelo
                             </Button>
-                        </Link>
+                        </Button.Group>
+                        {visible.suelo ? (
+                            <Button.Group compact>
+                                <Button compact>
+                                    <Link href='/ground'>
+                                        Temperatura
+                                    </Link>
+                                </Button>
+                                <Button compact>
+                                    <Link href='/ground/humidity'>
+                                        Humedad
+                                    </Link>
+                                </Button>
+                                <Button compact>
+                                    <Link href='/ground/ph'>
+                                        Ph
+                                    </Link>
+                                </Button>
+                            </Button.Group>
+                        ) : (<div></div>)
+                        }
                     </Menu.Item>
                     <Menu.Item>
-                        <Link href='airquality'>
-                            <Button compact>
+                        <Button.Group>
+                            <Button basic compact toggle active={visible.aire} onClick={visibleAire}>
                                 Calidad del Aire/Agua
                             </Button>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <Link href='manage'>
-                            <Button compact>
-                                Control de invernadero
-                            </Button>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <Link href='sensor'>
-                            <Button compact>
-                                Sensores
-                            </Button>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Menu position="right">
-                        <Menu.Item>
-                            <Link href='tasks/new'>
-                                <Button icon positive labelPosition="right" size="tiny">
-                                    Nueva tarea
-                                    <Icon name="plus" />
+                        </Button.Group>
+                        {visible.aire ? (
+                            <Button.Group compact>
+                                <Button compact>
+                                    <Link href='/airquality'>
+                                        Temperatura
+                                    </Link>
                                 </Button>
-                            </Link>
-                        </Menu.Item>
-                    </Menu.Menu>
+                                <Button compact>
+                                    <Link href='/airquality/humidity'>
+                                        Humedad
+                                    </Link>
+                                </Button>
+                                <Button compact>
+                                    <Link href='/airquality/radiation'>
+                                        Radiación solar
+                                    </Link>
+                                </Button>
+                                <Button compact>
+                                    <Link href='/airquality/luminic'>
+                                        Luminosidad
+                                    </Link>
+                                </Button>
+                                <Button compact>
+                                    <Link href='/airquality/tds'>
+                                        TDS en Agua
+                                    </Link>
+                                </Button>
+                                <Button compact>
+                                    <Link href='/airquality/co2'>
+                                        CO2 en ambiente
+                                    </Link>
+                                </Button>
+                            </Button.Group>
+                        ) : (<div></div>)
+                        }
+                    </Menu.Item>
+                    {
+                        !(visible.aire) ? (
+                            <>
+                                <Menu.Item>
+                                    <Link href="tasks">
+                                        <Button compact>
+                                            Notificaciones
+                                        </Button>
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <Link href='manage'>
+                                        <Button compact>
+                                            Control de invernadero
+                                        </Button>
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <Link href='sensor'>
+                                        <Button compact>
+                                            Sensores
+                                        </Button>
+                                    </Link>
+                                </Menu.Item>
+                            </>
+                        ) : (<div></div>)
+                    }
                 </Container>
             </Menu>
-            <Container fluid style={{ marginTop: "12vh" }}>
+            <Container fluid style={{ marginTop: "12vh", marginBotton: "12vh" }}>
                 <Grid container stretched inverted centered columns={1} style={{ height: "88vh" }}>
                     <Grid.Column textAlign="center" verticalAlign='middle'>
                         {children}

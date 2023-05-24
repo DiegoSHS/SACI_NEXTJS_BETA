@@ -1,6 +1,7 @@
 import { months } from "@/utils/sortRegisters"
 import { Brush, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
-import { Grid, Tab, Table } from "semantic-ui-react"
+import { Tab, Table } from "semantic-ui-react"
+import DatePicker from "./DatePicker"
 import { NoData } from "./NoTasks"
 
 export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
@@ -38,16 +39,6 @@ export const SaciChart = ({ data, dataKeyY, dataKeyX }) => {
   )
 }
 
-export const SaciPanes = (data) => {
-  if (data === undefined || data.length === 0) {
-    return ({ menuItem: 'No hay datos', render: () => <Tab.Pane attached={false}><NoData /></Tab.Pane> })
-  }
-  const panes = data.map((arr, i) => {
-    return ({ menuItem: months[i], render: () => <Tab.Pane attached={false}>{<SaciChart dataKeyY={'value'} dataKeyX={'day'} data={arr} />}</Tab.Pane> })
-  })
-  return panes
-}
-
 export const SaciTable = ({ data }) => {
   if (data === undefined || data.length === 0) {
     return (
@@ -81,4 +72,65 @@ export const SaciTable = ({ data }) => {
       </div>
     </div>
   )
+}
+
+const SaciPanesAvg = (data) => {
+  if (data === undefined || data.length === 0) {
+    return ({ menuItem: 'No hay datos', render: () => <Tab.Pane attached={false}><NoData /></Tab.Pane> })
+  }
+  const panes = data.map((arr, i) => {
+    return ({
+      menuItem: months[i], render: () => (
+        <Tab.Pane attached={false}>{<SaciChart dataKeyY={'value'} dataKeyX={'day'} data={arr} />}</Tab.Pane>
+      )
+    })
+  })
+  return panes
+}
+
+export const SaciPanes = ({ logs, daysAvg, monthAvg }) => {
+  const minpanes = SaciPanesAvg(daysAvg)
+  const panes = [
+    {
+      menuItem: 'Detallado', render: () => (
+        <Tab.Pane attached={false}>{
+          <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={logs} />
+        }</Tab.Pane>
+      )
+    },
+    {
+      menuItem: 'Promedio mensual', render: () => (
+        <Tab.Pane attached={false}>{
+          <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
+        }</Tab.Pane>
+      )
+    },
+    {
+      menuItem: 'Promedio diario', render: () => (
+        <Tab.Pane attached={false}>
+          <Tab menu={{
+            vertical: true,
+            secondary: true,
+            pointing: true,
+            borderless: true,
+            attached: false,
+            tabular: false
+          }}
+            menuPosition='right' panes={minpanes}>
+          </Tab>
+        </Tab.Pane>
+      )
+    },
+    {
+      menuItem: "Rango de fechas", render: () => (
+        <Tab.Pane attached={false}><DatePicker data={logs} /></Tab.Pane>
+      )
+    },
+    {
+      menuItem: 'Tabla de mediciones', render: () => (
+        <Tab.Pane attached={false}>{<SaciTable data={logs} />}</Tab.Pane>
+      )
+    }
+  ]
+  return panes
 }
