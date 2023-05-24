@@ -22,7 +22,7 @@ const HomePage = ({ data }) => {
     return (
         <>
             <Header size="large">Suelo</Header>
-            <GenerateCheckBox data={ph_suelo} stateFn={setSensor} />
+            <GenerateCheckBox data={ph_suelo} sensor={sensor} stateFn={setSensor} />
             <div style={{ overflow: "auto" }}>
                 <div style={{ width: "1127px", overflow: "auto" }}>
                     <Tab
