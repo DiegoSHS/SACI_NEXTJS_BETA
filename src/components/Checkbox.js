@@ -17,6 +17,7 @@ export const GenerateCheckBox = ({ data, sensor, stateFn }) => {
                             label={`Sensor ${i + 1}`}
                             name={`Sensor ${i + 1}`}
                             value={i}
+                            key={i}
                             checked={sensor === i}
                             onChange={checked}
                         />

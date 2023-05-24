@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Icon, Menu, Dropdown } from 'semantic-ui-react'
+import { Button, Container, Grid, Icon, Menu, Dropdown, Label } from 'semantic-ui-react'
 import Link from "next/link"
 import Notify from './Notify'
 import { useState } from 'react'
@@ -10,13 +10,15 @@ export const tscolor = {
 
 export const SideNavBar = ({ children }) => {
     const [visible, setvisible] = useState({ suelo: false, aire: false })
+    const [config, setConfig] = useState(false)
+    const visibleConfig = () => setConfig(!config)
     const visibleSuelo = () => setvisible({ ...visible, suelo: !visible.suelo, aire: false })
     const visibleAire = () => setvisible({ ...visible, aire: !visible.aire, suelo: false })
     return (
         <Grid columns={1}>
             <Notify />
             <Menu borderless fixed='top' style={tscolor}>
-                <Container style={{ overflowX: 'auto' }}>
+                <Container style={{overflowX:'auto'}}>
                     <Menu.Item >
                         <Link href="/">
                             <Button compact positive animated>
@@ -30,13 +32,6 @@ export const SideNavBar = ({ children }) => {
                         </Link>
                     </Menu.Item>
                     <Menu.Item>
-                        <Link href="tasks">
-                            <Button compact>
-                                Notificaciones
-                            </Button>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item>
                         <Button.Group >
                             <Button basic compact toggle active={visible.suelo} onClick={visibleSuelo}>
                                 Suelo
@@ -45,17 +40,17 @@ export const SideNavBar = ({ children }) => {
                         {visible.suelo ? (
                             <Button.Group compact>
                                 <Button compact>
-                                    <Link href='ground'>
+                                    <Link href='/ground'>
                                         Temperatura
                                     </Link>
                                 </Button>
                                 <Button compact>
-                                    <Link href='ground/humidity'>
+                                    <Link href='/ground/humidity'>
                                         Humedad
                                     </Link>
                                 </Button>
                                 <Button compact>
-                                    <Link href='ground/ph'>
+                                    <Link href='/ground/ph'>
                                         Ph
                                     </Link>
                                 </Button>
@@ -72,51 +67,69 @@ export const SideNavBar = ({ children }) => {
                         {visible.aire ? (
                             <Button.Group compact>
                                 <Button compact>
-                                    <Link href='airquality'>
+                                    <Link href='/airquality'>
                                         Temperatura
                                     </Link>
                                 </Button>
                                 <Button compact>
-                                    <Link href='airquality/humidity'>
+                                    <Link href='/airquality/humidity'>
                                         Humedad
                                     </Link>
                                 </Button>
                                 <Button compact>
-                                    <Link href='airquality/radiation'>
-                                        radiacion solar
+                                    <Link href='/airquality/radiation'>
+                                        Radiación solar
+                                    </Link>
+                                </Button>
+                                <Button compact>
+                                    <Link href='/airquality/luminic'>
+                                        Luminosidad
+                                    </Link>
+                                </Button>
+                                <Button compact>
+                                    <Link href='/airquality/tds'>
+                                        TDS en Agua
+                                    </Link>
+                                </Button>
+                                <Button compact>
+                                    <Link href='/airquality/co2'>
+                                        CO2 en ambiente
                                     </Link>
                                 </Button>
                             </Button.Group>
                         ) : (<div></div>)
                         }
                     </Menu.Item>
-                    <Menu.Item>
-                        <Link href='manage'>
-                            <Button compact>
-                                Control de invernadero
-                            </Button>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <Link href='sensor'>
-                            <Button compact>
-                                Sensores
-                            </Button>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Menu position="right">
-                        <Menu.Item>
-                            <Link href='tasks/new'>
-                                <Button icon positive labelPosition="right" size="tiny">
-                                    Nueva tarea
-                                    <Icon name="plus" />
-                                </Button>
-                            </Link>
-                        </Menu.Item>
-                    </Menu.Menu>
+                    {
+                        !(visible.aire) ? (
+                            <>
+                                <Menu.Item>
+                                    <Link href="tasks">
+                                        <Button compact>
+                                            Notificaciones
+                                        </Button>
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <Link href='manage'>
+                                        <Button compact>
+                                            Control de invernadero
+                                        </Button>
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <Link href='sensor'>
+                                        <Button compact>
+                                            Sensores
+                                        </Button>
+                                    </Link>
+                                </Menu.Item>
+                            </>
+                        ) : (<div></div>)
+                    }
                 </Container>
             </Menu>
-            <Container fluid style={{ marginTop: "12vh" }}>
+            <Container fluid style={{ marginTop: "12vh", marginBotton: "12vh" }}>
                 <Grid container stretched inverted centered columns={1} style={{ height: "88vh" }}>
                     <Grid.Column textAlign="center" verticalAlign='middle'>
                         {children}

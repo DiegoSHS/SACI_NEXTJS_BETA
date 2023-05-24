@@ -5,8 +5,7 @@ import { useEffect, useState } from "react"
 import { connex } from "@/models/dbconn"
 import { getDetailedLogs } from "@/models/transactions"
 import { GenerateCheckBox } from "@/components/Checkbox"
-
-export const validateFetch = (records, key) => (records === {} || records.saci === undefined || records.saci[key] === undefined)
+import { validateFetch } from "."
 
 const HomePage = ({ data }) => {
     const { records, setrecords } = StoredContext()
