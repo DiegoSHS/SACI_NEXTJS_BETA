@@ -18,11 +18,14 @@ const Index = ({ data }) => {
     return (
         <>
             <Header size="large">Sensores</Header>
-            <Link href='sensor/new'>
-                <Button icon positive labelPosition="right" size="tiny">
-                    Nueva tarea
-                    <Icon name="plus" />
-                </Button>
+            <Link href='/sensor/new'>
+                <Button
+                    style={{ marginBottom: '10px' }}
+                    icon='plus'
+                    content='Nuevo sensor'
+                    positive
+                    labelPosition="right"
+                    size="tiny" />
             </Link>
             {
                 sensors == undefined || sensors.length === 0 ? <NoData /> : <SensorCards data={sensors} />

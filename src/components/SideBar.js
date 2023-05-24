@@ -7,6 +7,7 @@ export const tscolor = {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     backdropFilter: 'blur(10px)'
 }
+const styl = { backgroundImage: 'url(/body.jpg)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backdropFilter: 'blur(10px)' }
 
 export const SideNavBar = ({ children }) => {
     const [visible, setvisible] = useState({ suelo: false, aire: false })
@@ -17,8 +18,8 @@ export const SideNavBar = ({ children }) => {
     return (
         <Grid columns={1}>
             <Notify />
-            <Menu borderless fixed='top' style={tscolor}>
-                <Container style={{overflowX:'auto'}}>
+            <Menu borderless fixed='top' style={{ ...tscolor, position: 'sticky' }}>
+                <Container style={{ overflowX: 'auto' }}>
                     <Menu.Item >
                         <Link href="/">
                             <Button compact positive animated>
@@ -101,26 +102,33 @@ export const SideNavBar = ({ children }) => {
                         }
                     </Menu.Item>
                     {
-                        !(visible.aire) ? (
+                        !(visible.aire || visible.suelo) ? (
                             <>
                                 <Menu.Item>
-                                    <Link href="tasks">
+                                    <Link href="/tasks">
                                         <Button compact>
                                             Notificaciones
                                         </Button>
                                     </Link>
                                 </Menu.Item>
                                 <Menu.Item>
-                                    <Link href='manage'>
+                                    <Link href='/manage'>
                                         <Button compact>
                                             Control de invernadero
                                         </Button>
                                     </Link>
                                 </Menu.Item>
                                 <Menu.Item>
-                                    <Link href='sensor'>
+                                    <Link href='/sensor'>
                                         <Button compact>
                                             Sensores
+                                        </Button>
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <Link href='/about'>
+                                        <Button compact>
+                                            Acerca de
                                         </Button>
                                     </Link>
                                 </Menu.Item>
@@ -129,8 +137,8 @@ export const SideNavBar = ({ children }) => {
                     }
                 </Container>
             </Menu>
-            <Container fluid style={{ marginTop: "12vh", marginBotton: "12vh" }}>
-                <Grid container stretched inverted centered columns={1} style={{ height: "88vh" }}>
+            <Container fluid style={{ marginTop: "5vh", marginBottom: "5vh" }} >
+                <Grid container stretched inverted centered columns={1}>
                     <Grid.Column textAlign="center" verticalAlign='middle'>
                         {children}
                     </Grid.Column>

@@ -1,7 +1,9 @@
+import { Header } from "semantic-ui-react"
+
 const Manage = () => {
     return (
         <div>
-            <h1>Manage</h1>
+            <Header size="large">Manage</Header>
         </div>
     )
 }
