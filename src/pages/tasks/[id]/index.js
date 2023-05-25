@@ -1,4 +1,4 @@
-import { deleteTask } from "@/requests/task"
+import { deleteTask, getTask } from "@/requests/task"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
@@ -20,7 +20,10 @@ export default function TaksDetail({ task, error }) {
     setisDeleting(true)
     toast.promise(deleteTask(id), {
       loading: "Eliminando",
-      success: "Eliminado",
+      success: () => {
+        setisDeleting(false)
+        return "Eliminado"
+      },
       error: "Error al eliminar"
     })
     close()
@@ -74,21 +77,10 @@ export default function TaksDetail({ task, error }) {
 }
 
 export const getServerSideProps = async ({ query: { id } }) => {
-  const res = await fetch(`http://localhost:3000/api/tasks/${id}`)
-  if (res.status === 200) {
-    const task = await res.json()
-    return {
-      props: {
-        task
-      }
-    }
-  }
+  const task = await getTask(id)
   return {
     props: {
-      error: {
-        statusCode: res.status,
-        statusText: "Invalid id"
-      }
+      task
     }
   }
 }

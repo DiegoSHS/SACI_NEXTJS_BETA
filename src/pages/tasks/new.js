@@ -29,12 +29,17 @@ const TaksFormPage = () => {
         if (Object.values(errorss).length) setErrors(errors)
         if (isValid) {
             setisSaving(true)
-            if (query.id) {
-                isSuccess = await updateTask(newTask, query.id)
-            } else {
-                isSuccess = await createTask(newTask)
-            }
-            isSuccess ? toast.success("Guardado") : toast.error("Hubo un error al guardar")
+            toast.promise(
+                query.id ? updateTask(newTask, query.id) : createTask(newTask),
+                {
+                    loading: "Guardando",
+                    success: () => {
+                        setisSaving(false)
+                        return "Guardado"
+                    },
+                    error: "Error al guardar"
+                }
+            )
             await push("/tasks")
         }
     }
@@ -42,7 +47,13 @@ const TaksFormPage = () => {
     const handChange = e => setNewTask({ ...newTask, [e.target.name]: e.target.value })
 
     useEffect(() => {
-        if (query.id) getTask(query.id, setNewTask)
+        const fetchTask = async () => {
+            const task = await getTask(query.id)
+            setNewTask(task)
+        }
+        if (query.id){
+            fetchTask()
+        }
     }, [])
 
     return (

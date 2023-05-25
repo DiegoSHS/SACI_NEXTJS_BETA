@@ -35,16 +35,19 @@ const SensorForm = () => {
     const handleSubmit = async e => {
         e.preventDefault()
         const { errors, isValid } = validSensorForm(newSensor)
-        let isSuccess = false
         if (Object.values(errors).length) setErrors(errors)
         if (isValid) {
-            setisSaving(true)
-            if (query.id) {
-                isSuccess = await updateSensor(newSensor, query.id)
-            } else {
-                isSuccess = await createSensor(newSensor)
-            }
-            isSuccess ? toast.success("Guardado") : toast.error("Hubo un error al guardar")
+            toast.promise(
+                query.id ? updateSensor(newSensor, query.id) : createSensor(newSensor),
+                {
+                    loading: "Guardando",
+                    success: () => {
+                        setisSaving(false)
+                        return "Guardado"
+                    },
+                    error: "Error al guardar"
+                }
+            )
             await push("/sensor")
         }
     }
