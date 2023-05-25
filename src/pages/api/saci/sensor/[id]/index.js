@@ -13,7 +13,7 @@ const handler = async (req, res) => {
                 return res.status(500).json({ error: error.message })
             }
         case "PUT":
-            try {
+            try { 
                 const validate = validSensor(body)
                 if (!validate) return res.status(400).json({ error: "Invalid sensor data" })
                 const newSensor = await collection.updateOne({ _id: new ObjectId(id) }, { $set: body })

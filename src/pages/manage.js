@@ -1,11 +1,28 @@
+import { NoData } from "@/components/NoTasks"
+import { ActuatorCards } from "@/components/SensorCard"
+import { connex } from "@/models/dbconn"
+import { getActuators } from "@/models/transactions"
 import { Header } from "semantic-ui-react"
 
-const Manage = () => {
+const State = ({data}) => {
     return (
-        <div>
-            <Header size="large">Manage</Header>
-        </div>
+        <>
+            <Header size='large'>Control de actuadores</Header>
+            {
+                data === undefined || data.length === 0 ? <NoData /> : <ActuatorCards data={data} />
+            }
+        </>
     )
 }
 
-export default Manage
+export const getServerSideProps = async () => {
+    const { collection } = await connex(process.env.SDB, 'sensors')
+    const data = await getActuators(collection)
+    return {
+        props: {
+            data
+        }
+    }
+}
+
+export default State
