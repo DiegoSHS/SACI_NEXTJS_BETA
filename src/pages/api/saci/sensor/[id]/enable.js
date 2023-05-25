@@ -1,5 +1,5 @@
 import { connex } from "@/models/dbconn"
-import { getActuators } from "@/models/transactions"
+import { getActuator } from "@/models/transactions"
 import { validState } from "@/validation/transaction"
 
 const handler = async (req, res) => {
@@ -8,8 +8,9 @@ const handler = async (req, res) => {
     switch (method) {
         case "GET":
             try {
-                const sensors = await getActuators(collection)
-                return res.status(200).json(sensors)
+                const sensor = await getActuator(collection, id)
+                if (sensor.length === 0) return res.status(404).json({ error: "Invalid actuator" })
+                return res.status(200).json(sensor[0])
             }
             catch (error) {
                 return res.status(500).json({ error: error.message })
