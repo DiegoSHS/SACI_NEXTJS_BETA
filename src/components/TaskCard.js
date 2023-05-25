@@ -20,7 +20,7 @@ const TaskCard = (task) => {
                 <Card.Description>{task.description}</Card.Description>
             </Card.Content>
             <Card.Content extra>
-                <Button primary circular animated="fade" style={{ margin: '1px' }} onClick={() => router.push(`/tasks/${task._id}`)}>
+                <Button positive circular animated="fade" style={{ margin: '1px' }} onClick={() => router.push(`/tasks/${task._id}`)}>
                     <Button.Content visible>Ver</Button.Content>
                     <Button.Content hidden>
                         <Icon name="eye"></Icon>

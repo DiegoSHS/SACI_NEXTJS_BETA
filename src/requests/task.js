@@ -20,9 +20,10 @@ export const updateTask = async (task, id) => {
     }
 }
 
-export const getTask = async (id, fn) => {
-    const { data } = await axios.get(`/api/tasks/${id}`)
-    fn(data)
+export const getTask = async (id) => {
+    const res = await axios.get(`/api/tasks/${id}`)
+    console.log(res)
+    return data
 }
 
 export const deleteTask = async (id) => {

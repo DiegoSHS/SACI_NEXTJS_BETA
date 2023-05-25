@@ -1,30 +1,29 @@
 import axios from "axios"
 
+const url = '/api/saci'
+
 export const createSensor = async (sensor) => {
     try {
-        await axios.post('/api/sensor', sensor)
+        await axios.post(`${url}/sensor`, sensor)
         return true
     } catch (error) {
-        return false
+        return 
     }
 }
 export const updateSensor = async (sensor, id) => {
     try {
-        await axios.put(`/api/sensor/${id}`, sensor)
+        await axios.put(`${url}/sensor/${id}`, sensor)
         return true
     } catch (error) {
-        return false
+        return
     }
 }
-export const getSensor = async (id, fn) => {
-    const { data } = await axios.get(`/api/sensor/${id}`)
-    fn(data)
-}
+
 export const enableSensor = async (id, enable) => {
     try {
-        await axios.put(`/api/sensor/${id}/enable`, { enable })
+        await axios.put(`${url}/sensor/${id}/enable`, { enable })
         return true
     } catch (error) {
-        return false
+        return
     }
 }

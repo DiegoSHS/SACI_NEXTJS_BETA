@@ -1,7 +1,7 @@
 import { enableSensor } from "@/requests/sensor"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
-import { Button, Card, Label, LabelGroup } from "semantic-ui-react"
+import { Button, Card, Icon, Label, LabelGroup } from "semantic-ui-react"
 
 export const SensorCards = ({ data }) => {
     return (
@@ -45,25 +45,35 @@ export const ActuatorCards = ({ data }) => {
 }
 
 const ActuatorCard = (actuator) => {
-    const { id, name, description, state, module } = actuator
+    const { name, description, state, module } = actuator
     const [enable, setEnable] = useState(state)
     const [updating, setUpdating] = useState(false)
-    const toggleUpdate = () => setUpdating(!updating)
+    const toggleEnable = () => setEnable(!enable)
 
     const handleUpdate = async () => {
-        toggleUpdate()
-        toast.promise(enableSensor(id, !enable), {
-            loading: "Actualizando",
-            success: "Actualizado",
-            error: "Error al actualizar"
-        })
-        toggleUpdate()
-        setEnable(!enable)
+        setUpdating(true)
+        toast.promise(
+            enableSensor(name, !enable),
+            {
+                loading: 'Actualizando',
+                success: () => {
+                    toggleEnable()
+                    setUpdating(false)
+                    return (enable ? 'Encendido' : 'Apagado')
+                },
+                error: 'Error al actualizar'
+            }, {
+            success: {
+                duration: 1500,
+                icon: enable ? <Icon color="green" name="power" /> : <Icon color="red" name="power" />,
+            }
+        }
+        )
     }
 
 
     return (
-        <Card key={id}>
+        <Card key={name}>
             <Card.Content>
                 <Card.Header>{name}</Card.Header>
                 <Card.Description>{description}</Card.Description>

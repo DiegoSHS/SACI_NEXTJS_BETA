@@ -1,4 +1,11 @@
 import { months } from "@/utils/sortRegisters"
+import { ObjectId } from "mongodb"
+
+const serizalize = (data) => {
+    const json = JSON.stringify(data)
+    const parsed = JSON.parse(json)
+    return parsed
+}
 
 export const aggregations = (collection, month, id) => {
     return collection.aggregate([
@@ -16,6 +23,7 @@ export const aggregations = (collection, month, id) => {
         { $project: { _id: 0, } }
     ]).toArray()
 }
+
 export const monthsAvg = (collection, id) => {
     return collection.aggregate([
         { $match: { id: id } },
@@ -32,6 +40,7 @@ export const monthsAvg = (collection, id) => {
         { $project: { _id: 0, } }
     ]).toArray()
 }
+
 export const generateLogs = (collection, id) => {
     return collection.aggregate([
         { $match: { id: id } },
@@ -53,8 +62,13 @@ export const getDetailedLogs = async (collection, id) => {
 
 export const getLogs = async (collection) => {
     const logs = await collection.find({}).toArray()
-    const json = JSON.stringify(logs)
-    const data = JSON.parse(json)
+    const data = serizalize(logs)
+    return data
+}
+
+export const getById = async (collection, id) => {
+    const logs = await collection.find({ id: id }).toArray()
+    const data = serizalize(logs)
     return data
 }
 
