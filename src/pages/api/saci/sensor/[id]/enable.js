@@ -1,6 +1,6 @@
+import { connex } from "@/models/dbconn"
 import { getActuators } from "@/models/transactions"
-
-const { validState } = require("@/validation/transaction")
+import { validState } from "@/validation/transaction"
 
 const handler = async (req, res) => {
     const { method, body, query: { id } } = req
@@ -19,7 +19,7 @@ const handler = async (req, res) => {
                 const valid = validState(body, id)
                 if (!valid) return res.status(400).json({ error: "Invalid state data" })
                 const { enable } = body
-                const result = await collection.updateOne({ name: id }, { $set: { encendido: enable } })
+                const result = await collection.updateOne({ name: id }, { $set: { state: enable } })
                 return res.status(200).json(result)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
