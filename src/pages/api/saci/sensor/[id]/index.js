@@ -7,13 +7,13 @@ const handler = async (req, res) => {
     switch (method) {
         case "GET":
             try {
-                const sensor = await collection.findOne({ _id: new ObjectId(id) })
+                const sensor = await collection.findOne({ name: id })
                 return res.status(200).json(sensor)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
             }
         case "PUT":
-            try { 
+            try {
                 const validate = validSensor(body)
                 if (!validate) return res.status(400).json({ error: "Invalid sensor data" })
                 const newSensor = await collection.updateOne({ _id: new ObjectId(id) }, { $set: body })
