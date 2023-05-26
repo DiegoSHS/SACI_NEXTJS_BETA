@@ -59,13 +59,13 @@ const ActuatorCard = (actuator) => {
                 success: () => {
                     toggleEnable()
                     setUpdating(false)
-                    return (enable ? 'Encendido' : 'Apagado')
+                    return (enable ? 'Apagado' : 'Encendido')
                 },
                 error: 'Error al actualizar'
             }, {
             success: {
                 duration: 1500,
-                icon: enable ? <Icon color="green" name="power" /> : <Icon color="red" name="power" />,
+                icon: enable ? <Icon color="red" name="power" /> : <Icon color="green" name="power" />,
             }
         }
         )
