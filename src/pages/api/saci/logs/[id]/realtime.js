@@ -1,5 +1,5 @@
 import { connex } from "@/models/dbconn"
-import { generateLogs } from "@/models/transactions"
+import { generateLogs } from "@/models/transactions/logs"
 
 const handeling = async (req, res) => {
     const { method, query: { id } } = req

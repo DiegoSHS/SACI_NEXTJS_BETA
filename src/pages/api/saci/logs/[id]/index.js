@@ -1,7 +1,5 @@
-import { aggregations, generateLogs, monthsAvg } from "@/models/transactions"
+import { getDetailedLogs } from "@/models/transactions/logs"
 import { connex } from "@/models/dbconn"
-import { months } from "@/utils/sortRegisters"
-
 const handler = async (req, res) => {
     try {
         const { method, query: { id } } = req
