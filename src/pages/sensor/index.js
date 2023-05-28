@@ -5,7 +5,7 @@ import { validateFetch } from "../ground"
 import { useEffect } from "react"
 import { Button, Header, Icon } from "semantic-ui-react"
 import { connex } from "@/models/dbconn"
-import { getLogs } from "@/models/transactions"
+import { getLogs } from "@/models/transactions/logs"
 import Link from "next/link"
 
 const Index = ({ data }) => {

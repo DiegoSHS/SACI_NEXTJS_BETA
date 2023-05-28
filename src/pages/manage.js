@@ -1,7 +1,7 @@
 import { NoData } from "@/components/NoTasks"
 import { ActuatorCards } from "@/components/SensorCard"
 import { connex } from "@/models/dbconn"
-import { getActuators } from "@/models/transactions"
+import { getActuators } from "@/models/transactions/sensor"
 import { Header } from "semantic-ui-react"
 
 const State = ({data}) => {

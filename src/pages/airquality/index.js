@@ -3,7 +3,7 @@ import { Header, Tab } from "semantic-ui-react"
 import { StoredContext } from "@/context/context"
 import { useEffect } from "react"
 import { connex } from "@/models/dbconn"
-import { getDetailedLogs } from "@/models/transactions"
+import { getDetailedLogs } from "@/models/transactions/logs"
 import { validateFetch } from "../ground"
 
 const HomePage = ({ data }) => {
