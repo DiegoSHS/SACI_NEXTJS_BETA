@@ -1,5 +1,5 @@
 import { connex } from "@/models/dbconn"
-import { getActuator } from "@/models/transactions"
+import { getActuator } from "@/models/transactions/sensor"
 import { validState } from "@/validation/transaction"
 
 const handler = async (req, res) => {
