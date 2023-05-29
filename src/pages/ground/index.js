@@ -5,7 +5,12 @@ import { useEffect, useState } from "react"
 import { connex } from "@/models/dbconn"
 import { getDetailedLogs } from "@/models/transactions/logs"
 import { GenerateCheckBox } from "@/components/Checkbox"
-
+/**
+ * Validate if the field is in the records object
+ * @param {Object} records object with the records of the sensors
+ * @param {String} key field to validate
+ * @returns {Boolean} true if the field is in the records object or false if not
+ */
 export const validateFetch = (records, key) => (records === {} || records.saci === undefined || records.saci[key] === undefined)
 
 const HomePage = ({ data }) => {
