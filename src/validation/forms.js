@@ -1,3 +1,8 @@
+/**
+ * Valifate the form of the tasks
+ * @param {Object} task object with the task data
+ * @returns 
+ */
 export const validTaskForm = (task) => {
     const errorss = {}
     const { title, description } = task
@@ -7,7 +12,11 @@ export const validTaskForm = (task) => {
     const isValid = fields.every(field => field !== "" && field !== undefined)
     return { errorss, isValid }
 }
-
+/**
+ * Validate the form of the sensors
+ * @param {Object} sensor object with the sensor data
+ * @returns 
+ */
 export const validSensorForm = (sensor) => {
     const errors = {}
     const fields = Object.values(sensor)
