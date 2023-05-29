@@ -1,3 +1,11 @@
+import { Collection } from "mongodb"
+
+/**
+ * Get last value of a sensor
+ * @param {Collection} collection collection object
+ * @param {String} id name of the sensor
+ * @returns 
+ */
 export const getLast = (collection, id) => {
     return collection.aggregate([
         { $match: { id: id } },
@@ -6,7 +14,11 @@ export const getLast = (collection, id) => {
         { $limit: 1 },
     ]).toArray()
 }
-
+/**
+ * Gets the last value of each sensor, if are more than one sensor, it gets the average
+ * @param {Collection} collection collection object
+ * @returns 
+ */
 export const getSummary = async (collection) => {
     const tempPromises = await Promise.allSettled([
         getLast(collection, 'temperatura_suelo'),
