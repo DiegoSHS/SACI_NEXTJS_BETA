@@ -15,7 +15,7 @@ const serizalize = (data) => {
  * @param {Collection} collection Name of the collection
  * @param {String} month Month to filter
  * @param {String} id the name of the sensor
- * @returns Returns a promise with the result of the query
+ * @returns {Promise} Returns a promise with the result of the query 
  */
 export const aggregations = (collection, month, id) => {
     return collection.aggregate([
@@ -37,7 +37,7 @@ export const aggregations = (collection, month, id) => {
  * Generates the average of the logs of a sensor by month
  * @param {Collection} collection 
  * @param {String} id the name of the sensor
- * @returns Returns a promise with the result of the query
+ * @returns {Promise} Returns a promise with the result of the query
  */
 export const monthsAvg = (collection, id) => {
     return collection.aggregate([
@@ -104,4 +104,20 @@ export const getById = async (collection, id) => {
     const logs = await collection.find({ id: id }).toArray()
     const data = serizalize(logs)
     return data
+}
+
+export const getActuator = async (collection, id) => {
+    const actuators = await collection.aggregate([
+        { $match: { module: 'actuador', name: id } },
+        { $project: { _id: 0, name: 1, state: 1 } }
+    ]).toArray()
+    return actuators
+}
+
+export const getActuators = async (collection) => {
+    const actuators = await collection.aggregate([
+        { $match: { module: 'actuador' } },
+        { $project: { _id: 0 } }
+    ]).toArray()
+    return actuators
 }
