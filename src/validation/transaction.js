@@ -1,5 +1,9 @@
 import { connex } from "@/models/dbconn"
-
+/**
+ * Validate the log object (all fields)
+ * @param {Object} log object with the log data
+ * @returns {Boolean} true if the object is valid
+ */
 const validLog = (log) => {
     const { id, value, date, year, month, monthName, day } = log
     const fields = Object.values(log)
@@ -14,7 +18,11 @@ const validLog = (log) => {
     if (typeof day !== 'number') errors.push(false)
     return (errors.length === 0 && valid)
 }
-
+/**
+ * Validate the log object (only id and value)
+ * @param {Object} log object with the log data
+ * @returns {Boolean} true if the object is valid
+ */
 export const validOnelog = (log) => {
     const { id, value } = log
     const fields = Object.values(log)
@@ -24,12 +32,22 @@ export const validOnelog = (log) => {
     if (typeof value !== 'number') errors.push(false)
     return (errors.length === 0 && valid)
 }
-
+/**
+ * Validate an array of logs
+ * @param {Array} logs array of logs
+ * @returns {Boolean} true if all the logs are valid
+ */
 export const validLogs = (logs) => {
     const valid = logs.every(validLog)
     return valid
 }
-
+/**
+ * Check if the value is under the minimum, above the maximum or normal
+ * @param {Number} value the value to check
+ * @param {Number} min minimum value
+ * @param {Number} max maximum value
+ * @returns object with the type of the value and critic (true if the value is under the minimum or above the maximum)  
+ */
 const checkValue = (value, min, max) => ({
     type: value < min ? 'under the minimum' : value > max ? 'above the maximum' : 'normal',
     critic: value < min || value > max
