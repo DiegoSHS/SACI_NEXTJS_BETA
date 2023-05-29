@@ -55,7 +55,11 @@ const SensorForm = () => {
     const handChange = e => setNewSensor({ ...newSensor, [e.target.name]: e.target.value })
 
     useEffect(() => {
-        if (query.id) getSensor(query.id, setNewSensor)
+        const fetchSensor = async () => {
+            const sensor = await getSensor(query.id)
+            setNewSensor(sensor)
+        }
+        if (query.id) fetchSensor()
     }, [])
 
     return (
