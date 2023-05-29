@@ -40,7 +40,7 @@ const validateClient = async () => {
  * 
  * @param {String} dbname The name of the database
  * @param {String} collec The name of the collection
- * @returns {Collection} Returns an object with the collection and the database
+ * @returns {Collection} Returns an object with the collection
  */
 export const connex = async (dbname = 'test', collec = 'tasks') => {
     try {
