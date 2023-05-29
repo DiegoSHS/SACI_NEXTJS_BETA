@@ -15,7 +15,7 @@ const serizalize = (data) => {
  * @param {Collection} collection Name of the collection
  * @param {String} month Month to filter
  * @param {String} id the name of the sensor
- * @returns {Promise} Returns a promise with the result of the query 
+ * @returns Returns a promise with the result of the query
  */
 export const aggregations = (collection, month, id) => {
     return collection.aggregate([
@@ -37,7 +37,7 @@ export const aggregations = (collection, month, id) => {
  * Generates the average of the logs of a sensor by month
  * @param {Collection} collection 
  * @param {String} id the name of the sensor
- * @returns {Promise} Returns a promise with the result of the query
+ * @returns Returns a promise with the result of the query
  */
 export const monthsAvg = (collection, id) => {
     return collection.aggregate([
@@ -69,7 +69,12 @@ export const generateLogs = (collection, id) => {
         { $project: { _id: 0 } }
     ]).toArray()
 }
-
+/**
+ * Generates the logs of a sensor in detail
+ * @param {Collection} collection the collection object 
+ * @param {String} id the name of the sensor
+ * @returns {Promise} returns an object with the logs, the average of the days and the average of the months 
+ */
 export const getDetailedLogs = async (collection, id) => {
     const logs = await generateLogs(collection, id)
     const monthAvg = await monthsAvg(collection, id)
@@ -79,31 +84,24 @@ export const getDetailedLogs = async (collection, id) => {
     const daysAvg = days.filter(e => e.length > 0)
     return { logs, daysAvg, monthAvg }
 }
-
+/**
+ * Generates the logs of a sensor serialized
+ * @param {Collection} collection collection object
+ * @returns returns an array of objects
+ */
 export const getLogs = async (collection) => {
     const logs = await collection.find({}).toArray()
     const data = serizalize(logs)
     return data
 }
-
+/**
+ * Generates the logs of a sensor by name
+ * @param {Collection} collection collection object
+ * @param {String} id name of the sensor
+ * @returns 
+ */
 export const getById = async (collection, id) => {
     const logs = await collection.find({ id: id }).toArray()
     const data = serizalize(logs)
     return data
-}
-
-export const getActuator = async (collection, id) => {
-    const actuators = await collection.aggregate([
-        { $match: { module: 'actuador', name: id } },
-        { $project: { _id: 0, name: 1, state: 1 } }
-    ]).toArray()
-    return actuators
-}
-
-export const getActuators = async (collection) => {
-    const actuators = await collection.aggregate([
-        { $match: { module: 'actuador' } },
-        { $project: { _id: 0 } }
-    ]).toArray()
-    return actuators
 }
