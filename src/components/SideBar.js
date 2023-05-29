@@ -7,7 +7,6 @@ export const tscolor = {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     backdropFilter: 'blur(10px)'
 }
-const styl = { backgroundImage: 'url(/body.jpg)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backdropFilter: 'blur(10px)' }
 
 export const SideNavBar = ({ children }) => {
     const [visible, setvisible] = useState({ suelo: false, aire: false })
