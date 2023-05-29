@@ -1,11 +1,22 @@
 import { months } from "@/utils/sortRegisters"
-
+import { Collection, MongoClient } from 'mongodb'
+/**
+ * 
+ * @param {Array} data Array of objects
+ * @returns {Array} Returns an array of objects
+ */
 const serizalize = (data) => {
     const json = JSON.stringify(data)
     const parsed = JSON.parse(json)
     return parsed
 }
-
+/**
+ * Generates the average of the logs of a sensor by day of the month
+ * @param {Collection} collection Name of the collection
+ * @param {String} month Month to filter
+ * @param {String} id the name of the sensor
+ * @returns {Promise} Returns a promise with the result of the query 
+ */
 export const aggregations = (collection, month, id) => {
     return collection.aggregate([
         { $match: { month: month, id: id } },
@@ -22,7 +33,12 @@ export const aggregations = (collection, month, id) => {
         { $project: { _id: 0, } }
     ]).toArray()
 }
-
+/**
+ * Generates the average of the logs of a sensor by month
+ * @param {Collection} collection 
+ * @param {String} id the name of the sensor
+ * @returns {Promise} Returns a promise with the result of the query
+ */
 export const monthsAvg = (collection, id) => {
     return collection.aggregate([
         { $match: { id: id } },
@@ -39,7 +55,12 @@ export const monthsAvg = (collection, id) => {
         { $project: { _id: 0, } }
     ]).toArray()
 }
-
+/**
+ * Generates the logs of a sensor
+ * @param {Collection} collection the collection object
+ * @param {String} id the name of the sensor
+ * @returns {Promise} Returns a promise with the result of the query
+ */
 export const generateLogs = (collection, id) => {
     return collection.aggregate([
         { $match: { id: id } },
@@ -74,7 +95,7 @@ export const getById = async (collection, id) => {
 export const getActuator = async (collection, id) => {
     const actuators = await collection.aggregate([
         { $match: { module: 'actuador', name: id } },
-        { $project: { _id: 0,name:1,state:1 } }
+        { $project: { _id: 0, name: 1, state: 1 } }
     ]).toArray()
     return actuators
 }
