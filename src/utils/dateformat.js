@@ -1,5 +1,10 @@
 import { months } from "./sortRegisters"
-
+/**
+ * Formats a date to YYYY-MM-DD HH:MM:SS or parts of the date
+ * @param {Date} indate date to format
+ * @param {Boolean} mode mode to format the date, true for full date, false for date parts
+ * @returns 
+ */
 export const formatter = (indate, mode = true) => {
     const begin = {
         "isDate": indate instanceof Date && !isNaN(indate.valueOf()),
