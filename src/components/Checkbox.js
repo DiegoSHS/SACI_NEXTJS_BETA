@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form } from "semantic-ui-react"
+import { Checkbox, Form } from "semantic-ui-react"
 
 export const GenerateCheckBox = ({ data, sensor, stateFn }) => {
     const checked = (e, data) => stateFn(data.value)

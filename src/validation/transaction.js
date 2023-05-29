@@ -52,7 +52,12 @@ const checkValue = (value, min, max) => ({
     type: value < min ? 'under the minimum' : value > max ? 'above the maximum' : 'normal',
     critic: value < min || value > max
 })
-
+/**
+ * Create a task in the database
+ * @param {String} id name of the sensor
+ * @param {String} type type of the value (under the minimum or above the maximum)
+ * @returns 
+ */
 const createTask = async (id, type) => {
     const { collection } = await connex(process.env.TDB, 'tasks')
     const fields = {
@@ -62,7 +67,11 @@ const createTask = async (id, type) => {
     const task = await collection.insertOne(fields)
     return task
 }
-
+/**
+ * Check the minimun and maximun values of the sensor and create a task if the values in the log are under the minimum or above the maximum
+ * @param {Object} log object with the log data
+ * @returns false if the value is normal or the result of inserting the task
+ */
 export const criticalTask = async (log) => {
     const { id, value } = log
     const { collection } = await connex(process.env.SDB, 'sensors')
@@ -74,7 +83,11 @@ export const criticalTask = async (log) => {
     }
     return false
 }
-
+/**
+ * Check if the sensor is valid (all fields)
+ * @param {Object} sensor object with the sensor data
+ * @returns {Boolean} true if the sensor is valid or false if not
+ */
 export const validSensor = (sensor) => {
     const { name, description, min, max, status, module, pin } = sensor
     const fields = Object.values(sensor)
@@ -89,7 +102,11 @@ export const validSensor = (sensor) => {
     if (typeof pin !== 'number') errors.push(false)
     return (errors.length === 0 && valid)
 }
-
+/**
+ * Check if the task is valid (only title and description)
+ * @param {Object} task object with the task data
+ * @returns {Boolean} true if the task is valid or false if not
+ */
 export const validTask = (task) => {
     const { title, description } = task
     const fields = Object.values(task)
@@ -99,7 +116,12 @@ export const validTask = (task) => {
     if (typeof description !== 'string') errors.push(false)
     return (errors.length === 0 && valid)
 }
-
+/**
+ * Check if the state is valid and the sensor exists
+ * @param {Object} body the body of the request
+ * @param {String} id the name of the sensor
+ * @returns {Boolean} true if the state is valid and the sensor exists or false if not
+ */
 export const validState = async (body, id) => {
     const { collection } = await connex(process.env.SDB, 'sensors')
     const result = await collection.findOne({ name: id })
