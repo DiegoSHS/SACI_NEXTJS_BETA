@@ -69,7 +69,12 @@ export const generateLogs = (collection, id) => {
         { $project: { _id: 0 } }
     ]).toArray()
 }
-
+/**
+ * Generates the logs of a sensor in detail
+ * @param {Collection} collection the collection object 
+ * @param {String} id the name of the sensor
+ * @returns {Promise} returns an object with the logs, the average of the days and the average of the months 
+ */
 export const getDetailedLogs = async (collection, id) => {
     const logs = await generateLogs(collection, id)
     const monthAvg = await monthsAvg(collection, id)
@@ -79,13 +84,22 @@ export const getDetailedLogs = async (collection, id) => {
     const daysAvg = days.filter(e => e.length > 0)
     return { logs, daysAvg, monthAvg }
 }
-
+/**
+ * Generates the logs of a sensor serialized
+ * @param {Collection} collection collection object
+ * @returns returns an array of objects
+ */
 export const getLogs = async (collection) => {
     const logs = await collection.find({}).toArray()
     const data = serizalize(logs)
     return data
 }
-
+/**
+ * Generates the logs of a sensor by name
+ * @param {Collection} collection collection object
+ * @param {String} id name of the sensor
+ * @returns 
+ */
 export const getById = async (collection, id) => {
     const logs = await collection.find({ id: id }).toArray()
     const data = serizalize(logs)
