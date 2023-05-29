@@ -51,9 +51,7 @@ const TaksFormPage = () => {
             const task = await getTask(query.id)
             setNewTask(task)
         }
-        if (query.id){
-            fetchTask()
-        }
+        if (query.id) fetchTask()
     }, [])
 
     return (
