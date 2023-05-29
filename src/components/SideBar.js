@@ -136,7 +136,7 @@ export const SideNavBar = ({ children }) => {
                     }
                 </Container>
             </Menu>
-            <Container fluid style={{ marginTop: "5vh", marginBottom: "5vh" }} >
+            <Container fluid style={{ marginTop: "5vh" }} >
                 <Grid container stretched inverted centered columns={1}>
                     <Grid.Column textAlign="center" verticalAlign='middle'>
                         {children}
