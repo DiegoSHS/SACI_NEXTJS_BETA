@@ -56,7 +56,7 @@ const HomePage = ({ summary }) => {
 }
 
 export const getServerSideProps = async () => {
-  const { data } = await axios.get('/api/saci/logs/summary')
+  const { data } = await axios.get(process.env.API_URL+'api/saci/logs/summary')
   return {
     props: {
       summary: data

@@ -31,11 +31,10 @@ export const updateTask = async (task, id) => {
 /**
  * Get the data for a specific task
  * @param {String} id id of the task
- * @returns 
+ * @returns returns the task data
  */
 export const getTask = async (id) => {
-    const res = await axios.get(`/api/tasks/${id}`)
-    console.log(res)
+    const { data } = await axios.get(`/api/tasks/${id}`)
     return data
 }
 /**

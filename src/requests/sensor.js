@@ -18,6 +18,19 @@ export const createSensor = async (sensor) => {
     }
 }
 /**
+ * Get the data for a specific sensor
+ * @param {String} id the id of the sensor
+ * @returns returns the sensor data
+ */
+export const getSensor = async (id) => {
+    try {
+        const { data } = await axios.get(`${url}/sensor/${id}`)
+        return data
+    } catch (error) {
+        return
+    }
+}
+/**
  * 
  * @param {Object} sensor object with the sensor data
  * @param {String} id name of the sensor
