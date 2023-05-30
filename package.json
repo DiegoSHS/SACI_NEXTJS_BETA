@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@flaticon/flaticon-uicons": "^2.2.0",
     "axios": "^1.4.0",
     "dotenv": "^16.0.3",
     "eslint": "8.35.0",
