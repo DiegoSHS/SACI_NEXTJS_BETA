@@ -52,7 +52,7 @@ export const updateSensor = async (sensor, id) => {
  */
 export const enableSensor = async (id, enable) => {
     try {
-        await axios.put(`${url}/sensor/${id}/enable`, { enable })
+        await axios.post(`${url}/sensor/${id}/enable`, { enable })
         return true
     } catch (error) {
         return
