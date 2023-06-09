@@ -15,13 +15,14 @@ const State = ({data}) => {
     )
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
     const { collection } = await connex(process.env.SDB, 'sensors')
     const data = await getActuators(collection)
     return {
         props: {
             data
-        }
+        },
+        revalidate: 60
     }
 }
 

@@ -1,7 +1,11 @@
 import { enableSensor } from "@/requests/sensor"
-import { useState } from "react"
+import axios from "axios"
+import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import { Button, Card, Icon, Label, LabelGroup } from "semantic-ui-react"
+import io from "socket.io-client"
+
+let socket
 
 export const SensorCards = ({ data }) => {
     return (
@@ -50,8 +54,34 @@ const ActuatorCard = (actuator) => {
     const [updating, setUpdating] = useState(false)
     const toggleEnable = () => setEnable(!enable)
 
+    const socketInit = async () => {
+        await axios.get('/api/socket')
+        socket = io()
+        socket.on('recieve-sensor-state', (state) => {
+            if (state.name === name) {
+                toast(`El sensor ${state.name} ah sido ${state.enable ? 'encendido' : 'apagado'}`,{
+                    icon: <Icon color="yellow" name="info" />
+                })
+                setEnable(state.enable)
+            }
+        })
+        console.log('setup socket')
+    }
+
+    useEffect(() => {
+        socketInit()
+    }, [])
+
+    const emitState = (name, enable) => {
+        socket.emit('send-sensor-state', {
+            name,
+            enable
+        })
+    }
+
     const handleUpdate = async () => {
         setUpdating(true)
+        emitState(name, !enable)
         toast.promise(
             enableSensor(name, !enable),
             {
