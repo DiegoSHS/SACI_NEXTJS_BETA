@@ -7,7 +7,8 @@ const socketHandler = (req, res) => {
             io.emit("recieve-sensor-state", state)
         })
     })
-
+    console.log('setting socket')
+    res.end()
 }
 
 export default socketHandler

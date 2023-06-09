@@ -15,7 +15,7 @@ const handler = async (req, res) => {
             catch (error) {
                 return res.status(500).json({ error: error.message })
             }
-        case "PUT":
+        case "POST":
             try {
                 const valid = validState(body, id)
                 if (!valid) return res.status(400).json({ error: "Invalid state data" })
