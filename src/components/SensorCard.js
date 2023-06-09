@@ -59,7 +59,9 @@ const ActuatorCard = (actuator) => {
         socket = io()
         socket.on('recieve-sensor-state', (state) => {
             if (state.name === name) {
-                toast(`El sensor ${state.name} ah sido ${state.enable ? 'encendido' : 'apagado'}`)
+                toast(`El sensor ${state.name} ah sido ${state.enable ? 'encendido' : 'apagado'}`,{
+                    icon: <Icon color="yellow" name="info" />
+                })
                 setEnable(state.enable)
             }
         })
