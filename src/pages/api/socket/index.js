@@ -1,11 +1,10 @@
 import { Server } from "socket.io"
 
 const socketHandler = async (req, res) => {
-    let acknoledged = []
     if (!res.socket.server.io) {
         console.log('setting socket')
         const io = new Server(res.socket.server, {
-            cors: { origin: '*', methods: ['GET', 'POST'], credentials: true },
+            cors: { origin: '*', methods: ['GET','POST','OPTIONS','PATCH','DELETE','PUT'], credentials: true},
             transports: ['websocket', 'polling', 'flashsocket'],
             allowEIO3: true
         })
