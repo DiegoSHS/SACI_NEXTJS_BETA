@@ -2,6 +2,9 @@ import { enableSensor } from "@/requests/sensor"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import { Button, Card, Icon, Label, LabelGroup } from "semantic-ui-react"
+import io from "socket.io-client"
+
+let socket
 
 export const SensorCards = ({ data }) => {
     return (
@@ -48,6 +51,7 @@ const ActuatorCard = (actuator, socket) => {
     const [updating, setUpdating] = useState(false)
     const { name, description, state, module } = actuator
     const [enable, setEnable] = useState(state)
+    
     useEffect(() => {
         socket.on('recieve-newactuator', (newactuator) => {
             if (newactuator.name === name) {
@@ -61,8 +65,10 @@ const ActuatorCard = (actuator, socket) => {
             }
         })
     }, [])
+
     const handleUpdate = async () => {
         setUpdating(true)
+        emitState(name, !enable)
         toast.promise(
             enableSensor(name, !enable),
             {
