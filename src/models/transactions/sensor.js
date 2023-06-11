@@ -24,3 +24,12 @@ export const getActuators = async (collection) => {
     ]).toArray()
     return actuators
 }
+export const enableActuator = async (collection, id, enable) => {
+    const { result } = await collection.updateOne({
+        module: 'actuador',
+        name: id
+    }, {
+        $set: { state: enable }
+    })
+    return result.ok === 1
+}

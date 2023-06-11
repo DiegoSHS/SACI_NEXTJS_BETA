@@ -119,14 +119,10 @@ export const validTask = (task) => {
 /**
  * Check if the state is valid and the sensor exists
  * @param {Object} body the body of the request
- * @param {String} id the name of the sensor
- * @returns {Boolean} true if the state is valid and the sensor exists or false if not
+ * @returns {Boolean} true if the state is valid and or false if not
  */
-export const validState = async (body, id) => {
-    const { collection } = await connex(process.env.SDB, 'sensors')
-    const result = await collection.findOne({ name: id })
+export const validState = async (body) => {
     const errors = []
     if (typeof body.enable !== 'boolean') errors.push(false)
-    if (typeof result === 'undefined') errors.push(false)
     return (errors.length === 0)
 }
