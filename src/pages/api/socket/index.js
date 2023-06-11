@@ -8,15 +8,18 @@ const socketHandler = async (req, res) => {
             transports: ['websocket', 'polling', 'flashsocket'],
             allowEIO3: true
         })
-        res.socket.server.io = io
         io.on("connection", (socket) => {
+            socket.broadcast.emit("user-connected")
             socket.on("send-newactuator", (actuator) => {
                 io.emit("recieve-newactuator", actuator)
             })
         })
+        res.socket.server.io = io
         console.log('setting socket')
+    } else {
+        console.log('using socket')
     }
-    return res.end()
+    res.end()
 }
 
 export default socketHandler

@@ -12,7 +12,8 @@ let socketio
 const State = ({ data }) => {
     const socket = socketio ? socketio : io()
     const socketInit = async () => {
-        socketio = io('ws://saci-indol.vercel.app/api/socket',{transports: ['websocket', 'polling', 'flashsocket']})
+        await axios.get('/api/socket')
+        socketio = io()
         return () => socket.disconnect()
     }
 
