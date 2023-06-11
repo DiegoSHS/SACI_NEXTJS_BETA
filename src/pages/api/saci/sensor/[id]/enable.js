@@ -21,7 +21,6 @@ const handler = async (req, res) => {
                 if (!valid) return res.status(400).json({ error: "Invalid state" })
                 const { enable } = body
                 const result = await enableActuator(collection, id, enable)
-                if (!result) return res.status(500).json({ error: "Error updating actuator" })
                 return res.status(200).json(result)
             } catch (error) {
                 return res.status(500).json({ error: error.message })

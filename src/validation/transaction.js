@@ -121,7 +121,7 @@ export const validTask = (task) => {
  * @param {Object} body the body of the request
  * @returns {Boolean} true if the state is valid and or false if not
  */
-export const validState = async (body) => {
+export const validState = (body) => {
     const errors = []
     if (typeof body.enable !== 'boolean') errors.push(false)
     return (errors.length === 0)
