@@ -66,6 +66,31 @@ const ActuatorCard = (actuator, socket) => {
         })
     }, [])
 
+    const socketInit = async () => {
+        await axios.get('/api/socket')
+        socket = io()
+        socket.on('recieve-sensor-state', (state) => {
+            if (state.name === name) {
+                toast(`El sensor ${state.name} ah sido ${state.enable ? 'encendido' : 'apagado'}`,{
+                    icon: <Icon color="yellow" name="info" />
+                })
+                setEnable(state.enable)
+            }
+        })
+        console.log('setup socket')
+    }
+
+    useEffect(() => {
+        socketInit()
+    }, [])
+
+    const emitState = (name, enable) => {
+        socket.emit('send-sensor-state', {
+            name,
+            enable
+        })
+    }
+
     const handleUpdate = async () => {
         setUpdating(true)
         emitState(name, !enable)
