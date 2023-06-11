@@ -1,5 +1,5 @@
 import { connex } from "@/models/dbconn"
-import { getActuator } from "@/models/transactions/sensor"
+import { enableActuator, getActuator } from "@/models/transactions/sensor"
 import { validState } from "@/validation/transaction"
 
 const handler = async (req, res) => {
@@ -17,10 +17,11 @@ const handler = async (req, res) => {
             }
         case "POST":
             try {
-                const valid = validState(body, id)
-                if (!valid) return res.status(400).json({ error: "Invalid state data" })
+                const valid = validState(body)
+                if (!valid) return res.status(400).json({ error: "Invalid state" })
                 const { enable } = body
-                const result = await collection.updateOne({ name: id }, { $set: { state: enable } })
+                const result = await enableActuator(collection, id, enable)
+                if (!result) return res.status(500).json({ error: "Error updating actuator" })
                 return res.status(200).json(result)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
