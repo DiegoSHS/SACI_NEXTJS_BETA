@@ -1,5 +1,4 @@
 import { enableSensor } from "@/requests/sensor"
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import { Button, Card, Icon, Label, LabelGroup } from "semantic-ui-react"
@@ -38,21 +37,34 @@ const SensorCard = (sensor) => {
     )
 }
 
-export const ActuatorCards = ({ data }) => {
+export const ActuatorCards = ({ data, socket }) => {
     return (
         <Card.Group centered>
             {
-                data.map(ActuatorCard)
+                data.map((actuator) => ActuatorCard(actuator, socket))
             }
         </Card.Group>
     )
 }
 
-const ActuatorCard = (actuator) => {
+const ActuatorCard = (actuator, socket) => {
+    const [updating, setUpdating] = useState(false)
     const { name, description, state, module } = actuator
     const [enable, setEnable] = useState(state)
-    const [updating, setUpdating] = useState(false)
-    const toggleEnable = () => setEnable(!enable)
+    
+    useEffect(() => {
+        socket.on('recieve-newactuator', (newactuator) => {
+            if (newactuator.name === name) {
+                console.log('actuator updated', newactuator)
+                setEnable(newactuator.state)
+                toast(`Actuador ${name} ${newactuator.state ? 'encendido' : 'apagado'}`, {
+                    icon: newactuator.state ? <Icon color="green" name="power" /> : <Icon color="red" name="power" />,
+                    id: 'update-actuator',
+                    duration: 1500
+                })
+            }
+        })
+    }, [])
 
     const socketInit = async () => {
         await axios.get('/api/socket')
@@ -87,17 +99,23 @@ const ActuatorCard = (actuator) => {
             {
                 loading: 'Actualizando',
                 success: () => {
-                    toggleEnable()
+                    setEnable(!enable)
+                    socket.emit('send-newactuator', { name, state: !enable })
                     setUpdating(false)
                     return (enable ? 'Apagado' : 'Encendido')
                 },
-                error: 'Error al actualizar'
-            }, {
-            success: {
-                duration: 1500,
-                icon: enable ? <Icon color="red" name="power" /> : <Icon color="green" name="power" />,
+                error: () => {
+                    setUpdating(false)
+                    return 'Error al actualizar'
+                }
+            },
+            {
+                id: 'enable-state',
+                success: {
+                    duration: 1500,
+                    icon: enable ? <Icon color="red" name="power" /> : <Icon color="green" name="power" />,
+                }
             }
-        }
         )
     }
 
