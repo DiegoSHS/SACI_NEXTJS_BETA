@@ -1,4 +1,5 @@
 import { enableSensor } from "@/requests/sensor"
+import axios from "axios"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import { Button, Card, Icon, Label, LabelGroup } from "semantic-ui-react"

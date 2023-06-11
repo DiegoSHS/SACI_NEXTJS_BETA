@@ -25,11 +25,11 @@ export const getActuators = async (collection) => {
     return actuators
 }
 export const enableActuator = async (collection, id, enable) => {
-    const { result } = await collection.updateOne({
+    const result = await collection.updateOne({
         module: 'actuador',
         name: id
     }, {
         $set: { state: enable }
     })
-    return result.ok === 1
+    return result
 }
