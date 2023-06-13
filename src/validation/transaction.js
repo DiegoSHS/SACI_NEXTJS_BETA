@@ -99,7 +99,7 @@ export const validSensor = (sensor) => {
     if (typeof max !== 'number') errors.push(false)
     if (typeof status !== 'boolean') errors.push(false)
     if (typeof module !== 'string') errors.push(false)
-    if (typeof pin !== 'number') errors.push(false)
+    if (typeof pin !== 'string') errors.push(false)
     return (errors.length === 0 && valid)
 }
 /**

@@ -3,15 +3,18 @@ import { validSensorForm } from "@/validation/forms"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
-import { Button, Form, Header, Icon } from "semantic-ui-react"
+import { Breadcrumb, Button, Checkbox, Divider, Form, Header, Icon, Label } from "semantic-ui-react"
 
 const SensorForm = () => {
+    const [sensorState, setSensorState] = useState(false)
+    const toggleSensorState = () => setSensorState(!sensorState)
+
     const [newSensor, setNewSensor] = useState({
         name: '',
         description: '',
-        min: '',
-        max: '',
-        state: '',
+        min: 0,
+        max: 0,
+        state: sensorState,
         module: '',
         pin: ''
     })
@@ -21,19 +24,19 @@ const SensorForm = () => {
         description: '',
         min: '',
         max: '',
-        state: '',
         module: '',
         pin: ''
     })
 
     const [isSaving, setisSaving] = useState(false)
 
-    const { name, description, min, max, state, module, pin } = errors
+    const { name, description, min, max, module, pin } = errors
 
     const { query, push } = useRouter()
 
     const handleSubmit = async e => {
         e.preventDefault()
+        setNewSensor({ ...newSensor, min: parseInt(newSensor.min), max: parseInt(newSensor.max) })
         const { errors, isValid } = validSensorForm(newSensor)
         if (Object.values(errors).length) setErrors(errors)
         if (isValid) {
@@ -83,6 +86,7 @@ const SensorForm = () => {
             </Form.Group>
             <Form.Group widths='equal'>
                 <Form.Input
+                    type="number"
                     label="Mínimo"
                     placeholder="Mínimo"
                     name="min"
@@ -90,6 +94,7 @@ const SensorForm = () => {
                     error={min ? { content: "Coloca un mínimo", pointing: "below" } : null}
                 />
                 <Form.Input
+                    type="number"
                     label="Máximo"
                     placeholder="Máximo"
                     name="max"
@@ -103,15 +108,6 @@ const SensorForm = () => {
                     onChange={handChange}
                     error={pin ? { content: "Coloca un pin", pointing: "below" } : null}
                 />
-            </Form.Group>
-            <Form.Group widths='equal'>
-                <Form.Input
-                    label="Estado"
-                    placeholder="Estado"
-                    name="state"
-                    onChange={handChange}
-                    error={state ? { content: "Coloca un estado", pointing: "below" } : null}
-                />
                 <Form.Input
                     label="Módulo"
                     placeholder="Módulo"
@@ -120,7 +116,13 @@ const SensorForm = () => {
                     error={module ? { content: "Coloca un módulo", pointing: "below" } : null}
                 />
             </Form.Group>
-
+            <Form.Group inline widths='equal'>
+                <Label color={sensorState ? 'green' : 'red'} content='Estado inicial del sensor' />
+                <Form.Group inline>
+                    <Form.Radio inline radio checked={!sensorState} onClick={toggleSensorState} label="Apagado" name="state" />
+                    <Form.Radio inline radio checked={sensorState} onClick={toggleSensorState} label="Encendido" name="state" />
+                </Form.Group>
+            </Form.Group>
             <Button circular animated positive loading={isSaving}>
                 {query.id ?
                     <>
