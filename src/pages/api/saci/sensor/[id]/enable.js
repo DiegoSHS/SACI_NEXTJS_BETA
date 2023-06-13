@@ -17,10 +17,11 @@ const handler = async (req, res) => {
             }
         case "POST":
             try {
-                const valid = validState(body)
-                if (!valid) return res.status(400).json({ error: "Invalid state" })
+                const { valid, errors } = validState(body)
+                if (!valid) return res.status(400).json({ msj: "Invalid state", errors })
                 const { enable } = body
                 const result = await enableActuator(collection, id, enable)
+                console.log(`Actuator ${id} ${enable? 'enabled': 'disabled'}`)
                 return res.status(200).json(result)
             } catch (error) {
                 return res.status(500).json({ error: error.message })

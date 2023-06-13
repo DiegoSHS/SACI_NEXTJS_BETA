@@ -9,7 +9,7 @@ export const createClient = async (uri = process.env.MONGO_URI) => {
     try {
         return await MongoClient.connect(uri)
     } catch (error) {
-        console.log(error.message)
+        console.error(`Error connecting to the database: ${error.message}`)
         return
     }
 }
@@ -25,14 +25,14 @@ let client = null
 const validateClient = async () => {
     try {
         if (client != null){
-            console.log('client already exists')
+            console.log('Using existent database client')
         }else{
-            console.log('creating a new client')
+            console.log('Creating a new database client')
             client = await createClient()
         }
         return client
     } catch (error) {
-        console.log(error)
+        console.error(`Error validating the database client: ${error.message}`)
         return
     }
 }
@@ -47,9 +47,10 @@ export const connex = async (dbname = 'test', collec = 'tasks') => {
         const client = await validateClient()
         const datab = client.db(dbname)
         const collection = datab.collection(collec)
+        console.log(`Using database ${dbname} and collection ${collec}`)
         return { collection }
     } catch (error) {
-        console.log(error)
+        console.error(`Error retrieving database collection: ${error.message}`)
         return
     }
 }

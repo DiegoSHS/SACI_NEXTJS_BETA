@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { connex } from '@/models/dbconn'
+import { validSensor } from '@/validation/transaction'
 
 const handler = async (req, res) => {
     const { collection } = await connex(process.env.SDB, 'sensors')
@@ -14,8 +15,8 @@ const handler = async (req, res) => {
             }
         case "PUT":
             try {
-                const validate = validSensor(body)
-                if (!validate) return res.status(400).json({ error: "Invalid sensor data" })
+                const { valid, errors } = validSensor(body)
+                if (!valid) return res.status(400).json({ error: "Invalid sensor data", errors })
                 const newSensor = await collection.updateOne({ _id: new ObjectId(id) }, { $set: body })
                 return res.status(201).json(newSensor)
             }
