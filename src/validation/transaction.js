@@ -86,21 +86,21 @@ export const criticalTask = async (log) => {
 /**
  * Check if the sensor is valid (all fields)
  * @param {Object} sensor object with the sensor data
- * @returns {Boolean} true if the sensor is valid or false if not
+ * @returns {Object} returns an object with the result of the validation and the errors
  */
 export const validSensor = (sensor) => {
     const { name, description, min, max, status, module, pin } = sensor
     const fields = Object.values(sensor)
     const valid = fields.every((e) => e !== undefined && e !== null)
     const errors = []
-    if (typeof name !== 'string') errors.push(false)
-    if (typeof description !== 'string') errors.push(false)
-    if (typeof min !== 'number') errors.push(false)
-    if (typeof max !== 'number') errors.push(false)
-    if (typeof status !== 'boolean') errors.push(false)
-    if (typeof module !== 'string') errors.push(false)
-    if (typeof pin !== 'string') errors.push(false)
-    return (errors.length === 0 && valid)
+    if (typeof name !== 'string') errors.push('name is not a string')
+    if (typeof description !== 'string') errors.push('description is not a string')
+    if (typeof min !== 'number') errors.push('minimum is not a number')
+    if (typeof max !== 'number') errors.push('maximum is not a number')
+    if (typeof status !== 'boolean') errors.push('status is not a boolean')
+    if (typeof module !== 'string') errors.push('module is not a string')
+    if (typeof pin !== 'string') errors.push('pin is not a string')
+    return { valid: errors.length === 0 && valid, errors }
 }
 /**
  * Check if the task is valid (only title and description)
@@ -119,10 +119,10 @@ export const validTask = (task) => {
 /**
  * Check if the state is valid and the sensor exists
  * @param {Object} body the body of the request
- * @returns {Boolean} true if the state is valid and or false if not
+ * @returns {Object} an object with the result of the validation and the errors
  */
 export const validState = (body) => {
     const errors = []
-    if (typeof body.enable !== 'boolean') errors.push(false)
-    return (errors.length === 0)
+    if (typeof body.enable !== 'boolean') errors.push(`the new state is not a boolean, received ${typeof body.enable}`)
+    return { valid: errors.length === 0, errors }
 }
