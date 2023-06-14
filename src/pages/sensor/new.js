@@ -3,7 +3,7 @@ import { validSensorForm } from "@/validation/forms"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
-import { Breadcrumb, Button, Checkbox, Divider, Form, Header, Icon, Label } from "semantic-ui-react"
+import { Button, Form, Header, Icon, Label } from "semantic-ui-react"
 
 const SensorForm = () => {
     const [sensorState, setSensorState] = useState(false)

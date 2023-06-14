@@ -1,6 +1,7 @@
 import { connex } from "@/models/dbconn"
 import { enableActuator, getActuator } from "@/models/transactions/sensor"
 import { validState } from "@/validation/transaction"
+import { parse } from "dotenv"
 
 const handler = async (req, res) => {
     const { method, body, query: { id } } = req
@@ -17,7 +18,8 @@ const handler = async (req, res) => {
             }
         case "POST":
             try {
-                const { valid, errors } = validState(body)
+                const parsedBody = typeof body === 'string' ? JSON.parse(body) : body
+                const { valid, errors } = validState(parsedBody)
                 if (!valid) return res.status(400).json({ msj: "Invalid state", errors })
                 const { enable } = body
                 const result = await enableActuator(collection, id, enable)
