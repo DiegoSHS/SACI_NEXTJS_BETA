@@ -10,6 +10,7 @@ export const getActuator = async (collection, id) => {
         { $match: { module: 'actuador', name: id } },
         { $project: { _id: 0,name:1,state:1 } }
     ]).toArray()
+    console.log(`Actuator ${id} retrieved`)
     return actuators
 }
 /**
@@ -22,6 +23,7 @@ export const getActuators = async (collection) => {
         { $match: { module: 'actuador' } },
         { $project: { _id: 0 } }
     ]).toArray()
+    console.log('Actuators retrieved')
     return actuators
 }
 export const enableActuator = async (collection, id, enable) => {
@@ -31,5 +33,6 @@ export const enableActuator = async (collection, id, enable) => {
     }, {
         $set: { state: enable }
     })
+    console.log(`Actuator ${id} ${enable ? 'enabled' : 'disabled'}`)
     return result
 }

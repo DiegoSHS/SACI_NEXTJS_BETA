@@ -82,6 +82,7 @@ export const getDetailedLogs = async (collection, id) => {
     const promises = await Promise.allSettled(avgs)
     const days = promises.map(({ value }) => value)
     const daysAvg = days.filter(e => e.length > 0)
+    console.log(`Detailed logs (month average, day average and general logs) of sensor ${id} retrieved`)
     return { logs, daysAvg, monthAvg }
 }
 /**
@@ -92,6 +93,7 @@ export const getDetailedLogs = async (collection, id) => {
 export const getLogs = async (collection) => {
     const logs = await collection.find({}).toArray()
     const data = serizalize(logs)
+    console.log('All logs retrieved')
     return data
 }
 /**
@@ -103,5 +105,6 @@ export const getLogs = async (collection) => {
 export const getById = async (collection, id) => {
     const logs = await collection.find({ id: id }).toArray()
     const data = serizalize(logs)
+    console.log(`Logs of sensor ${id} retrieved`)
     return data
 }

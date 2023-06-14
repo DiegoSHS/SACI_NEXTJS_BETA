@@ -61,5 +61,6 @@ export const getSummary = async (collection) => {
         radiation: aireValues[4]?.value,
         tds: aireValues[5]?.value
     }
+    console.log('Summary of sensor logs retrieved')
     return { suelo, aire }
 }
