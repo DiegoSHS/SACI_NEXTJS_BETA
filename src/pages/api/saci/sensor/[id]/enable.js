@@ -21,9 +21,9 @@ const handler = async (req, res) => {
                 const parsedBody = typeof body === 'string' ? JSON.parse(body) : body
                 const { valid, errors } = validState(parsedBody)
                 if (!valid) return res.status(400).json({ msj: "Invalid state", errors })
-                const { enable } = body
+                const { enable } = parsedBody
                 const result = await enableActuator(collection, id, enable)
-                console.log(`Actuator ${id} ${enable? 'enabled': 'disabled'}`)
+                console.log(`Actuator ${id} ${enable ? 'enabled' : 'disabled'}`)
                 return res.status(200).json(result)
             } catch (error) {
                 return res.status(500).json({ error: error.message })
