@@ -15,9 +15,8 @@ const socketHandler = async (req, res) => {
             })
         })
         res.socket.server.io = io
-        console.log('setting socket')
     } else {
-        console.log('using socket')
+        console.log('using existing socket')
     }
     res.end()
 }
