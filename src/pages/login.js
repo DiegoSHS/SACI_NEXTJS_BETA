@@ -15,13 +15,14 @@ export default function Login() {
             {
                 data && data.user ?
                     (
-                        <Button basic onClick={()=>signIn()}>
-                            <Icon color="blue" name="fi fi-brands-google" />Google
-                        </Button>
-                    ) :
-                    (
                         <Button basic onClick={()=>signOut()}>
                             Cerrar sesión
+                        </Button>
+                        
+                    ) :
+                    (
+                        <Button basic onClick={()=>signIn()}>
+                            <Icon color="blue" name="fi fi-brands-google" />Google
                         </Button>
                     )
             }
