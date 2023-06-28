@@ -1,6 +1,7 @@
 import { connex } from "@/models/dbconn"
 import { enableActuator, getActuator } from "@/models/transactions/sensor"
 import { validState } from "@/validation/transaction"
+import { parse } from "dotenv"
 
 const handler = async (req, res) => {
     const { method, body, query: { id } } = req
