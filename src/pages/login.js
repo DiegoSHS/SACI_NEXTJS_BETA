@@ -1,5 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Button, Divider, Form, Header, Icon } from "semantic-ui-react";
+import { Button, Divider, Form, Header } from "semantic-ui-react";
 
 export default function Login() {
     const { data } = useSession()
@@ -22,7 +22,7 @@ export default function Login() {
                     ) :
                     (
                         <Button basic onClick={() => signIn()}>
-                            <Icon color="blue" name="fi fi-brands-google" />Google
+                            Iniciar sesión
                         </Button>
                     )
             }
