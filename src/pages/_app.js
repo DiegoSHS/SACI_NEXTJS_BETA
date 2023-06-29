@@ -5,7 +5,7 @@ import 'semantic-ui-css/semantic.min.css'
 import '@/styles/globals.css'
 import "react-datepicker/dist/react-datepicker.css"
 
-export default function App({ Component, pageProps: {sesison,...pageProps} }) {
+export default function App({ Component, pageProps: {session,...pageProps} }) {
   return (
     <SessionProvider session={session}>
       <Layout>
