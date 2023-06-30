@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Icon, Menu, Popup } from 'semantic-ui-react'
+import { Button, Container, Grid, Icon, Image, Menu, Popup } from 'semantic-ui-react'
 import Link from "next/link"
 import Notify from './Notify'
 import { useEffect, useState } from 'react'

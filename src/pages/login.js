@@ -1,5 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Card, Form, Header } from "semantic-ui-react";
+import { Button, Card, Form, Header, Image } from "semantic-ui-react";
 
 export default function Login() {
     const { data } = useSession()
