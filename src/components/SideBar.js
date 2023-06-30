@@ -132,11 +132,12 @@ export const SideNavBar = ({ children }) => {
                                         user.name ? (
                                             <Popup basic on='click' wide trigger={
                                                 user.image ? (
-                                                    <img src={user.image} alt="user" style={{ width: '2.5em', height: '2.5em', borderRadius: '50%' }} />
+                                                    <Image src={user.image} alt="user" size='mini' circular />
                                                 ) : (
                                                     <Icon name='fi-rr-user' />
                                                 )
                                             }>
+                                                <Image src={user.image} alt="user" size='mini' circular onClick={() => router.push('/login')} />
                                                 <p>{user.name}</p>
                                                 <Button basic compact content='Cerrar sesión' onClick={signOut} icon={{ name: 'fi-rr-sign-out-alt' }} />
                                             </Popup>
