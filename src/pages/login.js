@@ -16,7 +16,7 @@ export default function Login() {
                     data && data.user ?
                         (
                             <Card>
-                                <Image src={data.user.image} size='small' wrapped ui={false} circular/>
+                                <Image src={data.user.image} size='small' centered circular/>
                                 <Card.Content>
                                     <Card.Header>
                                         {data.user.name}
