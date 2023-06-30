@@ -130,7 +130,7 @@ export const SideNavBar = ({ children }) => {
                                 <Menu.Item>
                                     {
                                         user.name ? (
-                                            <Popup basic on='click' offset={[0,50]} position='bottom center' wide trigger={
+                                            <Popup basic on='click' offset={[10,45]} position='bottom center' wide trigger={
                                                 user.image ? (
                                                     <Image src={user.image} alt="user" size='mini' circular />
                                                 ) : (
