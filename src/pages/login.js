@@ -1,28 +1,36 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Form, Header } from "semantic-ui-react";
+import { Button, Card, Form, Header, Image } from "semantic-ui-react";
 
 export default function Login() {
     const { data } = useSession()
 
     return (
-        <Form>
+        <>
             <Header as="h1">
                 {
                     data && data.user ? ('Cerrar sesión') : ('Iniciar sesión')
                 }
             </Header>
-            <Form.Group widths="equal">
+            <Card.Group centered>
                 {
                     data && data.user ?
                         (
-                            <>
-                                <Header as="h3">
-                                    Sesión iniciada como {data.user.name}
-                                </Header>
-                                <Form.Button onClick={() => signOut()}>
-                                    Cerrar sesión
-                                </Form.Button>
-                            </>
+                            <Card>
+                                <Image circular src={data.user.image} size='small' />
+                                <Card.Content>
+                                    <Card.Header>
+                                        {data.user.name}
+                                    </Card.Header>
+                                    <Card.Meta>
+                                        {data.user.email}
+                                    </Card.Meta>
+                                </Card.Content>
+                                <Card.Content extra>
+                                    <Button onClick={() => signOut()}>
+                                        Cerrar sesión
+                                    </Button>
+                                </Card.Content>
+                            </Card>
                         ) :
                         (
                             <Form.Button fluid onClick={() => signIn()}>
@@ -30,7 +38,7 @@ export default function Login() {
                             </Form.Button>
                         )
                 }
-            </Form.Group>
-        </Form>
+            </Card.Group>
+        </>
     )
 }
