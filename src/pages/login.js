@@ -6,10 +6,8 @@ export default function Login() {
 
     return (
         <>
-            <Header as="h1">
-                {
-                    data && data.user ? ('Cerrar sesión') : ('Iniciar sesión')
-                }
+            <Header size='large'>
+                Mi Cuenta
             </Header>
             <Card.Group centered>
                 {
@@ -27,17 +25,22 @@ export default function Login() {
                                         {data.user.email}
                                     </Card.Meta>
                                 </Card.Content>
-                                <Card.Content extra>
-                                    <Button onClick={() => signOut()}>
-                                        Cerrar sesión
-                                    </Button>
-                                </Card.Content>
+                                <Button onClick={() => signOut()}>
+                                    Cerrar sesión
+                                </Button>
                             </Card>
                         ) :
                         (
-                            <Form.Button fluid onClick={() => signIn()}>
-                                Iniciar sesión
-                            </Form.Button>
+                            <Card>
+                                <Card.Content>
+                                    <Card.Header>
+                                        No se ha iniciado sesión
+                                    </Card.Header>
+                                </Card.Content>
+                                <Button fluid onClick={() => signIn()}>
+                                    Iniciar sesión
+                                </Button>
+                            </Card>
                         )
                 }
             </Card.Group>
