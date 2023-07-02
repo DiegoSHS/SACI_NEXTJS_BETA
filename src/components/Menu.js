@@ -4,14 +4,6 @@ import { useEffect, useState } from 'react'
 import { getSession, signIn, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-const UserImage = ({ src }) => {
-    if (!src) return (
-        <Icon name='fi-rr-user' />
-    )
-    return (
-        <Image src={src} alt="user" size='mini' circular />
-    )
-}
 const SesionButton = ({ user }) => {
     if (!user.name) {
         return (
@@ -20,10 +12,10 @@ const SesionButton = ({ user }) => {
     }
     return (
         <Popup basic on='click' wide trigger={
-            <UserImage src={user.image} />
+            <Image src={user.image} alt="user" size='mini' circular />
         }>
             <Link href='/login'>
-                <UserImage src={user.image} />
+                <Image src={user.image} alt="user" size='mini' circular />
             </Link>
             <p>{user.name}</p>
             <Button basic compact content='Cerrar sesión' onClick={signOut} icon={{ name: 'fi-rr-sign-out-alt' }} />
