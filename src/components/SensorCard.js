@@ -53,7 +53,7 @@ const ActuatorCard = (actuator, socket, user) => {
         socket.on('recieve-newactuator', (newactuator) => {
             if (newactuator.name === name) {
                 setEnable(newactuator.state)
-                toast(`${newactuator.user.name} ${newactuator.state ? 'encendió' : 'apagagó'} el sensor ${name} `, {
+                toast(`${newactuator.user.name} ${newactuator.state ? 'encendió' : 'apagó'} el sensor ${name} `, {
                     icon: newactuator.state ? <Icon color="green" name="power" /> : <Icon color="red" name="power" />,
                     id: 'update-actuator',
                     duration: 1500
