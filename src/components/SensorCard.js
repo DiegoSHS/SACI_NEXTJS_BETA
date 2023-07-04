@@ -1,11 +1,7 @@
 import { enableSensor } from "@/requests/sensor"
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import { Button, Card, Icon, Label, LabelGroup } from "semantic-ui-react"
-import io from "socket.io-client"
-
-let socket
 
 export const SensorCards = ({ data }) => {
     return (
@@ -38,17 +34,17 @@ const SensorCard = (sensor) => {
     )
 }
 
-export const ActuatorCards = ({ data, socket }) => {
+export const ActuatorCards = ({ data, socket, user }) => {
     return (
         <Card.Group centered>
             {
-                data.map((actuator) => ActuatorCard(actuator, socket))
+                data.map((actuator) => ActuatorCard(actuator, socket, user))
             }
         </Card.Group>
     )
 }
 
-const ActuatorCard = (actuator, socket) => {
+const ActuatorCard = (actuator, socket, user) => {
     const [updating, setUpdating] = useState(false)
     const { name, description, state, module } = actuator
     const [enable, setEnable] = useState(state)
@@ -56,9 +52,8 @@ const ActuatorCard = (actuator, socket) => {
     useEffect(() => {
         socket.on('recieve-newactuator', (newactuator) => {
             if (newactuator.name === name) {
-                console.log('actuator updated', newactuator)
                 setEnable(newactuator.state)
-                toast(`Actuador ${name} ${newactuator.state ? 'encendido' : 'apagado'}`, {
+                toast(`${newactuator.user.name} ${newactuator.state ? 'encendió' : 'apagagó'} el sensor ${name} `, {
                     icon: newactuator.state ? <Icon color="green" name="power" /> : <Icon color="red" name="power" />,
                     id: 'update-actuator',
                     duration: 1500
@@ -67,41 +62,16 @@ const ActuatorCard = (actuator, socket) => {
         })
     }, [])
 
-    const socketInit = async () => {
-        await axios.get('/api/socket')
-        socket = io()
-        socket.on('recieve-sensor-state', (state) => {
-            if (state.name === name) {
-                toast(`El sensor ${state.name} ah sido ${state.enable ? 'encendido' : 'apagado'}`,{
-                    icon: <Icon color="yellow" name="info" />
-                })
-                setEnable(state.enable)
-            }
-        })
-        console.log('setup socket')
-    }
-
-    useEffect(() => {
-        socketInit()
-    }, [])
-
-    const emitState = (name, enable) => {
-        socket.emit('send-sensor-state', {
-            name,
-            enable
-        })
-    }
 
     const handleUpdate = async () => {
         setUpdating(true)
-        emitState(name, !enable)
         toast.promise(
             enableSensor(name, !enable),
             {
                 loading: 'Actualizando',
                 success: () => {
                     setEnable(!enable)
-                    socket.emit('send-newactuator', { name, state: !enable })
+                    socket.emit('send-newactuator', { name, state: !enable, user })
                     setUpdating(false)
                     return (enable ? 'Apagado' : 'Encendido')
                 },
