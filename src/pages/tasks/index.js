@@ -8,14 +8,13 @@ import { Header } from "semantic-ui-react"
 import { getLogs } from "@/models/transactions/logs"
 
 const Notifications = ({ data }) => {
-    const { records, setrecords } = StoredContext()
+    const { tasks, setTasks, socket } = StoredContext()
     useEffect(() => {
-        setrecords({ saci: { ...records.saci, tasks } })
-        console.log(records)
+        setTasks(data)
     }, [])
-
-    const tasks = validateFetch(records, 'tasks') ? data : records.saci.tasks
-
+    socket.on('recieve-notification', (notification) => {
+        setTasks([...tasks, notification])
+    })
     return (
         <>
             <Header size="large">Notificaciones</Header>

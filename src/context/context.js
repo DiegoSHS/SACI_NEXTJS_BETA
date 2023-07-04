@@ -11,6 +11,7 @@ export const Context = ({ children }) => {
     const [records, setrecords] = useState({})
     const [user, setUser] = useState({})
     const [socket, setSocket] = useState(null)
+    const [tasks, setTasks] = useState([])
 
     const socketInit = async () => {
         await axios.get('/api/socket')
@@ -23,13 +24,20 @@ export const Context = ({ children }) => {
         setUser(session.user)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         sesionInit()
         socketInit()
     }, [])
 
+    const ctx = {
+        records, setrecords,
+        user, setUser,
+        socket, setSocket,
+        tasks, setTasks
+    }
+
     return (
-        <Records.Provider value={{ records, setrecords, user, setUser, socket, setSocket }}>
+        <Records.Provider value={ctx}>
             {children}
         </Records.Provider>
     )
