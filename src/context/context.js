@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
+import { getSession } from "next-auth/react"
 import axios from "axios"
 import io from "socket.io-client"
 
