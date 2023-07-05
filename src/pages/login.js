@@ -1,9 +1,9 @@
-import { signIn, signOut, useSession } from "next-auth/react";
-import { Button, Card, Form, Header, Image } from "semantic-ui-react";
+import { StoredContext } from "@/context/context";
+import { signIn, signOut } from "next-auth/react";
+import { Button, Card, Header, Image } from "semantic-ui-react";
 
 export default function Login() {
-    const { data } = useSession()
-
+    const { user } = StoredContext()
     return (
         <>
             <Header size='large'>
@@ -11,18 +11,18 @@ export default function Login() {
             </Header>
             <Card.Group centered>
                 {
-                    data && data.user ?
+                    user && user.name ?
                         (
                             <Card>
                                 <Card.Content>
-                                    <Image src={data.user.image} size='small' centered circular />
+                                    <Image alt='user image' src={user.image} size='small' centered circular />
                                 </Card.Content>
                                 <Card.Content>
                                     <Card.Header>
-                                        {data.user.name}
+                                        {user.name}
                                     </Card.Header>
                                     <Card.Meta>
-                                        {data.user.email}
+                                        {user.email}
                                     </Card.Meta>
                                 </Card.Content>
                                 <Button onClick={() => signOut()}>
