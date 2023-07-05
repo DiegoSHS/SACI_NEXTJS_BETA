@@ -2,6 +2,7 @@ import { formatter } from "@/utils/dateformat"
 import { Server } from "socket.io"
 
 const socketHandler = async (req, res) => {
+    const { collection } = await connex(process.env.TDB, 'tasks')
     if (!res.socket.server.io) {
         console.log('setting socket')
         const io = new Server(res.socket.server, {
