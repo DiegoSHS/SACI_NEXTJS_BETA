@@ -15,7 +15,7 @@ export default function Login() {
                         (
                             <Card>
                                 <Card.Content>
-                                    <Image src={user.image} size='small' centered circular />
+                                    <Image alt='user image' src={user.image} size='small' centered circular />
                                 </Card.Content>
                                 <Card.Content>
                                     <Card.Header>

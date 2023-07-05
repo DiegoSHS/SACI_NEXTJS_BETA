@@ -10,7 +10,7 @@ export const StoredContext = () => useContext(Records)
 export const Context = ({ children }) => {
     const [records, setrecords] = useState({})
     const [user, setUser] = useState({})
-    const [socket, setSocket] = useState(null)
+    const [socket, setSocket] = useState(io())
     const [tasks, setTasks] = useState([])
 
     const socketInit = async () => {
