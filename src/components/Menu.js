@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { getSession, signIn, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { StoredContext } from "@/context/context"
+import { TasksCards } from "./TaskCard"
 
 const SesionButton = ({ user }) => {
     if (!user.name) {
@@ -20,6 +21,16 @@ const SesionButton = ({ user }) => {
             </Link>
             <p>{user.name}</p>
             <Button basic compact content='Cerrar sesión' onClick={signOut} icon={{ name: 'fi-rr-sign-out-alt' }} />
+        </Popup>
+    )
+}
+
+const NotificationButton = () => {
+    return (
+        <Popup basic on='click' wide trigger={
+            <Icon name="fi-rr-bells" />
+        }>
+            <TasksCards/>
         </Popup>
     )
 }
@@ -144,6 +155,7 @@ export const NavMenu = () => {
             }
             setUser(session.user)
         }
+        if (window.location.hostname === 'localhost') return
         sesionInit()
     }, [])
 

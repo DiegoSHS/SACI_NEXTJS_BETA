@@ -11,7 +11,12 @@ const Notifications = ({ data }) => {
     useEffect(() => {
         setTasks(data)
         socket.on('recieve-notification', (notification) => {
-            setTasks([...tasks, notification])
+            console.log([...tasks, notification])
+            //setTasks()
+        })
+        socket.on('deleted-notification', (id) => {
+            const newTasks = tasks.filter(task => task._id !== id)
+            setTasks(newTasks)
         })
     }, [])
 

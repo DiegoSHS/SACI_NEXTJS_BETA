@@ -17,10 +17,14 @@ const socketHandler = async (req, res) => {
                 io.emit("recieve-newactuator", actuator)
             })
             socket.on("send-notification", async (notification) => {
-                const date = formatter()
-                const taskbody = { ...notification, date }
-                await collection.insertOne(taskbody)
-                io.emit("recieve-notification", taskbody)
+                collection.insertOne(notification).then(({ insertedId }) => {
+                    io.emit("recieve-notification", { ...notification, _id: insertedId })
+                })
+            })
+            socket.on("delete-notification", async (id) => {
+                collection.deleteOne({ _id: id }).then(
+                    io.emit("deleted-notification", id)
+                )
             })
         })
         res.socket.server.io = io
