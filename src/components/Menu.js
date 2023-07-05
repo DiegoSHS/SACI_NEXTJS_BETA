@@ -3,6 +3,7 @@ import { Button, Container, Icon, Image, Menu, Popup } from "semantic-ui-react"
 import { useEffect, useState } from 'react'
 import { getSession, signIn, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { StoredContext } from "@/context/context"
 
 const SesionButton = ({ user }) => {
     if (!user.name) {
@@ -133,7 +134,7 @@ const MenuItems = ({ children }) => {
 
 export const NavMenu = () => {
     const router = useRouter()
-    const [user, setUser] = useState({})
+    const { user, setUser } = StoredContext()
     useEffect(() => {
         const sesionInit = async () => {
             const session = await getSession()

@@ -2,19 +2,18 @@ import { TasksCards } from "@/components/TaskCard"
 import { NoData } from "@/components/NoTasks"
 import { StoredContext } from "@/context/context"
 import { useEffect } from "react"
-import { validateFetch } from "../ground"
 import { connex } from "@/models/dbconn"
 import { Header } from "semantic-ui-react"
 import { getLogs } from "@/models/transactions/logs"
 
 const Notifications = ({ data }) => {
-    const { records, setrecords } = StoredContext()
+    const { tasks, setTasks, socket } = StoredContext()
     useEffect(() => {
-        setrecords({ saci: { ...records.saci, tasks } })
-        console.log(records)
+        setTasks(data)
+        socket.on('recieve-notification', (notification) => {
+            setTasks([...tasks, notification])
+        })
     }, [])
-
-    const tasks = validateFetch(records, 'tasks') ? data : records.saci.tasks
 
     return (
         <>

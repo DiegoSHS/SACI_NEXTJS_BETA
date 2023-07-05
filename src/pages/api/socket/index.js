@@ -4,7 +4,7 @@ const socketHandler = async (req, res) => {
     if (!res.socket.server.io) {
         console.log('setting socket')
         const io = new Server(res.socket.server, {
-            cors: { origin: '*', methods: ['GET','POST','OPTIONS','PATCH','DELETE','PUT'], credentials: true},
+            cors: { origin: '*', methods: ['GET', 'POST', 'OPTIONS', 'PATCH', 'DELETE', 'PUT'], credentials: true },
             transports: ['websocket', 'polling', 'flashsocket'],
             allowEIO3: true
         })
@@ -12,6 +12,12 @@ const socketHandler = async (req, res) => {
             socket.broadcast.emit("user-connected")
             socket.on("send-newactuator", (actuator) => {
                 io.emit("recieve-newactuator", actuator)
+            })
+            socket.on("send-notification", async (notification) => {
+                const date = formatter()
+                const taskbody = { ...notification, date }
+                await collection.insertOne(taskbody)
+                io.emit("recieve-notification", taskbody)
             })
         })
         res.socket.server.io = io

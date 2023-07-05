@@ -72,6 +72,10 @@ const ActuatorCard = (actuator, socket, user) => {
                 success: () => {
                     setEnable(!enable)
                     socket.emit('send-newactuator', { name, state: !enable, user })
+                    socket.emit('send-notification', {
+                        title: 'Actuador actualizado',
+                        description: `${user.name} ${!enable ? 'encendió' : 'apagó'} el actuador ${name}`,
+                    })
                     setUpdating(false)
                     return (enable ? 'Apagado' : 'Encendido')
                 },

@@ -1,5 +1,4 @@
-import { useRouter } from "next/router"
-import { Button, Card, Icon } from "semantic-ui-react"
+import { Card } from "semantic-ui-react"
 
 export const TasksCards = ({data}) => {
     return (
@@ -12,26 +11,11 @@ export const TasksCards = ({data}) => {
 }
 
 const TaskCard = (task) => {
-    const router = useRouter()
     return (  
-        <Card key={task._id} borderless>
+        <Card borderless>
             <Card.Content>
                 <Card.Header>{task.title}</Card.Header>
                 <Card.Description>{task.description}</Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-                <Button positive circular animated="fade" style={{ margin: '1px' }} onClick={() => router.push(`/tasks/${task._id}`)}>
-                    <Button.Content visible>Ver</Button.Content>
-                    <Button.Content hidden>
-                        <Icon name="eye"></Icon>
-                    </Button.Content>
-                </Button>
-                <Button secondary circular animated="fade" style={{ margin: '1px' }} onClick={() => router.push(`/tasks/${task._id}/edit`)}>
-                    <Button.Content hidden>Editar</Button.Content>
-                    <Button.Content visible>
-                        <Icon name="edit"></Icon>
-                    </Button.Content>
-                </Button>
             </Card.Content>
         </Card>
     )
