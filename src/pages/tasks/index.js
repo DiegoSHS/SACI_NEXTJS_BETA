@@ -9,20 +9,19 @@ const Notifications = ({ data }) => {
         <>
             <Header size="large">Notificaciones</Header>
             {
-                data === undefined || data.length === 0 ? <NoData /> : <TasksCards data={data} />
+                <TasksCards data={data} />
             }
         </>
     )
 }
 
-export const getStaticProps = async ctx => {
+export const getServerSideProps = async ctx => {
     const collection = await connex(process.env.TDB, 'tasks')
     const data = await getLogs(collection)
     return {
         props: {
             data
-        },
-        revalidate: 60
+        }
     }
 }
 
