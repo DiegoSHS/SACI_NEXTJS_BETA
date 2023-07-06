@@ -26,6 +26,13 @@ export const getActuators = async (collection) => {
     console.log('Actuators retrieved')
     return actuators
 }
+/**
+ * 
+ * @param {Collection} collection collection object
+ * @param {String} id id of the actuator to update
+ * @param {Boolean} enable new state of the actuator
+ * @returns 
+ */
 export const enableActuator = async (collection, id, enable) => {
     const result = await collection.updateOne({
         module: 'actuador',

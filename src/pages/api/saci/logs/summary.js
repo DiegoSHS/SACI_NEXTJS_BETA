@@ -3,7 +3,7 @@ import { getSummary } from '@/models/transactions/summary'
 
 const summary = async (req, res) => {
     const { method } = req
-    const { collection } = await connex(process.env.SDB, 'logs')
+    const collection = await connex(process.env.SDB, 'logs')
     switch (method) {
         case "GET":
             try {

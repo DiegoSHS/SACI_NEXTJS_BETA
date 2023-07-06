@@ -47,7 +47,7 @@ export const connex = async (dbname = 'test', collec = 'tasks') => {
         const client = await validateClient()
         const datab = client.db(dbname)
         const collection = datab.collection(collec)
-        return { collection }
+        return collection
     } catch (error) {
         console.error(`Error retrieving database collection: ${error.message}`)
         return

@@ -5,7 +5,7 @@ import { getLogs } from "@/models/transactions/logs"
 
 const handeling = async (req, res) => {
     const { method, body } = req
-    const { collection } = await connex(process.env.SDB, 'logs')
+    const collection = await connex(process.env.SDB, 'logs')
 
     switch (method) {
         case "GET":

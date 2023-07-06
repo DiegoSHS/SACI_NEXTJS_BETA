@@ -4,7 +4,7 @@ import { validTask } from "@/validation/transaction"
 
 const handeling = async (req, res) => {
     const { method, body } = req
-    const { collection } = await connex(process.env.TDB, 'tasks')
+    const collection = await connex(process.env.TDB, 'tasks')
     switch (method) {
         case "GET":
             try {

@@ -39,7 +39,7 @@ const HomePage = ({ data }) => {
 }
 
 export const getStaticProps = async ctx => {
-    const { collection } = await connex(process.env.SDB, 'logs')
+    const collection = await connex(process.env.SDB, 'logs')
     const data = await getDetailedLogs(collection, 'temperatura_aire')
 
     return {
