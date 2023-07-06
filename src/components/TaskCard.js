@@ -1,22 +1,59 @@
-import { Card } from "semantic-ui-react"
+import { StoredContext } from "@/context/context"
+import { useEffect } from "react"
+import { Button, Feed, Icon } from "semantic-ui-react"
 
-export const TasksCards = ({data}) => {
+export const TasksCards = ({ data }) => {
+    const { tasks, setTasks, socket } = StoredContext()
+
+    useEffect(() => {
+        console.log('updating tasks')
+        setTasks(data)
+        console.log(tasks)
+    }, [])
+
+    useEffect(() => {
+        socket.on('recieve-notification', (notification) => {
+            setTasks([...tasks, notification])
+        })
+        socket.on('deleted-notifications', () => {
+            setTasks([])
+        })
+        socket.on('deleted-notification', (id) => {
+            setTasks(tasks.filter(task => task._id !== id))
+        })
+    }, [])
+
+    const handleDeleteAll = () => {
+        socket.emit("delete-notifications")
+    }
+
     return (
-        <Card.Group centered>
+        <Feed centered>
+            <Button basic content='Eliminar notificaciones' icon='fi-rr-check' onClick={handleDeleteAll} />
             {
-                data.map(TaskCard)
+                tasks.map(e => TaskCard(e, socket))
             }
-        </Card.Group>
+        </Feed>
     )
 }
 
-const TaskCard = (task) => {
-    return (  
-        <Card borderless>
-            <Card.Content>
-                <Card.Header>{task.title}</Card.Header>
-                <Card.Description>{task.description}</Card.Description>
-            </Card.Content>
-        </Card>
+const TaskCard = (task, socket) => {
+    const handleDelete = ({ target }) => {
+        socket.emit("delete-notification", target.id)
+    }
+    return (
+        <Feed.Event key={task._id}>
+            <Feed.Label>
+                <Icon name='fi-rr-trash' color='red' id={task._id} circular onClick={handleDelete} />
+            </Feed.Label>
+            <Feed.Content>
+                <Feed.Summary>
+                    {task.description}
+                    <Feed.Date>
+                        {task.date}
+                    </Feed.Date>
+                </Feed.Summary>
+            </Feed.Content>
+        </Feed.Event>
     )
 }

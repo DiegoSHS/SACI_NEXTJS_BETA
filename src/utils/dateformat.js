@@ -29,22 +29,9 @@ export const formatter = (indate, mode = true) => {
     }
 }
 
-//Original func from Borislav Hadzhiev on https://bobbyhadz.com/
-
-/*
-function formatDate({}){
-    return (
-        [
-            date.getFullYear(),
-            padTo2Digits(date.getMonth() + 1),
-            padTo2Digits(date.getDate()),
-        ].join('-') +
-        ' ' +
-        [
-            padTo2Digits(date.getHours()),
-            padTo2Digits(date.getMinutes()),
-            padTo2Digits(date.getSeconds()),
-        ].join(':')
-    )
+export const dateDiff = (date1, date2) => {
+    console.log(date1, date2)
+    let diff = date1.getTime() - date2.getTime() / 1000 / 60 / 60
+    console.log(Math.round(diff/ 1000 / 60 / 60))
+    return Math.abs(Math.round(diff))
 }
-*/

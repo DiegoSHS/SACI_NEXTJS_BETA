@@ -1,5 +1,5 @@
 import { months } from "@/utils/sortRegisters"
-import { Collection, MongoClient } from 'mongodb'
+import { Collection } from 'mongodb'
 /**
  * 
  * @param {Array} data Array of objects

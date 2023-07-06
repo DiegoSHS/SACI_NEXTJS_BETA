@@ -1,4 +1,5 @@
 import { connex } from "@/models/dbconn"
+import { formatter } from "@/utils/dateformat"
 /**
  * Validate the log object (all fields)
  * @param {Object} log object with the log data
@@ -62,7 +63,8 @@ const createTask = async (id, type) => {
     const { collection } = await connex(process.env.TDB, 'tasks')
     const fields = {
         title: `Critical value in sensor ${id}`,
-        description: `The value is ${type}`
+        description: `The value is ${type}`,
+        date: formatter()
     }
     const task = await collection.insertOne(fields)
     return task

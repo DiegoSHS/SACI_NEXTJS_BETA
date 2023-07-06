@@ -20,7 +20,14 @@ export const Context = ({ children }) => {
     }
 
     const sesionInit = async () => {
-        const session = await getSession()
+        const session = window.location.hostname === 'localhost' ? {
+            user: {
+                name: 'Jhon Doe',
+                email: 'something@example.com',
+                image: 'https://lh3.googleusercontent.com/a/AAcHTteDid88LgJbjhFjiv9paLPNOnM1pBOasbz0DKgHdZpMD3o=s96-c'
+            }
+        }
+            : await getSession()
         setUser(session.user)
     }
 

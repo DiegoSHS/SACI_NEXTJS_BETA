@@ -2,7 +2,7 @@ import { connex } from '@/models/dbconn'
 import { validSensor } from '@/validation/transaction'
 
 const handler = async (req, res) => {
-    const { collection } = await connex(process.env.SDB, 'sensors')
+    const collection = await connex(process.env.SDB, 'sensors')
     const { method, body } = req
     switch (method) {
         case "GET":

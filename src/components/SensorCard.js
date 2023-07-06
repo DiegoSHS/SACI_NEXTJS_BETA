@@ -1,4 +1,5 @@
 import { enableSensor } from "@/requests/sensor"
+import { formatter } from "@/utils/dateformat"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import { Button, Card, Icon, Label, LabelGroup } from "semantic-ui-react"
@@ -75,6 +76,7 @@ const ActuatorCard = (actuator, socket, user) => {
                     socket.emit('send-notification', {
                         title: 'Actuador actualizado',
                         description: `${user.name} ${!enable ? 'encendió' : 'apagó'} el actuador ${name}`,
+                        date: formatter()
                     })
                     setUpdating(false)
                     return (enable ? 'Apagado' : 'Encendido')

@@ -42,7 +42,7 @@ const HomePage = ({ data }) => {
 }
 
 export const getStaticProps = async ctx => {
-    const { collection } = await connex(process.env.SDB, 'logs')
+    const collection = await connex(process.env.SDB, 'logs')
 
     const results = await Promise.allSettled([
         getDetailedLogs(collection, 'ph_suelo'),
