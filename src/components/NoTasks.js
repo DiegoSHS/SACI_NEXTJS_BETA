@@ -1,12 +1,12 @@
 import { useRouter } from "next/router"
-import { Button, Grid } from "semantic-ui-react"
+import { Button, Grid, Header } from "semantic-ui-react"
 
 export const NoData = () => {
     return (
         <Grid centered verticalAlign="middle" columns={1}>
             <Grid.Row>
                 <Grid.Column textAlign="center">
-                    <h1>Sin datos existentes</h1>
+                    <Header size="small">Sin datos existentes</Header>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
