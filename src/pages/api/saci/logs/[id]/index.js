@@ -4,7 +4,7 @@ const handler = async (req, res) => {
     try {
         const { method, query: { id } } = req
         if (method !== 'GET') return res.status(405).json({ msj: "No support for this method" })
-        const { collection } = await connex(process.env.SDB, 'logs')
+        const collection = await connex(process.env.SDB, 'logs')
         const { logs, daysAvg, monthAvg } = await getDetailedLogs(collection, id)
         return res.status(200).json({ logs, daysAvg, monthAvg })
     } catch (error) {

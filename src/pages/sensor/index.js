@@ -35,7 +35,7 @@ const Index = ({ data }) => {
 }
 
 export const getStaticProps = async (ctx) => {
-    const { collection } = await connex(process.env.SDB, 'sensors')
+    const collection = await connex(process.env.SDB, 'sensors')
     const data = await getLogs(collection)
     return {
         props: {

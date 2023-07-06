@@ -1,9 +1,9 @@
 import { connex } from "@/models/dbconn"
-import { formatter } from "@/utils/dateformat"
+import { ObjectId } from "mongodb"
 import { Server } from "socket.io"
 
 const socketHandler = async (req, res) => {
-    const { collection } = await connex(process.env.TDB, 'tasks')
+    const collection = await connex(process.env.TDB, 'tasks')
     if (!res.socket.server.io) {
         console.log('setting socket')
         const io = new Server(res.socket.server, {
@@ -17,14 +17,18 @@ const socketHandler = async (req, res) => {
                 io.emit("recieve-newactuator", actuator)
             })
             socket.on("send-notification", async (notification) => {
-                collection.insertOne(notification).then(({ insertedId }) => {
-                    io.emit("recieve-notification", { ...notification, _id: insertedId })
-                })
+                const { insertedId } = await collection.insertOne(notification)
+                io.emit("recieve-notification", { _id: insertedId.toString(), ...notification })
             })
             socket.on("delete-notification", async (id) => {
-                collection.deleteOne({ _id: id }).then(
-                    io.emit("deleted-notification", id)
-                )
+                console.log(id)
+                await collection.deleteOne({ _id: new ObjectId(id) })
+                console.log('deleted')
+                io.emit("deleted-notification", id)
+            })
+            socket.on("delete-notifications", async () => {
+                await collection.deleteMany({})
+                io.emit("deleted-notifications")
             })
         })
         res.socket.server.io = io
