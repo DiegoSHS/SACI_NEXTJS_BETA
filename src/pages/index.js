@@ -1,10 +1,8 @@
 import axios from "axios"
-import { useState } from "react"
-import { Divider, Form, Header } from "semantic-ui-react"
+import { Divider, Form, Header, Progress } from "semantic-ui-react"
 const HomePage = ({ summary }) => {
-  const [view, setView] = useState(false)
-  const { aire, suelo } = summary
-
+  const { aire, suelo, agua } = summary
+  
   return (
     <Form>
       <Header size='large'>Suelo</Header>
@@ -25,14 +23,18 @@ const HomePage = ({ summary }) => {
       <Form.Group widths='equal'>
         <Form.Button basic circular fluid icon={{ name: 'fi fi-sr-cloud', color: 'black' }} size="big" content={`CO2: ${aire.co2} ppm`} label='Cantidad de co2 en el ambiente' labelPosition="left" />
         <Form.Button basic circular fluid icon={{ name: 'fi fi-sr-sun', color: 'yellow' }} size="big" content={`Rad: ${aire.radiation} W/m²`} label='Radiación solar en el ambiente' labelPosition="left" />
-        <Form.Button basic circular fluid icon={{ name: 'fi fi-sr-humidity', color: 'brown' }} size="big" content={`TDS: ${aire.tds} ppm`} label='Total de sólidos en agua' labelPosition="left" />
+        <Form.Button basic circular fluid icon={{ name: 'fi fi-sr-humidity', color: 'brown' }} size="big" content={`TDS: ${agua.tds} ppm`} label='Total de sólidos en agua' labelPosition="left" />
       </Form.Group>
+      <Divider />
+      <Header size='medium'>Agua disponible</Header>
+      <Progress progress color="blue" percent={(agua.nivel < 100 && agua.nivel > 0) ? agua.nivel : 100}/>
     </Form>
   )
 }
 
 export const getServerSideProps = async () => {
   const { data } = await axios.get(process.env.API_URL + 'api/saci/logs/summary')
+
   return {
     props: {
       summary: data

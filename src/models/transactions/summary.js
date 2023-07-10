@@ -50,7 +50,8 @@ export const getSummary = async (collection) => {
         getLast(collection, 'cantidad_co2'),
         getLast(collection, 'luminosidad'),
         getLast(collection, 'radiacion_solar_aire'),
-        getLast(collection, 'tds_agua')
+        getLast(collection, 'tds_agua'),
+        getLast(collection, 'nivel_agua'),
     ])
     const aireValues = airePromises.map(({ value }) => value[0])
     const aire = {
@@ -58,9 +59,12 @@ export const getSummary = async (collection) => {
         humAire: aireValues[1]?.value,
         co2: aireValues[2]?.value,
         lum: aireValues[3]?.value,
-        radiation: aireValues[4]?.value,
-        tds: aireValues[5]?.value
+        radiation: aireValues[4]?.value
+    }
+    const agua = {
+        tds: aireValues[5]?.value,
+        nivel: aireValues[6]?.value
     }
     console.log('Summary of sensor logs retrieved')
-    return { suelo, aire }
+    return { suelo, aire, agua }
 }
