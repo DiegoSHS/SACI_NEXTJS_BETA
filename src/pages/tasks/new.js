@@ -9,42 +9,35 @@ const TaksFormPage = () => {
     const [newTask, setNewTask] = useState({
         title: '',
         description: ''
-    })
-
-    const [errors, setErrors] = useState({
-        title: '',
-        description: ''
-    })
-
-    const [isSaving, setisSaving] = useState(false)
-
-    const { title, description } = errors
-
-    const { query, push } = useRouter()
-
-    const handSubmit = async e => {
-        e.preventDefault()
-        let { errorss, isValid } = validTaskForm(newTask)
-        let isSuccess = false
-        if (Object.values(errorss).length) setErrors(errors)
-        if (isValid) {
-            setisSaving(true)
-            toast.promise(
-                query.id ? updateTask(newTask, query.id) : createTask(newTask),
-                {
-                    loading: "Guardando",
-                    success: () => {
-                        setisSaving(false)
-                        return "Guardado"
-                    },
-                    error: "Error al guardar"
-                }
-            )
-            await push("/tasks")
-        }
-    }
-
-    const handChange = e => setNewTask({ ...newTask, [e.target.name]: e.target.value })
+    }),
+        [errors, setErrors] = useState({
+            title: '',
+            description: ''
+        }),
+        [isSaving, setisSaving] = useState(false),
+        { title, description } = errors,
+        { query, push } = useRouter(),
+        handSubmit = async e => {
+            e.preventDefault()
+            let { errorss, isValid } = validTaskForm(newTask)
+            if (Object.values(errorss).length) setErrors(errors)
+            if (isValid) {
+                setisSaving(true)
+                toast.promise(
+                    query.id ? updateTask(newTask, query.id) : createTask(newTask),
+                    {
+                        loading: "Guardando",
+                        success: () => {
+                            setisSaving(false)
+                            return "Guardado"
+                        },
+                        error: "Error al guardar"
+                    }
+                )
+                await push("/tasks")
+            }
+        },
+        handChange = e => setNewTask({ ...newTask, [e.target.name]: e.target.value })
 
     useEffect(() => {
         const fetchTask = async () => {

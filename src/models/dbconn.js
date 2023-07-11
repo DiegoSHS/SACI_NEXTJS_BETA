@@ -24,9 +24,9 @@ let client = null
  */
 const validateClient = async () => {
     try {
-        if (client != null){
+        if (client != null) {
             console.log('Using existent database client')
-        }else{
+        } else {
             console.log('Creating a new database client')
             client = await createClient()
         }
@@ -44,9 +44,9 @@ const validateClient = async () => {
  */
 export const connex = async (dbname = 'test', collec = 'tasks') => {
     try {
-        const client = await validateClient()
-        const datab = client.db(dbname)
-        const collection = datab.collection(collec)
+        const client = await validateClient(),
+            datab = client.db(dbname),
+            collection = datab.collection(collec)
         return collection
     } catch (error) {
         console.error(`Error retrieving database collection: ${error.message}`)

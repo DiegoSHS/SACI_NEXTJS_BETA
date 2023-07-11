@@ -1,8 +1,8 @@
+import { LiquidGauge } from "@/components/LiquidGauge"
 import axios from "axios"
-import { Divider, Form, Header, Progress } from "semantic-ui-react"
+import { Divider, Form, Header } from "semantic-ui-react"
 const HomePage = ({ summary }) => {
   const { aire, suelo, agua } = summary
-  
   return (
     <Form>
       <Header size='large'>Suelo</Header>
@@ -27,7 +27,7 @@ const HomePage = ({ summary }) => {
       </Form.Group>
       <Divider />
       <Header size='medium'>Agua disponible</Header>
-      <Progress progress color="blue" percent={(agua.nivel < 100 && agua.nivel > 0) ? agua.nivel : 100}/>
+      <LiquidGauge radius={100} textSize={1} value={agua.nivel} />
     </Form>
   )
 }

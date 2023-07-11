@@ -8,40 +8,37 @@ export const Records = createContext()
 export const StoredContext = () => useContext(Records)
 
 export const Context = ({ children }) => {
-    const [records, setrecords] = useState({})
-    const [user, setUser] = useState({})
-    const [socket, setSocket] = useState(io())
-    const [tasks, setTasks] = useState([])
-
-    const socketInit = async () => {
-        await axios.get('/api/socket')
-        setSocket(io())
-        return () => socket.disconnect()
-    }
-
-    const sesionInit = async () => {
-        const session = window.location.hostname === 'localhost' ? {
-            user: {
-                name: 'Jhon Doe',
-                email: 'something@example.com',
-                image: 'https://lh3.googleusercontent.com/a/AAcHTteDid88LgJbjhFjiv9paLPNOnM1pBOasbz0DKgHdZpMD3o=s96-c'
+    const [records, setrecords] = useState({}),
+        [user, setUser] = useState({}),
+        [socket, setSocket] = useState(io()),
+        [tasks, setTasks] = useState([]),
+        ctx = {
+            records, setrecords,
+            user, setUser,
+            socket, setSocket,
+            tasks, setTasks
+        },
+        socketInit = async () => {
+            await axios.get('/api/socket')
+            setSocket(io())
+            return () => socket.disconnect()
+        },
+        sesionInit = async () => {
+            const session = window.location.hostname === 'localhost' ? {
+                user: {
+                    name: 'Jhon Doe',
+                    email: 'something@example.com',
+                    image: 'https://lh3.googleusercontent.com/a/AAcHTteDid88LgJbjhFjiv9paLPNOnM1pBOasbz0DKgHdZpMD3o=s96-c'
+                }
             }
+                : await getSession()
+            setUser(session.user)
         }
-            : await getSession()
-        setUser(session.user)
-    }
 
     useEffect(() => {
         sesionInit()
         socketInit()
     }, [])
-
-    const ctx = {
-        records, setrecords,
-        user, setUser,
-        socket, setSocket,
-        tasks, setTasks
-    }
 
     return (
         <Records.Provider value={ctx}>

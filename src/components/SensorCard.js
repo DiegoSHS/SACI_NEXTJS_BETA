@@ -46,10 +46,10 @@ export const ActuatorCards = ({ data, socket, user }) => {
 }
 
 const ActuatorCard = (actuator, socket, user) => {
-    const [updating, setUpdating] = useState(false)
-    const { name, description, state, module } = actuator
-    const [enable, setEnable] = useState(state)
-    
+    const { name, description, state, module } = actuator,
+        [enable, setEnable] = useState(state),
+        [updating, setUpdating] = useState(false)
+
     useEffect(() => {
         socket.on('recieve-newactuator', (newactuator) => {
             if (newactuator.name === name) {
@@ -64,7 +64,7 @@ const ActuatorCard = (actuator, socket, user) => {
     }, [])
 
 
-    const handleUpdate = async () => {
+    const handleClick = async () => {
         setUpdating(true)
         toast.promise(
             enableSensor(name, !enable),
@@ -103,7 +103,7 @@ const ActuatorCard = (actuator, socket, user) => {
                 <Card.Header>{name}</Card.Header>
                 <Card.Description>{description}</Card.Description>
                 <LabelGroup>
-                    <Button size="mini" loading={updating} active onClick={handleUpdate} color={enable ? 'green' : 'red'}>
+                    <Button size="mini" loading={updating} active onClick={handleClick} color={enable ? 'green' : 'red'}>
                         Estado: {enable ? 'encendido' : 'apagado'}
                     </Button>
                     <Label>Modulo: {module}</Label>

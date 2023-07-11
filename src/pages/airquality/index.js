@@ -7,15 +7,14 @@ import { getDetailedLogs } from "@/models/transactions/logs"
 import { validateFetch } from "../ground"
 
 const HomePage = ({ data }) => {
-    const { records, setrecords } = StoredContext()
+    const { records, setrecords } = StoredContext(),
+        temp_aire = validateFetch(records, 'temp_aire') ? data : records.saci.temp_aire,
+        panes = SaciPanes(temp_aire)
 
     useEffect(() => {
         setrecords({ saci: { ...records.saci, temp_aire } })
         console.log(records)
     }, [])
-
-    const temp_aire = validateFetch(records, 'temp_aire') ? data : records.saci.temp_aire
-    const panes = SaciPanes(temp_aire)
 
     return (
         <>
@@ -39,8 +38,8 @@ const HomePage = ({ data }) => {
 }
 
 export const getStaticProps = async ctx => {
-    const collection = await connex(process.env.SDB, 'logs')
-    const data = await getDetailedLogs(collection, 'temperatura_aire')
+    const collection = await connex(process.env.SDB, 'logs'),
+        data = await getDetailedLogs(collection, 'temperatura_aire')
 
     return {
         props: {

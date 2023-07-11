@@ -11,6 +11,8 @@
   "dependencies": {
     "@flaticon/flaticon-uicons": "^2.2.0",
     "axios": "^1.4.0",
+    "d3-color": "^3.1.0",
+    "d3-interpolate": "^3.0.1",
     "dotenv": "^16.0.3",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.1",
@@ -21,6 +23,7 @@
     "react-datepicker": "^4.10.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.0",
+    "react-liquid-gauge": "^1.2.4",
     "recharts": "^2.4.3",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.4",

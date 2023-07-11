@@ -8,16 +8,13 @@ import { GenerateCheckBox } from "@/components/Checkbox"
 import { validateFetch } from "."
 
 const HomePage = ({ data }) => {
-    const { records, setrecords } = StoredContext()
-    const [sensor, setSensor] = useState(0)
-
+    const { records, setrecords } = StoredContext(),
+        [sensor, setSensor] = useState(0),
+        ph_suelo = validateFetch(records, 'ph_suelo') ? data : records.saci.ph_suelo,
+        panes = SaciPanes(ph_suelo[sensor])
     useEffect(() => {
         setrecords({ saci: { ...records.saci, ph_suelo } })
-        console.log(records)
     }, [])
-
-    const ph_suelo = validateFetch(records, 'ph_suelo') ? data : records.saci.ph_suelo
-    const panes = SaciPanes(ph_suelo[sensor])
 
     return (
         <>

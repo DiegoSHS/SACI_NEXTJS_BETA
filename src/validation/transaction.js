@@ -6,10 +6,10 @@ import { formatter } from "@/utils/dateformat"
  * @returns {Boolean} true if the object is valid
  */
 const validLog = (log) => {
-    const { id, value, date, year, month, monthName, day } = log
-    const fields = Object.values(log)
-    const valid = fields.every((e) => e !== undefined && e !== null)
-    const errors = []
+    const { id, value, date, year, month, monthName, day } = log,
+        fields = Object.values(log),
+        valid = fields.every((e) => e !== undefined && e !== null),
+        errors = []
     if (typeof id !== 'string') errors.push(false)
     if (typeof value !== 'number') errors.push(false)
     if (typeof date !== 'string') errors.push(false)
@@ -25,10 +25,10 @@ const validLog = (log) => {
  * @returns {Boolean} true if the object is valid
  */
 export const validOnelog = (log) => {
-    const { id, value } = log
-    const fields = Object.values(log)
-    const valid = fields.every((e) => e !== undefined && e !== null)
-    const errors = []
+    const { id, value } = log,
+        fields = Object.values(log),
+        valid = fields.every((e) => e !== undefined && e !== null),
+        errors = []
     if (typeof id !== 'string') errors.push(false)
     if (typeof value !== 'number') errors.push(false)
     return (errors.length === 0 && valid)
@@ -60,13 +60,13 @@ const checkValue = (value, min, max) => ({
  * @returns 
  */
 const createTask = async (id, type) => {
-    const { collection } = await connex(process.env.TDB, 'tasks')
-    const fields = {
-        title: `Critical value in sensor ${id}`,
-        description: `The value is ${type}`,
-        date: formatter()
-    }
-    const task = await collection.insertOne(fields)
+    const { collection } = await connex(process.env.TDB, 'tasks'),
+        fields = {
+            title: `Critical value in sensor ${id}`,
+            description: `The value is ${type}`,
+            date: formatter()
+        },
+        task = await collection.insertOne(fields)
     return task
 }
 /**
@@ -75,11 +75,11 @@ const createTask = async (id, type) => {
  * @returns false if the value is normal or the result of inserting the task
  */
 export const criticalTask = async (log) => {
-    const { id, value } = log
-    const { collection } = await connex(process.env.SDB, 'sensors')
-    const sensor = await collection.findOne({ name: id })
-    const { min, max } = sensor
-    const { type, critic } = checkValue(value, min, max)
+    const { id, value } = log,
+        { collection } = await connex(process.env.SDB, 'sensors'),
+        sensor = await collection.findOne({ name: id }),
+        { min, max } = sensor,
+        { type, critic } = checkValue(value, min, max)
     if (critic) {
         return await createTask(id, type)
     }
@@ -91,10 +91,10 @@ export const criticalTask = async (log) => {
  * @returns {Object} returns an object with the result of the validation and the errors
  */
 export const validSensor = (sensor) => {
-    const { name, description, min, max, status, module, pin } = sensor
-    const fields = Object.values(sensor)
-    const valid = fields.every((e) => e !== undefined && e !== null)
-    const errors = []
+    const { name, description, min, max, status, module, pin } = sensor,
+        fields = Object.values(sensor),
+        valid = fields.every((e) => e !== undefined && e !== null),
+        errors = []
     if (typeof name !== 'string') errors.push('name is not a string')
     if (typeof description !== 'string') errors.push('description is not a string')
     if (typeof min !== 'number') errors.push('minimum is not a number')
@@ -110,10 +110,10 @@ export const validSensor = (sensor) => {
  * @returns {Boolean} true if the task is valid or false if not
  */
 export const validTask = (task) => {
-    const { title, description } = task
-    const fields = Object.values(task)
-    const valid = fields.every((e) => e !== undefined && e !== null)
-    const errors = []
+    const { title, description } = task,
+        fields = Object.values(task),
+        valid = fields.every((e) => e !== undefined && e !== null),
+        errors = []
     if (typeof title !== 'string') errors.push(false)
     if (typeof description !== 'string') errors.push(false)
     return (errors.length === 0 && valid)
