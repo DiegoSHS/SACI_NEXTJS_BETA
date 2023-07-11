@@ -6,15 +6,13 @@ import { Button, Grid, Header, Icon, Modal } from "semantic-ui-react"
 import Error from "next/error"
 
 export default function TaksDetail({ task, error }) {
-  const { query: { id }, push } = useRouter()
-
-  const [confirm, setConfirm] = useState(false)
-  const [isDeleting, setisDeleting] = useState(false)
+  const { query: { id }, push } = useRouter(),
+    [confirm, setConfirm] = useState(false),
+    [isDeleting, setisDeleting] = useState(false)
 
   if (error && error.statusCode) return <Error statusCode={error.statusCode} title={error.statusText} />
 
-  const open = () => setConfirm(true)
-  const close = () => setConfirm(false)
+  const open = () => setConfirm(true), close = () => setConfirm(false)
 
   const handDelete = async () => {
     setisDeleting(true)

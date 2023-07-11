@@ -5,8 +5,8 @@ const handler = async (req, res) => {
     try {
         switch (method) {
             case 'GET':
-                const collection = await connex(process.env.SDB, 'sensors')
-                const actuators = await getActuators(collection)
+                const collection = await connex(process.env.SDB, 'sensors'),
+                    actuators = await getActuators(collection)
                 return res.status(200).json(actuators)
             default:
                 return res.status(405).json({ message: `Method ${method} not allowed` })

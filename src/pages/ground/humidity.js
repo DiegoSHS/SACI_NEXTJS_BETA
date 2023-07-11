@@ -8,16 +8,14 @@ import { GenerateCheckBox } from "@/components/Checkbox"
 import { validateFetch } from "."
 
 const HomePage = ({ data }) => {
-    const { records, setrecords } = StoredContext()
-    const [sensor, setSensor] = useState(0)
+    const { records, setrecords } = StoredContext(),
+        [sensor, setSensor] = useState(0),
+        hume_suelo = validateFetch(records, 'hume_suelo') ? data : records.saci.hume_suelo,
+        panes = SaciPanes(hume_suelo[sensor])
 
     useEffect(() => {
         setrecords({ saci: { ...records.saci, hume_suelo } })
-        console.log(records)
     }, [])
-
-    const hume_suelo = validateFetch(records, 'hume_suelo') ? data : records.saci.hume_suelo
-    const panes = SaciPanes(hume_suelo[sensor])
 
     return (
         <>
@@ -42,14 +40,13 @@ const HomePage = ({ data }) => {
 }
 
 export const getStaticProps = async ctx => {
-    const collection = await connex(process.env.SDB, 'logs')
-
-    const results = await Promise.allSettled([
-        getDetailedLogs(collection, 'humedad_suelo'),
-        getDetailedLogs(collection, 'humedad_suelo_s1'),
-        getDetailedLogs(collection, 'humedad_suelo_s2'),
-    ])
-    const data = results.map(({ value }) => value)
+    const collection = await connex(process.env.SDB, 'logs'),
+        results = await Promise.allSettled([
+            getDetailedLogs(collection, 'humedad_suelo'),
+            getDetailedLogs(collection, 'humedad_suelo_s1'),
+            getDetailedLogs(collection, 'humedad_suelo_s2'),
+        ]),
+        data = results.map(({ value }) => value)
     return {
         props: {
             data

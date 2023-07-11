@@ -2,8 +2,8 @@ import { connex } from "@/models/dbconn"
 import { generateLogs } from "@/models/transactions/logs"
 
 const handeling = async (req, res) => {
-    const { method, query: { id } } = req
-    const collection = await connex(process.env.SDB, 'logs')
+    const collection = await connex(process.env.SDB, 'logs'),
+        { method, query: { id } } = req
     switch (method) {
         case "GET":
             try {

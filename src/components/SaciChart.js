@@ -45,8 +45,7 @@ export const SaciTable = ({ data }) => {
       <NoData />
     )
   }
-  const firts = data[0]
-  const heads = Object.keys(firts)
+  const firts = data[0], heads = Object.keys(firts)
   const headerr = heads.map(h => <Table.HeaderCell key={h} collapsing>{h}</Table.HeaderCell>)
   const body = data.map(r => {
     const cells = Object.values(r)
