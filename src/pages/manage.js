@@ -18,8 +18,8 @@ const State = ({ data }) => {
 }
 
 export const getStaticProps = async () => {
-    const collection = await connex(process.env.SDB, 'sensors')
-    const data = await getActuators(collection)
+    const collection = await connex(process.env.SDB, 'sensors'),
+        data = await getActuators(collection)
     return {
         props: {
             data

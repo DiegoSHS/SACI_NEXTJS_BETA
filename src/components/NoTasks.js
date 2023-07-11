@@ -1,5 +1,4 @@
-import { useRouter } from "next/router"
-import { Button, Grid, Header } from "semantic-ui-react"
+import { Grid, Header } from "semantic-ui-react"
 
 export const NoData = () => {
     return (

@@ -9,12 +9,11 @@ import { getLogs } from "@/models/transactions/logs"
 import Link from "next/link"
 
 const Index = ({ data }) => {
-    const { records, setrecords } = StoredContext()
+    const { records, setrecords } = StoredContext(),
+        sensors = validateFetch(records, 'sensors') ? data : records.saci.sensors
     useEffect(() => {
         setrecords({ saci: { ...records.saci, sensors } })
-        console.log(records)
     }, [])
-    const sensors = validateFetch(records, 'sensors') ? data : records.saci.sensors
     return (
         <>
             <Header size="large">Sensores</Header>

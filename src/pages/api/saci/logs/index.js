@@ -4,8 +4,8 @@ import { criticalTask, validLogs, validOnelog } from "@/validation/transaction"
 import { getLogs } from "@/models/transactions/logs"
 
 const handeling = async (req, res) => {
-    const { method, body } = req
-    const collection = await connex(process.env.SDB, 'logs')
+    const collection = await connex(process.env.SDB, 'logs'),
+        { method, body } = req
 
     switch (method) {
         case "GET":
@@ -18,20 +18,19 @@ const handeling = async (req, res) => {
         case "POST":
             try {
                 if (body instanceof Array) {
-                    const len = body.length
-                    const first = body[0]
-                    const last = body[len - 1]
-                    const medium = body[len / 2]
-                    const validate = validLogs([first, last, medium])
+                    const len = body.length,
+                        first = body[0],
+                        last = body[len - 1],
+                        medium = body[len / 2],
+                        validate = validLogs([first, last, medium])
                     if (len === 0 || !validate) return res.status(400).json({ msj: "Invalid body" })
                     const newlogs = await collection.insertMany(body)
                     return res.status(201).json(newlogs)
                 }
-                const validate = validOnelog(body)
-                if (!validate) return res.status(400).json({ msj: "Invalid body" })
-                const newTask = await criticalTask(body)
-                const logbody = { ...body, date: formatter(), ...formatter('', false) }
-                const newlog = await collection.insertOne(logbody)
+                if (!validOnelog(body)) return res.status(400).json({ msj: "Invalid body" })
+                const newTask = await criticalTask(body),
+                    logbody = { ...body, date: formatter(), ...formatter('', false) },
+                    newlog = await collection.insertOne(logbody)
                 return res.status(201).json(newlog, newTask)
             } catch (error) {
                 return res.status(500).json({ error: error.message })

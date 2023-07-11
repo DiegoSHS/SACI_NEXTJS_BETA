@@ -6,8 +6,8 @@ import { Collection } from 'mongodb'
  * @returns {Array} Returns an array of objects
  */
 const serizalize = (data) => {
-    const json = JSON.stringify(data)
-    const parsed = JSON.parse(json)
+    const json = JSON.stringify(data),
+        parsed = JSON.parse(json)
     return parsed
 }
 /**
@@ -76,12 +76,12 @@ export const generateLogs = (collection, id) => {
  * @returns {Promise} returns an object with the logs, the average of the days and the average of the months 
  */
 export const getDetailedLogs = async (collection, id) => {
-    const logs = await generateLogs(collection, id)
-    const monthAvg = await monthsAvg(collection, id)
-    const avgs = months.map((e, i) => aggregations(collection, i, id))
-    const promises = await Promise.allSettled(avgs)
-    const days = promises.map(({ value }) => value)
-    const daysAvg = days.filter(e => e.length > 0)
+    const logs = await generateLogs(collection, id),
+        monthAvg = await monthsAvg(collection, id),
+        avgs = months.map((e, i) => aggregations(collection, i, id)),
+        promises = await Promise.allSettled(avgs),
+        days = promises.map(({ value }) => value),
+        daysAvg = days.filter(e => e.length > 0)
     console.log(`Detailed logs (month average, day average and general logs) of sensor ${id} retrieved`)
     return { logs, daysAvg, monthAvg }
 }
@@ -91,8 +91,8 @@ export const getDetailedLogs = async (collection, id) => {
  * @returns returns an array of objects
  */
 export const getLogs = async (collection) => {
-    const logs = await collection.find({}).toArray()
-    const data = serizalize(logs)
+    const logs = await collection.find({}).toArray(),
+        data = serizalize(logs)
     console.log('All logs retrieved')
     return data
 }
@@ -103,8 +103,8 @@ export const getLogs = async (collection) => {
  * @returns 
  */
 export const getById = async (collection, id) => {
-    const logs = await collection.find({ id: id }).toArray()
-    const data = serizalize(logs)
+    const logs = await collection.find({ id: id }).toArray(),
+        data = serizalize(logs)
     console.log(`Logs of sensor ${id} retrieved`)
     return data
 }

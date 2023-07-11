@@ -6,18 +6,17 @@ import { SaciChart } from './SaciChart'
 import ReactDatePicker from "react-datepicker"
 
 const DatePicker = ({ data }) => {
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(null)
-    const [regs, setRegs] = useState([])
-    const [confirm, setConfirm] = useState(false)
+    const [startDate, setStartDate] = useState(new Date()),
+        [endDate, setEndDate] = useState(null),
+        [regs, setRegs] = useState([]),
+        [confirm, setConfirm] = useState(false)
 
-    if (data===undefined || data.length === 0) {
+    if (data === undefined || data.length === 0) {
         return (
             <NoData />
         )
     }
-    const opened = () => setConfirm(true)
-    const closed = () => setConfirm(false)
+    const opened = () => setConfirm(true), closed = () => setConfirm(false)
     const handleChange = (dates) => {
         const [start, end] = dates
         setStartDate(start)

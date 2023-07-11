@@ -4,8 +4,8 @@ import { ObjectId } from "mongodb"
 import { validTask } from "@/validation/transaction"
 
 const handeling = async (req, res) => {
-    const { method, body, query: { id } } = req
-    const collection = await connex(process.env.TDB, 'tasks')
+    const { method, body, query: { id } } = req,
+        collection = await connex(process.env.TDB, 'tasks')
     switch (method) {
         case "GET":
             try {
@@ -16,13 +16,12 @@ const handeling = async (req, res) => {
             }
         case "PUT":
             try {
-                const validate = validTask(body)
-                if (!validate) return res.status(400).json({ error: "Invalid task data" })
-                const { title, description } = body
-                const updatedAt = formatter()
-                const taskbody = { title, description, updatedAt }
-                const newtask = await conllection.updateOne({ _id: new ObjectId(id) }, { $set: taskbody })
-                const updated = newtask.lastErrorObject.updatedExisting
+                if (!validTask(body)) return res.status(400).json({ error: "Invalid task data" })
+                const { title, description } = body,
+                    updatedAt = formatter(),
+                    taskbody = { title, description, updatedAt },
+                    newtask = await conllection.updateOne({ _id: new ObjectId(id) }, { $set: taskbody }),
+                    updated = newtask.lastErrorObject.updatedExisting
                 return (updated ? res.status(201).json(newtask) : res.status(404).json({ msj: "Object not found, nothing updated" }))
             } catch (error) {
                 return res.status(500).json({ error: error.message })

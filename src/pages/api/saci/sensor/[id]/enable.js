@@ -3,8 +3,8 @@ import { enableActuator, getActuator } from "@/models/transactions/sensor"
 import { validState } from "@/validation/transaction"
 
 const handler = async (req, res) => {
-    const { method, body, query: { id } } = req
-    const collection = await connex(process.env.SDB, 'sensors')
+    const collection = await connex(process.env.SDB, 'sensors'),
+        { method, body, query: { id } } = req
     switch (method) {
         case "GET":
             try {

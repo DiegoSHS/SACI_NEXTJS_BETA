@@ -14,15 +14,15 @@ import { GenerateCheckBox } from "@/components/Checkbox"
 export const validateFetch = (records, key) => (records === {} || records.saci === undefined || records.saci[key] === undefined)
 
 const HomePage = ({ data }) => {
-  const { records, setrecords } = StoredContext()
-  const [sensor, setSensor] = useState(0)
+  const { records, setrecords } = StoredContext(),
+    [sensor, setSensor] = useState(0),
+    temp_suelo = validateFetch(records, 'temp_suelo') ? data : records.saci.temp_suelo,
+    panes = SaciPanes(temp_suelo[sensor])
+
   useEffect(() => {
     setrecords({ saci: { ...records.saci, temp_suelo } })
     console.log(records)
   }, [])
-
-  const temp_suelo = validateFetch(records, 'temp_suelo') ? data : records.saci.temp_suelo
-  const panes = SaciPanes(temp_suelo[sensor])
 
   return (
     <>
@@ -47,14 +47,13 @@ const HomePage = ({ data }) => {
 }
 
 export const getStaticProps = async ctx => {
-  const collection = await connex(process.env.SDB, 'logs')
-
-  const results = await Promise.allSettled([
-    getDetailedLogs(collection, 'temperatura_suelo'),
-    getDetailedLogs(collection, 'temperatura_suelo_s1'),
-    getDetailedLogs(collection, 'temperatura_suelo_s2'),
-  ])
-  const data = results.map(({ value }) => value)
+  const collection = await connex(process.env.SDB, 'logs'),
+    results = await Promise.allSettled([
+      getDetailedLogs(collection, 'temperatura_suelo'),
+      getDetailedLogs(collection, 'temperatura_suelo_s1'),
+      getDetailedLogs(collection, 'temperatura_suelo_s2'),
+    ]),
+    data = results.map(({ value }) => value)
   return {
     props: {
       data

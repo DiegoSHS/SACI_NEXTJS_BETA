@@ -16,8 +16,8 @@ const Notifications = ({ data }) => {
 }
 
 export const getServerSideProps = async ctx => {
-    const collection = await connex(process.env.TDB, 'tasks')
-    const data = await getLogs(collection)
+    const collection = await connex(process.env.TDB, 'tasks'),
+        data = await getLogs(collection)
     return {
         props: {
             data

@@ -30,15 +30,15 @@ const NotificationButton = () => {
         <Popup basic on='click' wide trigger={
             <Icon name="fi-rr-bells" />
         }>
-            <TasksCards/>
+            <TasksCards />
         </Popup>
     )
 }
 
 const MenuItems = ({ children }) => {
-    const [visible, setvisible] = useState({ suelo: false, aire: false })
-    const visibleSuelo = () => setvisible({ ...visible, suelo: !visible.suelo, aire: false })
-    const visibleAire = () => setvisible({ ...visible, aire: !visible.aire, suelo: false })
+    const [visible, setvisible] = useState({ suelo: false, aire: false }),
+        visibleSuelo = () => setvisible({ ...visible, suelo: !visible.suelo, aire: false }),
+        visibleAire = () => setvisible({ ...visible, aire: !visible.aire, suelo: false })
     return (
         <>
             <Menu.Item >
@@ -144,8 +144,8 @@ const MenuItems = ({ children }) => {
 }
 
 export const NavMenu = () => {
-    const router = useRouter()
-    const { user, setUser } = StoredContext()
+    const router = useRouter(),
+        { user, setUser } = StoredContext()
     useEffect(() => {
         const sesionInit = async () => {
             const session = await getSession()

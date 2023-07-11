@@ -6,56 +6,49 @@ import { toast } from "react-hot-toast"
 import { Button, Form, Header, Icon, Label } from "semantic-ui-react"
 
 const SensorForm = () => {
-    const [sensorState, setSensorState] = useState(false)
-    const toggleSensorState = () => setSensorState(!sensorState)
-
-    const [newSensor, setNewSensor] = useState({
-        name: '',
-        description: '',
-        min: 0,
-        max: 0,
-        state: sensorState,
-        module: '',
-        pin: ''
-    })
-
-    const [errors, setErrors] = useState({
-        name: '',
-        description: '',
-        min: '',
-        max: '',
-        module: '',
-        pin: ''
-    })
-
-    const [isSaving, setisSaving] = useState(false)
-
-    const { name, description, min, max, module, pin } = errors
-
-    const { query, push } = useRouter()
-
-    const handleSubmit = async e => {
-        e.preventDefault()
-        setNewSensor({ ...newSensor, min: parseInt(newSensor.min), max: parseInt(newSensor.max) })
-        const { errors, isValid } = validSensorForm(newSensor)
-        if (Object.values(errors).length) setErrors(errors)
-        if (isValid) {
-            toast.promise(
-                query.id ? updateSensor(newSensor, query.id) : createSensor(newSensor),
-                {
-                    loading: "Guardando",
-                    success: () => {
-                        setisSaving(false)
-                        return "Guardado"
-                    },
-                    error: "Error al guardar"
-                }
-            )
-            await push("/sensor")
+    const [sensorState, setSensorState] = useState(false),
+        toggleSensorState = () => setSensorState(!sensorState),
+        [newSensor, setNewSensor] = useState({
+            name: '',
+            description: '',
+            min: 0,
+            max: 0,
+            state: sensorState,
+            module: '',
+            pin: ''
+        }),
+        [errors, setErrors] = useState({
+            name: '',
+            description: '',
+            min: '',
+            max: '',
+            module: '',
+            pin: ''
+        }),
+        [isSaving, setisSaving] = useState(false),
+        { name, description, min, max, module, pin } = errors,
+        { query, push } = useRouter(),
+        handChange = e => setNewSensor({ ...newSensor, [e.target.name]: e.target.value }),
+        handleSubmit = async e => {
+            e.preventDefault()
+            setNewSensor({ ...newSensor, min: parseInt(newSensor.min), max: parseInt(newSensor.max) })
+            const { errors, isValid } = validSensorForm(newSensor)
+            if (Object.values(errors).length) setErrors(errors)
+            if (isValid) {
+                toast.promise(
+                    query.id ? updateSensor(newSensor, query.id) : createSensor(newSensor),
+                    {
+                        loading: "Guardando",
+                        success: () => {
+                            setisSaving(false)
+                            return "Guardado"
+                        },
+                        error: "Error al guardar"
+                    }
+                )
+                await push("/sensor")
+            }
         }
-    }
-
-    const handChange = e => setNewSensor({ ...newSensor, [e.target.name]: e.target.value })
 
     useEffect(() => {
         const fetchSensor = async () => {
