@@ -46,9 +46,9 @@ export const ActuatorCards = ({ data, socket, user }) => {
 }
 
 const ActuatorCard = (actuator, socket, user) => {
-    const [enable, setEnable] = useState(state),
-        [updating, setUpdating] = useState(false),
-        { name, description, state, module } = actuator
+    const { name, description, state, module } = actuator,
+        [enable, setEnable] = useState(state),
+        [updating, setUpdating] = useState(false)
 
     useEffect(() => {
         socket.on('recieve-newactuator', (newactuator) => {
