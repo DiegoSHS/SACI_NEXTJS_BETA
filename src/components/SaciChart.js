@@ -45,27 +45,35 @@ export const SaciTable = ({ data }) => {
       <NoData />
     )
   }
-  const firts = data[0], heads = Object.keys(firts)
-  const headerr = heads.map(h => <Table.HeaderCell key={h} collapsing>{h}</Table.HeaderCell>)
-  const body = data.map(r => {
-    const cells = Object.values(r)
-    const roww = cells.map(c => <Table.Cell key={c} collapsing>{c}</Table.Cell>)
-    return <Table.Row key={r._id}>{roww}</Table.Row>
-  })
+  const firts = data[0],
+    heads = Object.keys(firts)
 
   return (
     <div>
       <Table unstackable fixed compact='very'>
         <Table.Header>
           <Table.Row>
-            {headerr}
+            {
+              heads.map(h => <Table.HeaderCell key={h} collapsing>{h}</Table.HeaderCell>)
+            }
           </Table.Row>
         </Table.Header>
       </Table>
       <div style={{ height: "50vh", overflow: "auto" }}>
         <Table fixed compact='very' unstackable celled selectable>
           <Table.Body>
-            {body}
+            {
+              data.map(r => {
+                const cells = Object.values(r)
+                return (
+                  <Table.Row key={r._id}>
+                    {
+                      cells.map(c => <Table.Cell key={c} collapsing>{c}</Table.Cell>)
+                    }
+                  </Table.Row>
+                )
+              })
+            }
           </Table.Body>
         </Table>
       </div>
@@ -75,13 +83,21 @@ export const SaciTable = ({ data }) => {
 
 const SaciPanesAvg = (data) => {
   if (data === undefined || data.length === 0) {
-    return ({ menuItem: 'No hay datos', render: () => <Tab.Pane attached={false}><NoData /></Tab.Pane> })
+    return ({
+      menuItem: 'No hay datos',
+      render: () =>
+        <Tab.Pane attached={false}>
+          <NoData />
+        </Tab.Pane>
+    })
   }
   const panes = data.map((arr, i) => {
     return ({
-      menuItem: months[i], render: () => (
-        <Tab.Pane attached={false}>{<SaciChart dataKeyY={'value'} dataKeyX={'day'} data={arr} />}</Tab.Pane>
-      )
+      menuItem: months[i],
+      render: () =>
+        <Tab.Pane attached={false}>
+          <SaciChart dataKeyY={'value'} dataKeyX={'day'} data={arr} />
+        </Tab.Pane>
     })
   })
   return panes
@@ -89,23 +105,24 @@ const SaciPanesAvg = (data) => {
 
 export const SaciPanes = ({ logs, daysAvg, monthAvg }) => {
   const minpanes = SaciPanesAvg(daysAvg)
-  const panes = [
+  return ([
     {
-      menuItem: 'Detallado', render: () => (
-        <Tab.Pane attached={false}>{
+      menuItem: 'Detallado',
+      render: () =>
+        <Tab.Pane attached={false}>
           <SaciChart dataKeyY={'value'} dataKeyX={'date'} data={logs} />
-        }</Tab.Pane>
-      )
+        </Tab.Pane>
     },
     {
-      menuItem: 'Promedio mensual', render: () => (
-        <Tab.Pane attached={false}>{
+      menuItem: 'Promedio mensual',
+      render: () =>
+        <Tab.Pane attached={false}>
           <SaciChart dataKeyY={'value'} dataKeyX={'monthName'} data={monthAvg} />
-        }</Tab.Pane>
-      )
+        </Tab.Pane>
     },
     {
-      menuItem: 'Promedio diario', render: () => (
+      menuItem: 'Promedio diario',
+      render: () =>
         <Tab.Pane attached={false}>
           <Tab menu={{
             vertical: true,
@@ -115,21 +132,24 @@ export const SaciPanes = ({ logs, daysAvg, monthAvg }) => {
             attached: false,
             tabular: false
           }}
-            menuPosition='right' panes={minpanes}>
+            menuPosition='right'
+            panes={minpanes}>
           </Tab>
         </Tab.Pane>
-      )
     },
     {
-      menuItem: "Rango de fechas", render: () => (
-        <Tab.Pane attached={false}><DatePicker data={logs} /></Tab.Pane>
-      )
+      menuItem: "Rango de fechas",
+      render: () =>
+        <Tab.Pane attached={false}>
+          <DatePicker data={logs} />
+        </Tab.Pane>
     },
     {
-      menuItem: 'Tabla de mediciones', render: () => (
-        <Tab.Pane attached={false}>{<SaciTable data={logs} />}</Tab.Pane>
-      )
+      menuItem: "Registros",
+      render: () =>
+        <Tab.Pane attached={false}>
+          <SaciTable data={logs} />
+        </Tab.Pane>
     }
-  ]
-  return panes
+  ])
 }
