@@ -4,21 +4,19 @@ import { StoredContext } from "@/context/context"
 import { useEffect } from "react"
 import { connex } from "@/models/dbconn"
 import { getDetailedLogs } from "@/models/transactions/logs"
-import { validateFetch } from "../ground"
 
 const HomePage = ({ data }) => {
     const { records, setrecords } = StoredContext(),
-        luminosidad = validateFetch(records, 'luminosidad') ? data : records.saci.luminosidad,
+        luminosidad = records.luminosidad || data,
         panes = SaciPanes(luminosidad)
 
     useEffect(() => {
-        setrecords({ saci: { ...records.saci, luminosidad } })
-        console.log(records)
+        setrecords({ ...records, luminosidad })
     }, [])
 
     return (
         <>
-            <Header size="large">Suelo</Header>
+            <Header size="large">Luminosidad ambiental</Header>
             <div style={{ overflow: "auto" }}>
                 <div style={{ width: "1127px", overflow: "auto" }}>
                     <Tab

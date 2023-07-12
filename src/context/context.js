@@ -9,11 +9,13 @@ export const StoredContext = () => useContext(Records)
 
 export const Context = ({ children }) => {
     const [records, setrecords] = useState({}),
+        [sensors, setSensors] = useState([]),
         [user, setUser] = useState({}),
         [socket, setSocket] = useState(io()),
         [tasks, setTasks] = useState([]),
         ctx = {
             records, setrecords,
+            sensors, setSensors,
             user, setUser,
             socket, setSocket,
             tasks, setTasks
