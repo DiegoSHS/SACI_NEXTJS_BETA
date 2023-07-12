@@ -1,5 +1,4 @@
 import { TasksCards } from "@/components/TaskCard"
-import { NoData } from "@/components/NoTasks"
 import { connex } from "@/models/dbconn"
 import { Header } from "semantic-ui-react"
 import { getLogs } from "@/models/transactions/logs"
@@ -8,9 +7,7 @@ const Notifications = ({ data }) => {
     return (
         <>
             <Header size="large">Notificaciones</Header>
-            {
-                <TasksCards data={data} />
-            }
+            <TasksCards data={data} />
         </>
     )
 }

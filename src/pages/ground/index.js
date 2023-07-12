@@ -5,28 +5,20 @@ import { useEffect, useState } from "react"
 import { connex } from "@/models/dbconn"
 import { getDetailedLogs } from "@/models/transactions/logs"
 import { GenerateCheckBox } from "@/components/Checkbox"
-/**
- * Validate if the field is in the records object
- * @param {Object} records object with the records of the sensors
- * @param {String} key field to validate
- * @returns {Boolean} true if the field is in the records object or false if not
- */
-export const validateFetch = (records, key) => (records === {} || records.saci === undefined || records.saci[key] === undefined)
 
 const HomePage = ({ data }) => {
   const { records, setrecords } = StoredContext(),
     [sensor, setSensor] = useState(0),
-    temp_suelo = validateFetch(records, 'temp_suelo') ? data : records.saci.temp_suelo,
+    temp_suelo = records.temp_suelo || data,
     panes = SaciPanes(temp_suelo[sensor])
 
   useEffect(() => {
-    setrecords({ saci: { ...records.saci, temp_suelo } })
-    console.log(records)
+    setrecords({ ...records, temp_suelo })
   }, [])
 
   return (
     <>
-      <Header size="large">Suelo</Header>
+      <Header size="large">Temperatura del suelo</Header>
       <GenerateCheckBox data={temp_suelo} sensor={sensor} stateFn={setSensor} />
       <div style={{ overflow: "auto" }}>
         <div style={{ width: "1127px", overflow: "auto" }}>
