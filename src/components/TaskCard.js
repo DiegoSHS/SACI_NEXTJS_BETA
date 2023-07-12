@@ -6,9 +6,7 @@ export const TasksCards = ({ data }) => {
     const { tasks, setTasks, socket } = StoredContext()
 
     useEffect(() => {
-        console.log('updating tasks')
-        setTasks(data)
-        console.log(tasks)
+        setTasks([...data])
     }, [])
 
     useEffect(() => {

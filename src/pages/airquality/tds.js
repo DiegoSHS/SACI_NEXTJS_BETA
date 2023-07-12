@@ -4,21 +4,19 @@ import { StoredContext } from "@/context/context"
 import { useEffect } from "react"
 import { connex } from "@/models/dbconn"
 import { getDetailedLogs } from "@/models/transactions/logs"
-import { validateFetch } from "../ground"
 
 const HomePage = ({ data }) => {
     const { records, setrecords } = StoredContext(),
-        tds_agua = validateFetch(records, 'tds_agua') ? data : records.saci.tds_agua,
+        tds_agua = records.tds_agua || data,
         panes = SaciPanes(tds_agua)
 
     useEffect(() => {
-        setrecords({ saci: { ...records.saci, tds_agua } })
-        console.log(records)
+        setrecords({ ...records, tds_agua })
     }, [])
 
     return (
         <>
-            <Header size="large">Suelo</Header>
+            <Header size="large">Total de sólidos en el agua</Header>
             <div style={{ overflow: "auto" }}>
                 <div style={{ width: "1127px", overflow: "auto" }}>
                     <Tab

@@ -5,20 +5,19 @@ import { useEffect, useState } from "react"
 import { connex } from "@/models/dbconn"
 import { getDetailedLogs } from "@/models/transactions/logs"
 import { GenerateCheckBox } from "@/components/Checkbox"
-import { validateFetch } from "."
 
 const HomePage = ({ data }) => {
     const { records, setrecords } = StoredContext(),
         [sensor, setSensor] = useState(0),
-        ph_suelo = validateFetch(records, 'ph_suelo') ? data : records.saci.ph_suelo,
+        ph_suelo = records.ph_suelo || data,
         panes = SaciPanes(ph_suelo[sensor])
     useEffect(() => {
-        setrecords({ saci: { ...records.saci, ph_suelo } })
+        setrecords({ ...records, ph_suelo })
     }, [])
 
     return (
         <>
-            <Header size="large">Suelo</Header>
+            <Header size="large">Ph del suelo</Header>
             <GenerateCheckBox data={ph_suelo} sensor={sensor} stateFn={setSensor} />
             <div style={{ overflow: "auto" }}>
                 <div style={{ width: "1127px", overflow: "auto" }}>

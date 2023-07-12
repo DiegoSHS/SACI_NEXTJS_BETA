@@ -1,7 +1,6 @@
 import { NoData } from "@/components/NoTasks"
 import { SensorCards } from "@/components/SensorCard"
 import { StoredContext } from "@/context/context"
-import { validateFetch } from "../ground"
 import { useEffect } from "react"
 import { Button, Header } from "semantic-ui-react"
 import { connex } from "@/models/dbconn"
@@ -9,10 +8,10 @@ import { getLogs } from "@/models/transactions/logs"
 import Link from "next/link"
 
 const Index = ({ data }) => {
-    const { records, setrecords } = StoredContext(),
-        sensors = validateFetch(records, 'sensors') ? data : records.saci.sensors
+    const { sensors, setSensors } = StoredContext()
+
     useEffect(() => {
-        setrecords({ saci: { ...records.saci, sensors } })
+        setSensors([...data])
     }, [])
     return (
         <>
