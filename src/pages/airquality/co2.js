@@ -9,7 +9,6 @@ const HomePage = ({ data }) => {
     const { records, setrecords } = StoredContext(),
         cantidad_co2 = records.cantidad_co2 || data,
         panes = SaciPanes(cantidad_co2)
-        
     useEffect(() => {
         setrecords({ ...records, cantidad_co2 })
     }, [])
